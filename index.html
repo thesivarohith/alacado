@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Portfolio – Cylinder Effect</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
+  canvas { display: block; }
+
+
+
+  .hint {
+    position: fixed;
+    bottom: 28px;
+    right: 32px;
+    z-index: 10;
+    font-family: 'DM Sans', sans-serif;
+    color: rgba(255,255,255,0.3);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    animation: fadeIn 2s ease 1s forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+
+
+<div class="hint">scroll to explore</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+const images = [
+  {
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114603/Minimalist_food_element_microgreens_202605291935_logy2o.jpg",
+    label: "ZUVAI — RESTAURANT MENU"
+  },
+  {
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114591/Data_pillar_surging_upward_abstract_202605291935_izlluv.jpg",
+    label: "FOCUSFLOW — AI LEARNING"
+  },
+  {
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114589/Brutalist_monolith_with_UI_elements_202605291935_tycftf.jpg",
+    label: "CHATOVIBE — REAL TIME CHAT"
+  }
+];
+
+// Scene setup
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 0, 0.01); // inside the cylinder
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(window.devicePixelRatio);
+document.body.appendChild(renderer.domElement);
+
+// Build cylinder — inside face
+// radius=5, height per image = 6, open ended
+const RADIUS = 5;
+const IMG_HEIGHT = 8.5;
+const TOTAL_HEIGHT = IMG_HEIGHT * images.length;
+
+// Load all textures and create segments
+const loader = new THREE.TextureLoader();
+loader.crossOrigin = 'anonymous';
+
+// Build 3 COPIES of the images (top copy, middle copy, bottom copy)
+// Camera lives in the middle copy. When it reaches edge of middle, 
+// we silently teleport it back — seamless infinite loop.
+const COPIES = 3;
+const textures = []; // store loaded textures for reuse
+
+// First load all textures, then build all segments
+let loadedCount = 0;
+images.forEach((img, i) => {
+  loader.load(img.url, (texture) => {
+    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapT = THREE.ClampToEdgeWrapping;
+    textures[i] = texture;
+    loadedCount++;
+    if (loadedCount === images.length) buildCylinder();
+  });
+});
+
+function buildCylinder() {
+  // Total segments = images.length * COPIES
+  // We place them from top (+) to bottom (-)
+  const totalSegs = images.length * COPIES;
+  for (let copy = 0; copy < COPIES; copy++) {
+    for (let i = 0; i < images.length; i++) {
+      const geo = new THREE.CylinderGeometry(RADIUS, RADIUS, IMG_HEIGHT, 80, 1, true);
+      const mat = new THREE.MeshBasicMaterial({ map: textures[i], side: THREE.BackSide });
+      const mesh = new THREE.Mesh(geo, mat);
+      // Global index in the full stack
+      const globalIdx = copy * images.length + i;
+      mesh.position.y = (totalSegs / 2 - 0.5 - globalIdx) * IMG_HEIGHT;
+      mesh.rotation.y = -Math.PI / 2; // Center the image texture with the camera's view
+      scene.add(mesh);
+    }
+  }
+}
+
+// Camera starts at center of MIDDLE copy
+// Middle copy starts at index: images.length (after first copy)
+// Center of middle copy = average y of its segments
+const middleStartIdx = images.length; // first segment of middle copy
+const totalSegs = images.length * COPIES;
+// Y of first segment of middle copy
+const middleTopY = (totalSegs / 2 - 0.5 - middleStartIdx) * IMG_HEIGHT;
+// Y of last segment of middle copy
+const middleBottomY = (totalSegs / 2 - 0.5 - (middleStartIdx + images.length - 1)) * IMG_HEIGHT;
+
+let currentY = middleTopY;
+let targetY = currentY;
+camera.position.y = currentY;
+camera.lookAt(RADIUS, currentY, 0);
+
+// scrollY: freely increasing/decreasing, no clamp
+let scrollY = 0;
+const SCROLL_SPEED = 0.008;
+
+window.addEventListener('wheel', (e) => {
+  scrollY += e.deltaY * SCROLL_SPEED;
+});
+
+let touchStartY = 0;
+window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+window.addEventListener('touchmove', (e) => {
+  const dy = touchStartY - e.touches[0].clientY;
+  touchStartY = e.touches[0].clientY;
+  scrollY += dy * SCROLL_SPEED * 0.5;
+});
+
+
+
+// Animation loop
+function animate() {
+  requestAnimationFrame(animate);
+
+  targetY = middleTopY - scrollY;
+  currentY += (targetY - currentY) * 0.07;
+
+  // Seamless teleport: if camera drifts out of middle copy range into
+  // top or bottom copy, shift scrollY by exactly one full set of images
+  // so camera snaps back into middle — invisible because geometry repeats
+  const oneSet = images.length * IMG_HEIGHT;
+  if (currentY < middleBottomY - IMG_HEIGHT) {
+    scrollY -= oneSet;
+    currentY += oneSet;
+    targetY += oneSet;
+  } else if (currentY > middleTopY + IMG_HEIGHT) {
+    scrollY += oneSet;
+    currentY -= oneSet;
+    targetY -= oneSet;
+  }
+
+  camera.position.y = currentY;
+  camera.lookAt(RADIUS, currentY, 0);
+  renderer.render(scene, camera);
+}
+
+animate();
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
