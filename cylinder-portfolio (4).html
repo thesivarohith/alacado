@@ -221,8 +221,9 @@ const textures = []; // store loaded textures for reuse
 let loadedCount = 0;
 images.forEach((img, i) => {
   loader.load(img.url, (texture) => {
-    texture.wrapS = THREE.ClampToEdgeWrapping;
+    texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.ClampToEdgeWrapping;
+    texture.repeat.set(-3, 1); // Flip horizontally (to resolve mirror-flip) and repeat 3x (to make it smaller/original aspect ratio)
     textures[i] = texture;
     loadedCount++;
     if (loadedCount === images.length) buildCylinder();
