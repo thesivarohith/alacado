@@ -22,7 +22,7 @@
     z-index: 100;
     opacity: 0;
     transform: scale(1.15); /* Starts zoomed out from the outside */
-    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .screen-frame.visible {
     opacity: 1;
@@ -40,7 +40,7 @@
     pointer-events: none;
     opacity: 0;
     transform: translateY(-40px) scaleY(0.7); /* Starts flattened and tucked up */
-    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .logo-tab-svg.visible {
     opacity: 1;
@@ -53,27 +53,27 @@
     top: 16px;
     left: 50%;
     transform: translateX(-50%) scale(0.8); /* Starts slightly smaller */
-    width: 200px;
+    width: 240px; /* widened for larger logo */
     height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 102;
     opacity: 0;
-    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .logo-container.visible {
     opacity: 1;
     transform: translateX(-50%) scale(1); /* Zooms in to center */
   }
 
-  /* Premium Rose-Gold ALACADO Logo */
+  /* Premium Rose-Gold ALACADO Logo - Bigger and Brighter */
   .alacado-logo {
     font-family: 'Cinzel', serif;
     font-weight: 700;
-    font-size: 22px;
+    font-size: 26px; /* increased from 22px */
     letter-spacing: 0.35em;
-    background: linear-gradient(90deg, #b88762 0%, #f3d1be 30%, #e3ba9a 50%, #f3d1be 70%, #b88762 100%);
+    background: linear-gradient(90deg, #d8ac8a 0%, #fff0e5 30%, #f7dcd0 50%, #fff0e5 70%, #d8ac8a 100%); /* brighter copper/rose-gold */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
@@ -81,13 +81,15 @@
     line-height: 1;
   }
 
-  /* Editorial Home Page Container */
+  /* Editorial Home Page Container - Offsets overlap behind frame to resolve corner bleed-through */
   #homePage {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+    border-radius: 20px; /* matches inner curve mathematically */
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: flex-start;
