@@ -276,6 +276,7 @@ camera.lookAt(RADIUS, currentY, 0);
 
 // scrollY: freely increasing/decreasing, no clamp
 let scrollY = 0;
+let cumulativeScroll = 0; // Tracks absolute forward progress to avoid teleport reset
 const SCROLL_SPEED = 0.008;
 
 let autoScrollActive = true;
@@ -287,8 +288,12 @@ let transitionTriggered = false;
 
 window.addEventListener('wheel', (e) => {
   if (transitionTriggered) return;
-  scrollY += e.deltaY * SCROLL_SPEED;
+  const delta = e.deltaY * SCROLL_SPEED;
+  scrollY += delta;
   if (scrollY < 0) scrollY = 0;
+  if (delta > 0) {
+    cumulativeScroll += delta;
+  }
 });
 
 let touchStartY = 0;
@@ -300,8 +305,12 @@ window.addEventListener('touchmove', (e) => {
   if (transitionTriggered) return;
   const dy = touchStartY - e.touches[0].clientY;
   touchStartY = e.touches[0].clientY;
-  scrollY += dy * SCROLL_SPEED * 0.5;
+  const delta = dy * SCROLL_SPEED * 0.5;
+  scrollY += delta;
   if (scrollY < 0) scrollY = 0;
+  if (delta > 0) {
+    cumulativeScroll += delta;
+  }
 });
 
 function triggerZoomAndTransition() {
@@ -330,11 +339,12 @@ function animate() {
   if (!transitionTriggered) {
     if (autoScrollActive) {
       scrollY += AUTO_SCROLL_SPEED;
+      cumulativeScroll += AUTO_SCROLL_SPEED;
     }
     
-    // Clamp scroll to exactly 2 revolutions
-    if (scrollY >= MAX_SCROLL) {
-      scrollY = MAX_SCROLL;
+    // Clamp to exactly 2 revolutions based on cumulative progress
+    if (cumulativeScroll >= MAX_SCROLL) {
+      cumulativeScroll = MAX_SCROLL;
       triggerZoomAndTransition();
     }
 
