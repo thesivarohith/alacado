@@ -9,71 +9,62 @@
   body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
   canvas { display: block; }
 
-  /* Screen Border Frame */
+  /* Screen Border Frame - Uniform 16px border */
   .screen-frame {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
-    border-left: 16px solid #fff;
-    border-right: 16px solid #fff;
-    border-bottom: 16px solid #fff;
-    border-top: 50px solid #fff;
+    border: 16px solid #fff;
     border-radius: 32px;
     pointer-events: none;
     z-index: 100;
     opacity: 0;
-    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: scale(1.15); /* Starts zoomed out from the outside */
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .screen-frame.visible {
     opacity: 1;
+    transform: scale(1); /* Zooms in and snaps into place */
   }
 
-  /* Dipping Tab Notch */
-  .logo-tab {
+  /* Dipping SVG Wave Notch */
+  .logo-tab-svg {
     position: fixed;
-    top: 50px; /* aligns exactly with bottom of border-top */
-    left: 50%;
-    transform: translateX(-50%) translateY(-100%); /* start tucked up */
-    width: 240px;
-    height: 54px;
-    background: #fff;
-    border-radius: 0 0 28px 28px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 80px;
     z-index: 101;
+    pointer-events: none;
     opacity: 0;
-    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translateY(-40px) scaleY(0.7); /* Starts flattened and tucked up */
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
   }
-  .logo-tab.visible {
+  .logo-tab-svg.visible {
     opacity: 1;
-    transform: translateX(-50%) translateY(0); /* slide down */
+    transform: translateY(0) scaleY(1); /* Sweeps down and expands */
   }
 
-  /* Concave smooth corners for the dipping notch */
-  .logo-tab::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -24px;
-    width: 24px;
-    height: 24px;
-    background: transparent;
-    border-top-right-radius: 24px;
-    box-shadow: 12px -12px 0 0 #fff;
+  /* ALACADO Logo Container (Centered inside the dipping notch) */
+  .logo-container {
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.8); /* Starts slightly smaller */
+    width: 200px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 102;
+    opacity: 0;
+    transition: opacity 1.2s cubic-bezier(0.19, 1, 0.22, 1), transform 1.2s cubic-bezier(0.19, 1, 0.22, 1);
   }
-  .logo-tab::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: -24px;
-    width: 24px;
-    height: 24px;
-    background: transparent;
-    border-top-left-radius: 24px;
-    box-shadow: -12px -12px 0 0 #fff;
+  .logo-container.visible {
+    opacity: 1;
+    transform: translateX(-50%) scale(1); /* Zooms in to center */
   }
 
   /* Premium Rose-Gold ALACADO Logo */
@@ -147,20 +138,6 @@
     display: block;
   }
 
-  .hint {
-    position: fixed;
-    bottom: 28px;
-    right: 32px;
-    z-index: 10;
-    font-family: 'DM Sans', sans-serif;
-    color: rgba(255,255,255,0.3);
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    animation: fadeIn 2s ease 1s forwards;
-    opacity: 0;
-  }
-
   @keyframes fadeIn {
     to { opacity: 1; }
   }
@@ -170,7 +147,10 @@
 <body>
 
 <div class="screen-frame"></div>
-<div class="logo-tab">
+<svg class="logo-tab-svg" viewBox="0 0 1000 80" preserveAspectRatio="none">
+  <path d="M 0,0 L 1000,0 L 1000,16 L 650,16 C 620,16 600,60 580,60 L 420,60 C 400,60 380,16 350,16 L 0,16 Z" fill="#fff" />
+</svg>
+<div class="logo-container">
   <div class="alacado-logo">ΛLΛCΛDO</div>
 </div>
 
@@ -183,8 +163,6 @@
     <span class="hero-subtext">Creative Network — ALACADO</span>
   </div>
 </div>
-
-<div class="hint">scroll to explore</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
@@ -322,13 +300,15 @@ function triggerZoomAndTransition() {
   renderer.domElement.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
   renderer.domElement.style.opacity = '0';
 
-  // Smoothly display frame and home page
+  // Smoothly display frame, notch, and home page with beautiful zoom animations
   const screenFrame = document.querySelector('.screen-frame');
-  const logoTab = document.querySelector('.logo-tab');
+  const logoTabSvg = document.querySelector('.logo-tab-svg');
+  const logoContainer = document.querySelector('.logo-container');
   const homePage = document.getElementById('homePage');
 
   screenFrame.classList.add('visible');
-  logoTab.classList.add('visible');
+  logoTabSvg.classList.add('visible');
+  logoContainer.classList.add('visible');
   homePage.classList.add('visible');
 }
 
