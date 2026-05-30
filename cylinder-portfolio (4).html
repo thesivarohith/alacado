@@ -73,7 +73,7 @@
     font-weight: 700;
     font-size: 26px; /* increased from 22px */
     letter-spacing: 0.35em;
-    background: linear-gradient(90deg, #d8ac8a 0%, #fff0e5 30%, #f7dcd0 50%, #fff0e5 70%, #d8ac8a 100%); /* brighter copper/rose-gold */
+    background: linear-gradient(90deg, #3d200f 0%, #8c5a3c 50%, #3d200f 100%); /* High-contrast bronze-copper */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
@@ -170,16 +170,24 @@
 <script>
 const images = [
   {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114603/Minimalist_food_element_microgreens_202605291935_logy2o.jpg",
-    label: "ZUVAI — RESTAURANT MENU"
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143947/1_onfjxe.jpg",
+    label: "IMAGE 1"
   },
   {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114591/Data_pillar_surging_upward_abstract_202605291935_izlluv.jpg",
-    label: "FOCUSFLOW — AI LEARNING"
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143946/2_yi4lrc.jpg",
+    label: "IMAGE 2"
   },
   {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780114589/Brutalist_monolith_with_UI_elements_202605291935_tycftf.jpg",
-    label: "CHATOVIBE — REAL TIME CHAT"
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143939/3_jnp58b.jpg",
+    label: "IMAGE 3"
+  },
+  {
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143939/4_wmbjhu.jpg",
+    label: "IMAGE 4"
+  },
+  {
+    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143946/5_pdmdyr.jpg",
+    label: "IMAGE 5"
   }
 ];
 
@@ -261,9 +269,9 @@ const SCROLL_SPEED = 0.008;
 
 let autoScrollActive = true;
 const AUTO_SCROLL_SPEED = 0.035; // smooth slow vertical downward spin
-const TARGET_REVOLUTIONS = 2;
-const REVOLUTION_DISTANCE = images.length * IMG_HEIGHT; // 3 * 8.5 = 25.5
-const MAX_SCROLL = TARGET_REVOLUTIONS * REVOLUTION_DISTANCE; // 51.0
+const TARGET_REVOLUTIONS = 1;
+const REVOLUTION_DISTANCE = images.length * IMG_HEIGHT; // 5 * 8.5 = 42.5
+const MAX_SCROLL = TARGET_REVOLUTIONS * REVOLUTION_DISTANCE; // 42.5
 let transitionTriggered = false;
 
 window.addEventListener('wheel', (e) => {
