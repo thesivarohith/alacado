@@ -9,7 +9,143 @@
   body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
   canvas { display: block; }
 
+  /* Screen Border Frame */
+  .screen-frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-left: 16px solid #fff;
+    border-right: 16px solid #fff;
+    border-bottom: 16px solid #fff;
+    border-top: 50px solid #fff;
+    border-radius: 32px;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .screen-frame.visible {
+    opacity: 1;
+  }
 
+  /* Dipping Tab Notch */
+  .logo-tab {
+    position: fixed;
+    top: 50px; /* aligns exactly with bottom of border-top */
+    left: 50%;
+    transform: translateX(-50%) translateY(-100%); /* start tucked up */
+    width: 240px;
+    height: 54px;
+    background: #fff;
+    border-radius: 0 0 28px 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 101;
+    opacity: 0;
+    transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  .logo-tab.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0); /* slide down */
+  }
+
+  /* Concave smooth corners for the dipping notch */
+  .logo-tab::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -24px;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border-top-right-radius: 24px;
+    box-shadow: 12px -12px 0 0 #fff;
+  }
+  .logo-tab::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -24px;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border-top-left-radius: 24px;
+    box-shadow: -12px -12px 0 0 #fff;
+  }
+
+  /* Premium Rose-Gold ALACADO Logo */
+  .alacado-logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: 0.35em;
+    background: linear-gradient(90deg, #b88762 0%, #f3d1be 30%, #e3ba9a 50%, #f3d1be 70%, #b88762 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    padding-left: 0.35em; /* balance letter-spacing offset */
+    line-height: 1;
+  }
+
+  /* Editorial Home Page Container */
+  #homePage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10%;
+    z-index: 10;
+    background: #000915; /* luxurious dark navy/black */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  #homePage.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .hero-container {
+    max-width: 800px;
+    margin-top: 50px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    font-weight: 300;
+    line-height: 1.25;
+    color: rgba(255, 255, 255, 0.95);
+    letter-spacing: -0.015em;
+  }
+  .hero-title span.italic-serif {
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    color: #f3d1be;
+  }
+  .hero-title span.gradient-text {
+    font-family: 'Cinzel', serif;
+    font-weight: 500;
+    background: linear-gradient(90deg, #c58e72 0%, #f3d1be 50%, #c58e72 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: 0.02em;
+  }
+  .hero-subtext {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 30px;
+    display: block;
+  }
 
   .hint {
     position: fixed;
@@ -29,11 +165,24 @@
     to { opacity: 1; }
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
+<div class="screen-frame"></div>
+<div class="logo-tab">
+  <div class="alacado-logo">ΛLΛCΛDO</div>
+</div>
 
+<div id="homePage">
+  <div class="hero-container">
+    <h1 class="hero-title">
+      Tell us <span class="italic-serif">what</span> you need.<br>
+      We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
+    </h1>
+    <span class="hero-subtext">Creative Network — ALACADO</span>
+  </div>
+</div>
 
 <div class="hint">scroll to explore</div>
 
@@ -129,43 +278,89 @@ camera.lookAt(RADIUS, currentY, 0);
 let scrollY = 0;
 const SCROLL_SPEED = 0.008;
 
+let autoScrollActive = true;
+const AUTO_SCROLL_SPEED = 0.035; // smooth slow vertical downward spin
+const TARGET_REVOLUTIONS = 2;
+const REVOLUTION_DISTANCE = images.length * IMG_HEIGHT; // 3 * 8.5 = 25.5
+const MAX_SCROLL = TARGET_REVOLUTIONS * REVOLUTION_DISTANCE; // 51.0
+let transitionTriggered = false;
+
 window.addEventListener('wheel', (e) => {
+  if (transitionTriggered) return;
   scrollY += e.deltaY * SCROLL_SPEED;
+  if (scrollY < 0) scrollY = 0;
 });
 
 let touchStartY = 0;
-window.addEventListener('touchstart', (e) => { touchStartY = e.touches[0].clientY; });
+window.addEventListener('touchstart', (e) => {
+  if (transitionTriggered) return;
+  touchStartY = e.touches[0].clientY;
+});
 window.addEventListener('touchmove', (e) => {
+  if (transitionTriggered) return;
   const dy = touchStartY - e.touches[0].clientY;
   touchStartY = e.touches[0].clientY;
   scrollY += dy * SCROLL_SPEED * 0.5;
+  if (scrollY < 0) scrollY = 0;
 });
 
+function triggerZoomAndTransition() {
+  if (transitionTriggered) return;
+  transitionTriggered = true;
+  autoScrollActive = false;
 
+  // Start fast fade-out of WebGL canvas
+  renderer.domElement.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
+  renderer.domElement.style.opacity = '0';
+
+  // Smoothly display frame and home page
+  const screenFrame = document.querySelector('.screen-frame');
+  const logoTab = document.querySelector('.logo-tab');
+  const homePage = document.getElementById('homePage');
+
+  screenFrame.classList.add('visible');
+  logoTab.classList.add('visible');
+  homePage.classList.add('visible');
+}
 
 // Animation loop
 function animate() {
   requestAnimationFrame(animate);
 
-  targetY = middleTopY - scrollY;
-  currentY += (targetY - currentY) * 0.07;
+  if (!transitionTriggered) {
+    if (autoScrollActive) {
+      scrollY += AUTO_SCROLL_SPEED;
+    }
+    
+    // Clamp scroll to exactly 2 revolutions
+    if (scrollY >= MAX_SCROLL) {
+      scrollY = MAX_SCROLL;
+      triggerZoomAndTransition();
+    }
 
-  // Seamless teleport: if camera drifts out of middle copy range into
-  // top or bottom copy, shift scrollY by exactly one full set of images
-  // so camera snaps back into middle — invisible because geometry repeats
-  const oneSet = images.length * IMG_HEIGHT;
-  if (currentY < middleBottomY - IMG_HEIGHT) {
-    scrollY -= oneSet;
-    currentY += oneSet;
-    targetY += oneSet;
-  } else if (currentY > middleTopY + IMG_HEIGHT) {
-    scrollY += oneSet;
-    currentY -= oneSet;
-    targetY -= oneSet;
+    targetY = middleTopY - scrollY;
+    currentY += (targetY - currentY) * 0.07;
+
+    // Seamless teleport: if camera drifts out of middle copy range into
+    // top or bottom copy, shift scrollY by exactly one full set of images
+    // so camera snaps back into middle — invisible because geometry repeats
+    const oneSet = images.length * IMG_HEIGHT;
+    if (currentY < middleBottomY - IMG_HEIGHT) {
+      scrollY -= oneSet;
+      currentY += oneSet;
+      targetY += oneSet;
+    } else if (currentY > middleTopY + IMG_HEIGHT) {
+      scrollY += oneSet;
+      currentY -= oneSet;
+      targetY -= oneSet;
+    }
+  } else {
+    // Zoom-in effect: move camera closer to the active centered image
+    camera.position.x += (4.6 - camera.position.x) * 0.08;
   }
 
   camera.position.y = currentY;
-  camera.lookAt(RADIUS, currentY, 0);
+  camera.lookAt(RADIUS, currentY, camera.position.z);
   renderer.render(scene, camera);
 }
 
