@@ -20,18 +20,24 @@
     width: 100vw;
     height: 100vh;
     overflow: hidden;
-    background-color: #000000;
     will-change: opacity, transform, visibility;
+  }
+
+  #background-container {
+    z-index: 1;
+    background-color: #000000;
   }
 
   #parallax-scene {
     z-index: 10;
+    background-color: transparent;
     opacity: 1;
     visibility: visible;
   }
 
   #scene-2 {
     z-index: 11;
+    background-color: transparent;
     opacity: 0;
     visibility: hidden;
   }
@@ -79,7 +85,7 @@
   
   /* Glowing Diamond Centerpiece */
   .layer-diamond {
-    z-index: 1;
+    z-index: 2; /* Vortex (1) -> Diamond (2) -> Rock Shell Halves (3) */
     position: absolute;
     top: 0;
     left: 0;
@@ -93,13 +99,14 @@
     object-fit: contain;
     opacity: 0;
     transform: scale(0.8);
+    mix-blend-mode: screen; /* Removes black rectangular box, showing background void underneath */
     filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.45));
     will-change: transform, opacity;
   }
 
   /* Rock shell halves layered directly on top of the diamond */
   .shell-half {
-    z-index: 2;
+    z-index: 3; /* Vortex (1) -> Diamond (2) -> Rock Shell Halves (3) */
     position: absolute;
     top: 0;
     left: 0;
@@ -125,9 +132,13 @@
 </head>
 <body>
 
+  <!-- Shared Persistent Background Void -->
+  <div class="parallax-container" id="background-container">
+    <img src="Background Void.jpeg" class="layer layer-bg" id="layer-bg" alt="Background Void"/>
+  </div>
+
   <!-- Full-screen Scene 1: The Entry -->
   <div class="parallax-container" id="parallax-scene">
-    <img src="Background Void.jpeg" class="layer layer-bg" id="layer-bg" alt="Background Void"/>
     <img src="foreground.jpeg" class="layer layer-fg" id="layer-fg" alt="Foreground Pillars"/>
     <img src="Centerpiece.png" class="layer layer-center" id="layer-center" alt="Centerpiece"/>
   </div>
@@ -135,8 +146,8 @@
   <!-- Full-screen Scene 2: The Hidden Gem -->
   <div class="parallax-container" id="scene-2">
     <img src="diamond.jpeg" class="layer-diamond" id="diamond-core" alt="Diamond Core"/>
-    <img src="diamond shell.jpeg" class="shell-half shell-left" id="shell-left" alt="Shell Left"/>
-    <img src="diamond shell.jpeg" class="shell-half shell-right" id="shell-right" alt="Shell Right"/>
+    <img src="diamond-shell.png" class="shell-half shell-left" id="shell-left" alt="Shell Left"/>
+    <img src="diamond-shell.png" class="shell-half shell-right" id="shell-right" alt="Shell Right"/>
   </div>
 
   <!-- Scroll Spacer: Enables 200vh total scroll distance -->
@@ -159,13 +170,15 @@
       }
     });
 
-    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.0) ---
+    // --- CONTINUOUS BACKGROUND SCALING (Timeline 0.0 to 2.0) ---
+    // Background Void slowly continuously scales up throughout Scene 1 and Scene 2
     tl.to("#layer-bg", {
-      scale: 1.15,
+      scale: 1.3,
       ease: "none",
-      duration: 1.0
+      duration: 2.0
     }, 0);
 
+    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.0) ---
     tl.to("#layer-fg", {
       scale: 1.4,
       ease: "power1.in",
@@ -180,14 +193,13 @@
     }, 0);
 
     // --- CROSSFADE SEQUENCE (Timeline 0.95 to 1.05) ---
-    // Scene 1 container fades to visibility hidden
+    // Scene 1 elements fade out, Scene 2 elements fade in (Vortex background persists)
     tl.to("#parallax-scene", {
       autoAlpha: 0,
       ease: "power1.inOut",
       duration: 0.1
     }, 0.95);
 
-    // Scene 2 container fades to visibility visible
     tl.to("#scene-2", {
       autoAlpha: 1,
       ease: "power1.inOut",
@@ -227,6 +239,13 @@
 
     // Scene 2 container fades to visibility hidden
     tl.to("#scene-2", {
+      autoAlpha: 0,
+      ease: "power2.inOut",
+      duration: 0.2
+    }, 1.8);
+
+    // Shared background container fades to visibility hidden to leave pure black behind
+    tl.to("#background-container", {
       autoAlpha: 0,
       ease: "power2.inOut",
       duration: 0.2
