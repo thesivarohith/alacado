@@ -3,376 +3,134 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Portfolio – Cylinder Effect</title>
+<title>ALACADO</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #000; overflow: hidden; width: 100vw; height: 100vh; }
-  canvas { display: block; }
-
-  /* Screen Border Frame - Uniform 16px border */
-  .screen-frame {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 16px solid #fff;
-    border-radius: 32px;
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0;
-    transform: scale(1.15); /* Starts zoomed out from the outside */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .screen-frame.visible {
-    opacity: 1;
-    transform: scale(1); /* Zooms in and snaps into place */
+  body {
+    background: #000000;
+    min-height: 200vh;
+    overflow-x: hidden;
   }
 
-  /* Dipping SVG Wave Notch */
-  .logo-tab-svg {
+  /* Viewport-locked, full-screen container */
+  .parallax-container {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
-    height: 80px;
-    z-index: 101;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-40px) scaleY(0.7); /* Starts flattened and tucked up */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-tab-svg.visible {
-    opacity: 1;
-    transform: translateY(0) scaleY(1); /* Sweeps down and expands */
-  }
-
-  /* ALACADO Logo Container (Centered inside the dipping notch) */
-  .logo-container {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.8); /* Starts slightly smaller */
-    width: 240px; /* widened for larger logo */
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 102;
-    opacity: 0;
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-container.visible {
-    opacity: 1;
-    transform: translateX(-50%) scale(1); /* Zooms in to center */
-  }
-
-  /* Premium Rose-Gold ALACADO Logo - Bigger and Brighter */
-  .alacado-logo {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 26px; /* increased from 22px */
-    letter-spacing: 0.35em;
-    background: linear-gradient(90deg, #3d200f 0%, #8c5a3c 50%, #3d200f 100%); /* High-contrast bronze-copper */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    padding-left: 0.35em; /* balance letter-spacing offset */
-    line-height: 1;
-  }
-
-  /* Editorial Home Page Container - Offsets overlap behind frame to resolve corner bleed-through */
-  #homePage {
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    border-radius: 20px; /* matches inner curve mathematically */
+    height: 100vh;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 10%;
     z-index: 10;
-    background: #000915; /* luxurious dark navy/black */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  #homePage.visible {
+    background-color: #000000;
     opacity: 1;
-    pointer-events: auto;
+    transition: opacity 1.2s cubic-bezier(0.25, 1, 0.5, 1), visibility 1.2s;
+    will-change: opacity, visibility;
   }
-  .hero-container {
-    max-width: 800px;
-    margin-top: 50px;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 56px;
-    font-weight: 300;
-    line-height: 1.25;
-    color: rgba(255, 255, 255, 0.95);
-    letter-spacing: -0.015em;
-  }
-  .hero-title span.italic-serif {
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    color: #f3d1be;
-  }
-  .hero-title span.gradient-text {
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    background: linear-gradient(90deg, #c58e72 0%, #f3d1be 50%, #c58e72 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 0.02em;
-  }
-  .hero-subtext {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 30px;
-    display: block;
+  
+  .parallax-container.fade-out {
+    opacity: 0;
+    visibility: hidden;
   }
 
-  @keyframes fadeIn {
-    to { opacity: 1; }
+  /* Layer centering and cover positioning */
+  .layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    will-change: transform, opacity;
+  }
+
+  /* Layer 1: Background Void */
+  .layer-bg {
+    z-index: 1;
+  }
+
+  /* Layer 2: Foreground Pillars with blend mode */
+  .layer-fg {
+    z-index: 2;
+    mix-blend-mode: screen; /* Solid black center becomes transparent */
+  }
+
+  /* Layer 3: Centerpiece Monolith Logo */
+  .layer-center {
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: auto;
+    height: auto;
+    max-width: 60vw;
+    max-height: 60vh;
+    object-fit: contain;
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 </head>
 <body>
 
-<div class="screen-frame"></div>
-<svg class="logo-tab-svg" viewBox="0 0 1000 80" preserveAspectRatio="none">
-  <path d="M 350,0 L 650,0 L 650,16 C 620,16 600,60 580,60 L 420,60 C 400,60 380,16 350,16 Z" fill="#fff" />
-</svg>
-<div class="logo-container">
-  <div class="alacado-logo">ΛLΛCΛDO</div>
-</div>
-
-<div id="homePage">
-  <div class="hero-container">
-    <h1 class="hero-title">
-      Tell us <span class="italic-serif">what</span> you need.<br>
-      We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
-    </h1>
-    <span class="hero-subtext">Creative Network — ALACADO</span>
+  <!-- Full-screen Parallax Scene -->
+  <div class="parallax-container" id="parallax-scene">
+    <img src="Background Void.jpeg" class="layer layer-bg" id="layer-bg" alt="Background Void"/>
+    <img src="foreground.jpeg" class="layer layer-fg" id="layer-fg" alt="Foreground Pillars"/>
+    <img src="Centerpiece.png" class="layer layer-center" id="layer-center" alt="Centerpiece"/>
   </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script>
-const images = [
-  {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143947/1_onfjxe.jpg",
-    label: "IMAGE 1"
-  },
-  {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143946/2_yi4lrc.jpg",
-    label: "IMAGE 2"
-  },
-  {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143939/3_jnp58b.jpg",
-    label: "IMAGE 3"
-  },
-  {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143939/4_wmbjhu.jpg",
-    label: "IMAGE 4"
-  },
-  {
-    url: "https://res.cloudinary.com/darbjeyc2/image/upload/v1780143946/5_pdmdyr.jpg",
-    label: "IMAGE 5"
-  }
-];
+  <!-- Scroll Spacer: 100% viewport scroll triggers exit -->
+  <div style="height: 200vh;"></div>
 
-// Scene setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
-camera.position.set(0, 0, 0.01); // inside the cylinder
+  <!-- GSAP CDN Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script>
+    gsap.registerPlugin(ScrollTrigger);
 
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(window.devicePixelRatio);
-document.body.appendChild(renderer.domElement);
+    // Timeline for scroll-linked layered parallax translations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "body",
+        start: "top top",
+        end: () => "+=" + window.innerHeight, // Map scroll up to 100% of viewport height
+        scrub: true,
+        invalidateOnRefresh: true
+      }
+    });
 
-// Build cylinder — inside face
-// radius=5, height per image = 6, open ended
-const RADIUS = 5;
-const IMG_HEIGHT = 8.5;
-const TOTAL_HEIGHT = IMG_HEIGHT * images.length;
+    // 1. Background Void: Slowly scale UP from 1.0 to 1.15
+    tl.to("#layer-bg", {
+      scale: 1.15,
+      ease: "none"
+    }, 0);
 
-// Load all textures and create segments
-const loader = new THREE.TextureLoader();
-loader.crossOrigin = 'anonymous';
+    // 2. Foreground Pillars: Scale UP rapidly from 1.0 to 1.4
+    tl.to("#layer-fg", {
+      scale: 1.4,
+      ease: "power1.in"
+    }, 0);
 
-// Build 3 COPIES of the images (top copy, middle copy, bottom copy)
-// Camera lives in the middle copy. When it reaches edge of middle, 
-// we silently teleport it back — seamless infinite loop.
-const COPIES = 3;
-const textures = []; // store loaded textures for reuse
+    // 3. Centerpiece: Scale UP smoothly from 1.0 to 2.5 and fade opacity from 1 to 0
+    tl.to("#layer-center", {
+      scale: 2.5,
+      opacity: 0,
+      ease: "power1.out"
+    }, 0);
 
-// First load all textures, then build all segments
-let loadedCount = 0;
-images.forEach((img, i) => {
-  loader.load(img.url, (texture) => {
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.ClampToEdgeWrapping;
-    texture.repeat.set(-3, 1); // Flip horizontally (to resolve mirror-flip) and repeat 3x (to make it smaller/original aspect ratio)
-    textures[i] = texture;
-    loadedCount++;
-    if (loadedCount === images.length) buildCylinder();
-  });
-});
-
-function buildCylinder() {
-  // Total segments = images.length * COPIES
-  // We place them from top (+) to bottom (-)
-  const totalSegs = images.length * COPIES;
-  for (let copy = 0; copy < COPIES; copy++) {
-    for (let i = 0; i < images.length; i++) {
-      const geo = new THREE.CylinderGeometry(RADIUS, RADIUS, IMG_HEIGHT, 80, 1, true);
-      const mat = new THREE.MeshBasicMaterial({ map: textures[i], side: THREE.BackSide });
-      const mesh = new THREE.Mesh(geo, mat);
-      // Global index in the full stack
-      const globalIdx = copy * images.length + i;
-      mesh.position.y = (totalSegs / 2 - 0.5 - globalIdx) * IMG_HEIGHT;
-      mesh.rotation.y = -Math.PI / 2; // Center the image texture with the camera's view
-      scene.add(mesh);
-    }
-  }
-}
-
-// Camera starts at center of MIDDLE copy
-// Middle copy starts at index: images.length (after first copy)
-// Center of middle copy = average y of its segments
-const middleStartIdx = images.length; // first segment of middle copy
-const totalSegs = images.length * COPIES;
-// Y of first segment of middle copy
-const middleTopY = (totalSegs / 2 - 0.5 - middleStartIdx) * IMG_HEIGHT;
-// Y of last segment of middle copy
-const middleBottomY = (totalSegs / 2 - 0.5 - (middleStartIdx + images.length - 1)) * IMG_HEIGHT;
-
-let currentY = middleTopY;
-let targetY = currentY;
-camera.position.y = currentY;
-camera.lookAt(RADIUS, currentY, 0);
-
-// scrollY: freely increasing/decreasing, no clamp
-let scrollY = 0;
-let cumulativeScroll = 0; // Tracks absolute forward progress to avoid teleport reset
-const SCROLL_SPEED = 0.008;
-
-let autoScrollActive = true;
-const AUTO_SCROLL_SPEED = 0.035; // smooth slow vertical downward spin
-const TARGET_REVOLUTIONS = 1;
-const REVOLUTION_DISTANCE = images.length * IMG_HEIGHT; // 5 * 8.5 = 42.5
-const MAX_SCROLL = TARGET_REVOLUTIONS * REVOLUTION_DISTANCE; // 42.5
-let transitionTriggered = false;
-
-window.addEventListener('wheel', (e) => {
-  if (transitionTriggered) return;
-  const delta = e.deltaY * SCROLL_SPEED;
-  scrollY += delta;
-  if (scrollY < 0) scrollY = 0;
-  if (delta > 0) {
-    cumulativeScroll += delta;
-  }
-});
-
-let touchStartY = 0;
-window.addEventListener('touchstart', (e) => {
-  if (transitionTriggered) return;
-  touchStartY = e.touches[0].clientY;
-});
-window.addEventListener('touchmove', (e) => {
-  if (transitionTriggered) return;
-  const dy = touchStartY - e.touches[0].clientY;
-  touchStartY = e.touches[0].clientY;
-  const delta = dy * SCROLL_SPEED * 0.5;
-  scrollY += delta;
-  if (scrollY < 0) scrollY = 0;
-  if (delta > 0) {
-    cumulativeScroll += delta;
-  }
-});
-
-function triggerZoomAndTransition() {
-  if (transitionTriggered) return;
-  transitionTriggered = true;
-  autoScrollActive = false;
-
-  // Start fast fade-out of WebGL canvas
-  renderer.domElement.style.transition = 'opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1)';
-  renderer.domElement.style.opacity = '0';
-
-  // Smoothly display frame, notch, and home page with beautiful zoom animations
-  const screenFrame = document.querySelector('.screen-frame');
-  const logoTabSvg = document.querySelector('.logo-tab-svg');
-  const logoContainer = document.querySelector('.logo-container');
-  const homePage = document.getElementById('homePage');
-
-  screenFrame.classList.add('visible');
-  logoTabSvg.classList.add('visible');
-  logoContainer.classList.add('visible');
-  homePage.classList.add('visible');
-}
-
-// Animation loop
-function animate() {
-  requestAnimationFrame(animate);
-
-  if (!transitionTriggered) {
-    if (autoScrollActive) {
-      scrollY += AUTO_SCROLL_SPEED;
-      cumulativeScroll += AUTO_SCROLL_SPEED;
-    }
-    
-    // Clamp to exactly 2 revolutions based on cumulative progress
-    if (cumulativeScroll >= MAX_SCROLL) {
-      cumulativeScroll = MAX_SCROLL;
-      triggerZoomAndTransition();
-    }
-
-    targetY = middleTopY - scrollY;
-    currentY += (targetY - currentY) * 0.07;
-
-    // Seamless teleport: if camera drifts out of middle copy range into
-    // top or bottom copy, shift scrollY by exactly one full set of images
-    // so camera snaps back into middle — invisible because geometry repeats
-    const oneSet = images.length * IMG_HEIGHT;
-    if (currentY < middleBottomY - IMG_HEIGHT) {
-      scrollY -= oneSet;
-      currentY += oneSet;
-      targetY += oneSet;
-    } else if (currentY > middleTopY + IMG_HEIGHT) {
-      scrollY += oneSet;
-      currentY -= oneSet;
-      targetY -= oneSet;
-    }
-  } else {
-    // Zoom-in effect: move camera closer to the active centered image
-    camera.position.x += (4.6 - camera.position.x) * 0.08;
-  }
-
-  camera.position.y = currentY;
-  camera.lookAt(RADIUS, currentY, camera.position.z);
-  renderer.render(scene, camera);
-}
-
-animate();
-
-// Resize
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
-</script>
+    // Monitor scroll to trigger Scene Exit Transition at exactly 100% viewport scroll
+    const sceneContainer = document.getElementById("parallax-scene");
+    ScrollTrigger.create({
+      trigger: "body",
+      start: () => "+=" + window.innerHeight + " top",
+      onEnter: () => {
+        sceneContainer.classList.add("fade-out");
+      },
+      onLeaveBack: () => {
+        sceneContainer.classList.remove("fade-out");
+      }
+    });
+  </script>
 </body>
 </html>
