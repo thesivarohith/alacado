@@ -28,11 +28,6 @@
     background-color: #000000;
   }
 
-  #foreground-container {
-    z-index: 2;
-    background-color: transparent;
-  }
-
   #parallax-scene {
     z-index: 10;
     background-color: transparent;
@@ -139,13 +134,9 @@
 </head>
 <body>
 
-  <!-- Shared Persistent Background Void -->
+  <!-- Shared Persistent Background Void & Pillars (Single Stacking Context) -->
   <div class="parallax-container" id="background-container">
     <img src="Background Void.jpeg" class="layer layer-bg" id="layer-bg" alt="Background Void"/>
-  </div>
-
-  <!-- Shared Persistent Foreground Pillars -->
-  <div class="parallax-container" id="foreground-container">
     <img src="foreground.jpeg" class="layer layer-fg" id="layer-fg" alt="Foreground Pillars"/>
   </div>
 
@@ -189,14 +180,14 @@
       duration: 3.0
     }, 0);
 
-    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.5) ---
-    // Foreground Pillars scale up rapidly from 1.0 to 1.4 during Scene 1 (flying out of frame)
+    // Foreground Pillars scale up slowly and continuously throughout both scenes, keeping them visible framing the viewport
     tl.to("#layer-fg", {
-      scale: 1.4,
-      ease: "power1.in",
-      duration: 1.5
+      scale: 1.08,
+      ease: "none",
+      duration: 3.0
     }, 0);
 
+    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.5) ---
     // Monolith Centerpiece zooms in and fades out during the first scene
     tl.to("#layer-center", {
       scale: 2.5,
@@ -206,15 +197,9 @@
     }, 0);
 
     // --- CROSSFADE SEQUENCE (Timeline 1.45 to 1.55) ---
-    // Scene 1 logo centerpiece and foreground pillars container fade out, Scene 2 gem elements fade in
-    // Persistent background void remains fully active
+    // Scene 1 logo centerpiece fades out, Scene 2 gem elements fade in
+    // Persistent background void and pillars remain fully active
     tl.to("#parallax-scene", {
-      autoAlpha: 0,
-      ease: "power1.inOut",
-      duration: 0.1
-    }, 1.45);
-
-    tl.to("#foreground-container", {
       autoAlpha: 0,
       ease: "power1.inOut",
       duration: 0.1
