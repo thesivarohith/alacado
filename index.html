@@ -124,6 +124,8 @@
     max-height: 50vh;
     object-fit: contain;
     will-change: transform;
+    mix-blend-mode: normal !important; /* Force normal blend mode, prevent inheriting transparent blend mode */
+    opacity: 1 !important; /* Force full solid opacity */
   }
 
   .shell-left {
@@ -179,7 +181,7 @@
       }
     });
 
-    // --- CONTINUOUS PERSISTENT BACKGROUND & FOREGROUND SCALING (Timeline 0.0 to 3.0) ---
+    // --- CONTINUOUS PERSISTENT BACKGROUND SCALING (Timeline 0.0 to 3.0) ---
     // Background Void slowly continuously scales up throughout both scenes to maximize visual depth
     tl.to("#layer-bg", {
       scale: 1.35,
@@ -187,14 +189,14 @@
       duration: 3.0
     }, 0);
 
-    // Foreground Pillars slowly continuously scale up to add parallax depth without disappearing
+    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.5) ---
+    // Foreground Pillars scale up rapidly from 1.0 to 1.4 during Scene 1 (flying out of frame)
     tl.to("#layer-fg", {
-      scale: 1.12,
-      ease: "none",
-      duration: 3.0
+      scale: 1.4,
+      ease: "power1.in",
+      duration: 1.5
     }, 0);
 
-    // --- SCENE 1 ANIMATIONS (Timeline 0.0 to 1.5) ---
     // Monolith Centerpiece zooms in and fades out during the first scene
     tl.to("#layer-center", {
       scale: 2.5,
@@ -204,9 +206,15 @@
     }, 0);
 
     // --- CROSSFADE SEQUENCE (Timeline 1.45 to 1.55) ---
-    // Scene 1 logo centerpiece fades out, Scene 2 gem elements fade in
-    // Persistent background and foreground remain fully active
+    // Scene 1 logo centerpiece and foreground pillars container fade out, Scene 2 gem elements fade in
+    // Persistent background void remains fully active
     tl.to("#parallax-scene", {
+      autoAlpha: 0,
+      ease: "power1.inOut",
+      duration: 0.1
+    }, 1.45);
+
+    tl.to("#foreground-container", {
       autoAlpha: 0,
       ease: "power1.inOut",
       duration: 0.1
@@ -219,21 +227,25 @@
     }, 1.45);
 
     // --- SCENE 2 ANIMATIONS (Timeline 1.5 to 2.6) ---
-    // New splitrock-Photoroom.png left half slides left
-    tl.to("#shell-left", {
-      x: "-30vw",
+    // Left shell (splitrock-Photoroom.png) starts offset right (+20px) to close splitrock gap, then slides left
+    tl.fromTo("#shell-left", {
+      x: "20px"
+    }, {
+      x: "-40vw",
       ease: "power2.inOut",
       duration: 1.1
     }, 1.5);
 
-    // New splitrock-Photoroom.png right half slides right
-    tl.to("#shell-right", {
-      x: "30vw",
+    // Right shell starts offset left (-20px) to close splitrock gap, then slides right
+    tl.fromTo("#shell-right", {
+      x: "-20px"
+    }, {
+      x: "40vw",
       ease: "power2.inOut",
       duration: 1.1
     }, 1.5);
 
-    // Diamond reveals and zooms slightly inside the frame of persistent pillars
+    // Diamond reveals and zooms slightly inside the active background void
     tl.to("#diamond-core", {
       opacity: 1,
       scale: 1.3,
@@ -256,15 +268,8 @@
       duration: 0.4
     }, 2.6);
 
-    // Fade out persistent background container
+    // Fade out persistent background container to complete transition to black
     tl.to("#background-container", {
-      autoAlpha: 0,
-      ease: "power2.inOut",
-      duration: 0.4
-    }, 2.6);
-
-    // Fade out persistent foreground container to complete transition to black
-    tl.to("#foreground-container", {
       autoAlpha: 0,
       ease: "power2.inOut",
       duration: 0.4
