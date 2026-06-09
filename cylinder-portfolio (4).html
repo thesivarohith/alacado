@@ -346,6 +346,46 @@
     box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 8px 32px rgba(0, 0, 0, 0.4); /* shadow-[inset_0_1px_3px_rgba(255,255,255,0.8),0_8px_32px_rgba(0,0,0,0.4)] */
   }
 
+  /* Advisor key wrapper for capsule alignment */
+  .advisor-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  @media (min-width: 1024px) {
+    .advisor-wrapper {
+      width: auto;
+    }
+  }
+
+  /* Cute premium capsule mentioning FREE */
+  .free-capsule {
+    position: absolute;
+    top: -12px; /* sits perfectly on the top border */
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(193, 154, 107, 0.25);
+    border: 1px solid rgba(193, 154, 107, 0.6);
+    color: #f3d1be;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    padding: 3px 10px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 10;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    white-space: nowrap;
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
   /* Key 2 (Advisor - Primary CTA) styling - subtle gold tint */
   .advisor-key {
     color: #c19a6b; /* text-[#c19a6b] */
@@ -353,10 +393,19 @@
     box-shadow: inset 0 1px 2px rgba(193, 154, 107, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3); /* shadow-[inset_0_1px_2px_rgba(193,154,107,0.5),0_8px_32px_rgba(0,0,0,0.3)] */
   }
 
-  .advisor-key:hover {
-    background-color: rgba(193, 154, 107, 0.1); /* bg-[#c19a6b]/10 */
-    border-color: rgba(193, 154, 107, 0.6); /* border-[#c19a6b]/60 */
-    transform: scale(1.05); /* scale-105 */
+  /* Hover states triggered via wrapper */
+  .advisor-wrapper:hover .advisor-key {
+    background-color: rgba(193, 154, 107, 0.1);
+    border-color: rgba(193, 154, 107, 0.6);
+    transform: scale(1.05);
+  }
+
+  .advisor-wrapper:hover .free-capsule {
+    transform: translateX(-50%) translateY(-2px) scale(1.05);
+    background-color: rgba(193, 154, 107, 0.35);
+    border-color: rgba(193, 154, 107, 0.8);
+    box-shadow: 0 4px 15px rgba(193, 154, 107, 0.3);
+    color: #ffffff;
   }
 
   /* Liquid glass glare hover effect - sharper reflection */
@@ -407,10 +456,13 @@
             INITIATE A PROJECT
             <span class="liquid-glare"></span>
           </a>
-          <a href="#" class="routing-key advisor-key">
-            SPEAK WITH AN ADVISOR
-            <span class="liquid-glare"></span>
-          </a>
+          <div class="advisor-wrapper">
+            <span class="free-capsule">FREE</span>
+            <a href="#" class="routing-key advisor-key">
+              SPEAK WITH AN ADVISOR
+              <span class="liquid-glare"></span>
+            </a>
+          </div>
           <a href="#" class="routing-key network-key">
             JOIN THE NETWORK
             <span class="liquid-glare"></span>
