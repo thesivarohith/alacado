@@ -54,7 +54,7 @@ export default function InteractiveGrass({ bladeCount = 120000 }) {
     const camSphereRadius = uniform(15.0);
     const camSphereStrength = uniform(5.9);
 
-    const grassDensity = uniform(1.0);
+    const grassDensity = uniform(0.6);
     const windSpeed = uniform(1.3);
     const windAmplitude = uniform(0.21);
     const bladeWidth = uniform(4.0);
@@ -71,17 +71,17 @@ export default function InteractiveGrass({ bladeCount = 120000 }) {
     const groundFalloff = uniform(2.4);
     
     // Luxury color configurations
-    const bladeBaseColor = uniform(new THREE.Color(BLADE_BASE_HEX));
-    const bladeTipColor = uniform(new THREE.Color(BLADE_TIP_HEX));
+    const bladeBaseColor = uniform(new THREE.Color(0.02, 0.01, 0.01));
+    const bladeTipColor = uniform(new THREE.Color(0.75, 0.60, 0.42));
     const backgroundColor = uniform(new THREE.Color(BACKGROUND_HEX));
     const groundColor = uniform(new THREE.Color(GROUND_HEX));
     const fogStart = uniform(6.5);
     const fogEnd = uniform(12.0);
     const fogIntensity = uniform(1.0);
     const fogColor = uniform(new THREE.Color(BACKGROUND_HEX));
-    const goldenTipColor = uniform(new THREE.Color('#d4af37'));
-    const greenTipColor = uniform(new THREE.Color('#3d2516'));
-    const midColor = uniform(new THREE.Color('#8c5a3c'));
+    const goldenTipColor = uniform(new THREE.Color(0.75, 0.60, 0.42));
+    const greenTipColor = uniform(new THREE.Color(0.20, 0.15, 0.10));
+    const midColor = uniform(new THREE.Color(0.02, 0.01, 0.01));
 
     const noise2D = Fn(([x, z]) => mx_noise_float(vec3(x, float(0), z)).mul(0.5).add(0.5));
 
