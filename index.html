@@ -269,14 +269,12 @@
     font-style: italic;
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    color: #f3d1be;
+    color: #c19a6b; /* Warm luxury ALACADO gold-bronze tone */
   }
   .hero-title span.gradient-text {
     font-family: 'Cinzel', serif;
     font-weight: 500;
-    background: linear-gradient(90deg, #c58e72 0%, #f3d1be 50%, #c58e72 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    color: #c19a6b; /* Warm luxury ALACADO gold-bronze tone */
     letter-spacing: 0.02em;
   }
   .hero-subtext {
@@ -287,6 +285,43 @@
     text-transform: uppercase;
     margin-top: 30px;
     display: block;
+  }
+
+  /* Interactive 'Two Keys' Routing Buttons */
+  .routing-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 40px;
+  }
+  .btn {
+    display: inline-block;
+    padding: 16px 32px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.2em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background: transparent;
+  }
+  .btn-gold {
+    border: 1px solid #c19a6b;
+    color: #c19a6b;
+  }
+  .btn-gold:hover {
+    background: #c19a6b;
+    color: #000000;
+  }
+  .btn-white {
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+  .btn-white:hover {
+    border-color: #ffffff;
+    background: rgba(255, 255, 255, 0.05);
   }
 </style>
 </head>
@@ -310,9 +345,15 @@
       <div class="hero-container">
         <h1 class="hero-title">
           Tell us <span class="italic-serif">what</span> you need.<br>
-          We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
+          We connect <span class="italic-serif">you</span> with the <span class="gradient-text">RIGHT PEOPLE.</span>
         </h1>
         <span class="hero-subtext">Creative Network — ALACADO</span>
+        
+        <!-- The Two Keys (Routing Buttons) -->
+        <div class="routing-buttons">
+          <button class="btn btn-gold">[ INITIATE A PROJECT ]</button>
+          <button class="btn btn-white">[ JOIN THE NETWORK ]</button>
+        </div>
       </div>
     </div>
   </div>
@@ -510,11 +551,11 @@
     const canvas = document.getElementById('darkveil-canvas');
     const parent = canvas.parentElement;
 
-    const hueShift = 0;
-    const noiseIntensity = 0.015;
-    const scanlineIntensity = 0.08;
-    const speed = 0.35;
-    const scanlineFrequency = 1.5;
+    const hueShift = 130;
+    const noiseIntensity = 0.08;
+    const scanlineIntensity = 0.2;
+    const speed = 0.3;
+    const scanlineFrequency = 150.0;
     const warpAmount = 0.1;
     const resolutionScale = 0.75;
 

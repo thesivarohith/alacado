@@ -1,0 +1,23 @@
+{
+  "name": "bread",
+  "version": "1.0.0",
+  "description": "A platform to connect people (B2B)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesivarohith/alacado.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thesivarohith/alacado/issues"
+  },
+  "homepage": "https://github.com/thesivarohith/alacado#readme",
+  "dependencies": {
+    "ogl": "^1.0.11"
+  }
+}
