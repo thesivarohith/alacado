@@ -239,12 +239,12 @@
     display: block;
   }
 
-  /* Layer 2: Text protection gradient for legibility */
+  /* Radial dark vignette centered on text area for legibility */
   .text-protection-gradient {
     position: absolute;
     inset: 0;
     z-index: 2;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 50%, transparent 100%);
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.5) 35%, transparent 70%);
     pointer-events: none;
   }
 
@@ -274,7 +274,8 @@
     line-height: 1.25;
     color: rgba(255, 255, 255, 0.95);
     letter-spacing: -0.015em;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 1));
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 1), 0 2px 4px rgba(0, 0, 0, 0.9);
   }
   .hero-title span.italic-serif {
     font-style: italic;
@@ -298,6 +299,8 @@
     text-transform: uppercase;
     margin-top: 30px;
     display: block;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.8));
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
   }
 
   /* --- Symmetrical True Liquid Glass Routing Keys --- */
@@ -326,7 +329,7 @@
     text-decoration: none;
     padding: 20px 32px; /* px-8 py-5 */
     border-radius: 16px; /* rounded-2xl */
-    background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+    background-color: rgba(0, 0, 0, 0.6); /* bg-black/60 for contrast against bright grass */
     backdrop-filter: blur(24px); /* backdrop-blur-xl */
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.2); /* border-white/20 */
