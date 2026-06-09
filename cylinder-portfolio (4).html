@@ -288,6 +288,102 @@
     margin-top: 30px;
     display: block;
   }
+
+  /* --- Symmetrical Liquid Smoked Glassmorphism Routing Keys --- */
+  
+  .hero-buttons-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 24px; /* gap-6 (24px) */
+    margin-top: 48px; /* mt-12 (48px) */
+    width: 100%;
+    max-width: 1024px; /* max-w-5xl (1024px) */
+  }
+
+  @media (min-width: 1024px) {
+    .hero-buttons-container {
+      flex-direction: row;
+    }
+  }
+
+  /* Base routing key styling - "liquid smoked glass" */
+  .routing-key {
+    display: block;
+    text-decoration: none;
+    padding: 20px 32px; /* px-8 py-5 */
+    border-radius: 12px; /* rounded-xl */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid;
+    text-transform: uppercase;
+    letter-spacing: 0.15em; /* tracking-widest */
+    font-size: 14px; /* text-sm */
+    font-weight: 600; /* font-semibold */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* transition-all duration-500 */
+    position: relative; /* relative */
+    overflow: hidden; /* overflow-hidden */
+    width: 100%; /* w-full */
+    text-align: center; /* text-center */
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  @media (min-width: 1024px) {
+    .routing-key {
+      width: auto; /* lg:w-auto */
+    }
+  }
+
+  /* Key 1 (Client) and Key 3 (Network) styling */
+  .client-key, .network-key {
+    background-color: rgba(0, 0, 0, 0.4); /* bg-black/40 */
+    border-color: rgba(255, 255, 255, 0.1); /* border-white/10 */
+    color: rgba(255, 255, 255, 0.9); /* text-white/90 */
+  }
+
+  .client-key:hover, .network-key:hover {
+    background-color: rgba(255, 255, 255, 0.05); /* bg-white/5 */
+    border-color: rgba(255, 255, 255, 0.3); /* border-white/30 */
+    color: #ffffff; /* text-white */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.05); /* shadow-[0_0_20px_rgba(255,255,255,0.05)] */
+  }
+
+  /* Key 2 (Advisor - Primary CTA) styling - warmer distinct glass effect */
+  .advisor-key {
+    background-color: rgba(193, 154, 107, 0.1); /* bg-[#c19a6b]/10 */
+    border-color: rgba(193, 154, 107, 0.4); /* border-[#c19a6b]/40 */
+    color: #c19a6b; /* text-[#c19a6b] */
+  }
+
+  .advisor-key:hover {
+    background-color: rgba(193, 154, 107, 0.2); /* bg-[#c19a6b]/20 */
+    border-color: rgba(193, 154, 107, 0.8); /* border-[#c19a6b]/80 */
+    box-shadow: 0 0 30px rgba(193, 154, 107, 0.2); /* shadow-[0_0_30px_rgba(193,154,107,0.2)] */
+  }
+
+  @media (min-width: 1024px) {
+    .advisor-key:hover {
+      transform: translateY(-4px); /* lg:-translate-y-1 (-4px) */
+    }
+  }
+
+  /* Liquid glass glare hover effect */
+  .liquid-glare {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.05), transparent); /* bg-gradient-to-tr from-transparent via-white/5 to-transparent */
+    opacity: 0;
+    transition: opacity 0.7s ease; /* transition-opacity duration-700 */
+    pointer-events: none;
+  }
+
+  .routing-key:hover .liquid-glare {
+    opacity: 1; /* group-hover:opacity-100 */
+  }
 </style>
 </head>
 <body>
@@ -313,6 +409,22 @@
           We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
         </h1>
         <span class="hero-subtext">Creative Network — ALACADO</span>
+        
+        <!-- Three interactive glassmorphism routing keys -->
+        <div class="hero-buttons-container">
+          <a href="#" class="routing-key client-key">
+            INITIATE A PROJECT
+            <span class="liquid-glare"></span>
+          </a>
+          <a href="#" class="routing-key advisor-key">
+            SPEAK WITH AN ADVISOR
+            <span class="liquid-glare"></span>
+          </a>
+          <a href="#" class="routing-key network-key">
+            JOIN THE NETWORK
+            <span class="liquid-glare"></span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -511,7 +623,7 @@
     const canvas = document.getElementById('darkveil-canvas');
     const parent = canvas.parentElement;
 
-    const hueShift = 0;
+    const hueShift = 130;
     const noiseIntensity = 0.015;
     const scanlineIntensity = 0.08;
     const speed = 0.35;
