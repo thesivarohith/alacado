@@ -250,7 +250,6 @@
     height: 100%;
     overflow-y: auto;
     z-index: 10; /* above all background layers */
-    pointer-events: none;
   }
   .hero-container {
     max-width: 800px;
@@ -916,7 +915,7 @@
 
   <!-- React & Babel Integration for Command Node Section -->
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel" data-type="module">
+  <script type="text/babel" data-type="module" data-presets="react">
     import React, { useState, useEffect } from 'react';
     import { createRoot } from 'react-dom/client';
     import { motion, AnimatePresence } from 'framer-motion';
