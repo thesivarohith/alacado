@@ -18,7 +18,7 @@ export default function CommandNodeSection() {
   }, []);
 
   return (
-    <section className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center px-8 py-32 z-20">
+    <section className="relative w-full min-h-screen bg-transparent flex flex-col items-center justify-center px-8 py-32 z-20">
       
       {/* The Ethos Text Reveal */}
       <motion.p
