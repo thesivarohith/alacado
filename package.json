@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/thesivarohith/alacado#readme",
   "dependencies": {
+    "framer-motion": "^12.40.0",
     "ogl": "^1.0.11",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
     "three": "^0.184.0"
   }
 }

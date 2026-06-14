@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>ALACADO</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -249,15 +250,15 @@
     height: 100%;
     overflow-y: auto;
     z-index: 10; /* above all background layers */
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 10%;
     pointer-events: none;
   }
   .hero-container {
     max-width: 800px;
-    margin-top: 50px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 10%;
   }
   .hero-title {
     font-family: 'Cormorant Garamond', serif;
@@ -433,6 +434,9 @@
   <script type="importmap">
     {
       "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "framer-motion": "https://esm.sh/framer-motion@10.16.4",
         "three": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
         "three/webgpu": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
         "three/tsl": "https://unpkg.com/three@0.183.0/build/three.tsl.js",
@@ -486,6 +490,8 @@
           </a>
         </div>
       </div>
+      <!-- React Root for Command Node Section -->
+      <div id="command-node-root"></div>
     </div>
   </div>
 
@@ -906,6 +912,77 @@
     };
 
     renderer.setAnimationLoop(animate);
+  </script>
+
+  <!-- React & Babel Integration for Command Node Section -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" data-type="module">
+    import React, { useState, useEffect } from 'react';
+    import { createRoot } from 'react-dom/client';
+    import { motion, AnimatePresence } from 'framer-motion';
+
+    const queries = [
+      "> Sourcing: Lead React Architect for Fintech MVP",
+      "> Sourcing: Elite Catering for 500-Guest Gala",
+      "> Sourcing: Brutalist Brand Identity & UI Design"
+    ];
+
+    function CommandNodeSection() {
+      const [currentIndex, setCurrentIndex] = useState(0);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentIndex((prev) => (prev + 1) % queries.length);
+        }, 3000);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <section className="relative w-full min-h-screen bg-black flex flex-col items-center justify-center px-8 py-32 z-20" style={{ pointerEvents: 'auto' }}>
+          
+          {/* The Ethos Text Reveal */}
+          <motion.p
+            initial={{ opacity: 0, filter: 'blur(10px)', y: 40 }}
+            whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="text-2xl md:text-4xl text-gray-400 font-light max-w-4xl text-center leading-relaxed mb-24"
+          >
+            "The market is loud. Talent is hidden. We operate in the quiet space between the problem and the execution. Tell the engine what you need."
+          </motion.p>
+
+          {/* The Command Node Search Bar */}
+          <input 
+            type="text" 
+            placeholder="Type your objective..." 
+            className="w-full max-w-3xl bg-transparent border-b-2 border-white/20 text-white text-3xl md:text-5xl py-4 px-2 focus:outline-none focus:border-[#c19a6b] transition-colors placeholder:text-white/20 font-light text-center"
+          />
+
+          {/* Live Queries Feed */}
+          <div className="h-6 mt-6 overflow-hidden relative w-full flex justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5 }}
+                className="text-[#c19a6b]/60 font-mono text-sm tracking-widest uppercase absolute"
+              >
+                {queries[currentIndex]}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+        </section>
+      );
+    }
+
+    const rootElement = document.getElementById('command-node-root');
+    if (rootElement) {
+      const root = createRoot(rootElement);
+      root.render(<CommandNodeSection />);
+    }
   </script>
 </body>
 </html>
