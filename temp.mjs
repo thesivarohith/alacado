@@ -1,519 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ALACADO</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-<style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #000000;
-    overflow: hidden;
-    width: 100vw;
-    height: 100vh;
-  }
 
-  /* Viewport-locked, full-screen container */
-  .parallax-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    will-change: opacity, transform, visibility;
-  }
-
-  #background-container {
-    z-index: 1;
-    background-color: #000000;
-  }
-
-  #parallax-scene {
-    z-index: 10;
-    background-color: transparent;
-    opacity: 1;
-    visibility: visible;
-  }
-
-  #scene-2 {
-    z-index: 11;
-    background-color: transparent;
-    opacity: 0;
-    visibility: hidden;
-  }
-
-  /* Layer centering and cover positioning */
-  .layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    will-change: transform, opacity;
-  }
-
-  /* Layer 1: Background Void */
-  .layer-bg {
-    z-index: 1;
-  }
-
-  /* Layer 2: Foreground Pillars with blend mode */
-  .layer-fg {
-    z-index: 2;
-    mix-blend-mode: screen; /* Solid black center becomes transparent */
-    filter: sepia(0.6) saturate(1.4) hue-rotate(-5deg) brightness(0.95);
-  }
-
-  /* Layer 3: Centerpiece Monolith Logo */
-  .layer-center {
-    z-index: 3;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: auto;
-    height: auto;
-    max-width: 60vw;
-    max-height: 60vh;
-    object-fit: contain;
-  }
-
-  /* --- Scene 2 Elements --- */
-  
-  /* Glowing Diamond Centerpiece */
-  .layer-diamond {
-    z-index: 2; /* Vortex (1) -> Diamond (2) -> Rock Shell Halves (3) */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: auto;
-    height: auto;
-    max-width: 50vw;
-    max-height: 50vh;
-    object-fit: contain;
-    opacity: 0;
-    transform: scale(0.8);
-    mix-blend-mode: screen; /* Removes black rectangular box, showing background void underneath */
-    filter: drop-shadow(0 0 35px rgba(255, 255, 255, 0.45));
-    will-change: transform, opacity;
-  }
-
-  /* Rock shell halves layered directly on top of the diamond */
-  .shell-half {
-    z-index: 3; /* Vortex (1) -> Diamond (2) -> Rock Shell Halves (3) */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: auto;
-    height: auto;
-    max-width: 50vw;
-    max-height: 50vh;
-    object-fit: contain;
-    will-change: transform;
-    mix-blend-mode: normal !important; /* Force normal blend mode, prevent inheriting transparent blend mode */
-    opacity: 1 !important; /* Force full solid opacity */
-  }
-
-  .shell-left {
-    clip-path: inset(0 50% 0 0);
-  }
-
-  .shell-right {
-    clip-path: inset(0 0 0 50%);
-  }
-
-  /* --- Premium Rose-Gold UI Overlay & Homepage Styling --- */
-  
-  /* Screen Border Frame - Uniform 16px border */
-  .screen-frame {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 16px solid #fff;
-    border-radius: 32px;
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0;
-    transform: scale(1.15); /* Starts zoomed out from the outside */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .screen-frame.visible {
-    opacity: 1;
-    transform: scale(1); /* Zooms in and snaps into place */
-  }
-
-  /* Dipping SVG Wave Notch */
-  .logo-tab-svg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 80px;
-    z-index: 101;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-40px) scaleY(0.7); /* Starts flattened and tucked up */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-tab-svg.visible {
-    opacity: 1;
-    transform: translateY(0) scaleY(1); /* Sweeps down and expands */
-  }
-
-  /* ALACADO Logo Container (Centered inside the dipping notch) */
-  .logo-container {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.8); /* Starts slightly smaller */
-    width: 240px; /* widened for larger logo */
-    height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 102;
-    opacity: 0;
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-container.visible {
-    opacity: 1;
-    transform: translateX(-50%) scale(1); /* Zooms in to center */
-  }
-
-  /* Premium Rose-Gold ALACADO Logo - Bigger and Brighter */
-  .alacado-logo {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: 0.35em;
-    background: linear-gradient(90deg, #3d200f 0%, #8c5a3c 50%, #3d200f 100%); /* High-contrast bronze-copper */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    padding-left: 0.35em; /* balance letter-spacing offset */
-    line-height: 1;
-  }
-
-  /* Editorial Home Page Container - Offsets overlap behind frame to resolve corner bleed-through */
-  #homePage {
-    position: fixed;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    border-radius: 20px; /* matches inner curve mathematically */
-    overflow: hidden; /* hidden to contain the background shader canvas */
-    z-index: 10;
-    background: #000915; /* luxurious dark navy/black fallback */
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  #homePage.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* WebGPU Grass Background Canvas - full screen */
-  #grass-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100% !important;
-    height: 100% !important;
-    z-index: 0;
-    pointer-events: none;
-    display: block;
-  }
-
-
-  /* Scrollable container for text content above the canvas */
-  .home-content-scroll {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-    z-index: 10; /* above all background layers */
-  }
-  .hero-container {
-    max-width: 800px;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 10%;
-  }
-  .hero-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 56px;
-    font-weight: 300;
-    line-height: 1.25;
-    color: rgba(255, 255, 255, 0.95);
-    letter-spacing: -0.015em;
-  }
-  .hero-title span.italic-serif {
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-weight: 400;
-    color: #f3d1be;
-  }
-  .hero-title span.gradient-text {
-    font-family: 'Cinzel', serif;
-    font-weight: 500;
-    background: linear-gradient(90deg, #c58e72 0%, #f3d1be 50%, #c58e72 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    letter-spacing: 0.02em;
-  }
-  .hero-subtext {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    margin-top: 30px;
-    display: block;
-  }
-
-  /* --- Symmetrical True Liquid Glass Routing Keys --- */
-  
-  .hero-buttons-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 24px; /* gap-6 (24px) */
-    margin-top: 48px; /* mt-12 (48px) */
-    width: 100%;
-    max-width: 1024px; /* max-w-5xl (1024px) */
-    pointer-events: none;
-  }
-
-  @media (min-width: 1024px) {
-    .hero-buttons-container {
-      flex-direction: row;
-    }
-  }
-
-  /* Base routing key styling - "True Liquid Glass" */
-  .routing-key {
-    display: block;
-    text-decoration: none;
-    padding: 20px 32px; /* px-8 py-5 */
-    border-radius: 16px; /* rounded-2xl */
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(24px); /* backdrop-blur-xl */
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* border-white/20 */
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3); /* shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_8px_32px_rgba(0,0,0,0.3)] */
-    text-transform: uppercase;
-    letter-spacing: 0.15em; /* tracking-widest */
-    font-size: 14px; /* text-sm */
-    font-weight: 500; /* font-medium */
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* transition-all duration-500 */
-    position: relative; /* relative */
-    overflow: hidden; /* overflow-hidden */
-    width: 100%; /* w-full */
-    text-align: center; /* text-center */
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    color: #ffffff; /* text-white */
-    pointer-events: auto; /* re-enable clicks on buttons */
-  }
-
-  @media (min-width: 1024px) {
-    .routing-key {
-      width: auto; /* lg:w-auto */
-    }
-  }
-
-  /* Key 1 (Client) and Key 3 (Network) hover styling */
-  .client-key:hover, .network-key:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
-    border-color: rgba(255, 255, 255, 0.4); /* border-white/40 */
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 8px 32px rgba(0, 0, 0, 0.4); /* shadow-[inset_0_1px_3px_rgba(255,255,255,0.8),0_8px_32px_rgba(0,0,0,0.4)] */
-  }
-
-  /* Advisor key wrapper for capsule alignment */
-  .advisor-wrapper {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    pointer-events: auto; /* re-enable clicks on advisor wrapper */
-  }
-
-  @media (min-width: 1024px) {
-    .advisor-wrapper {
-      width: auto;
-    }
-  }
-
-  /* Cute premium capsule mentioning FREE */
-  .free-capsule {
-    position: absolute;
-    top: -12px; /* sits perfectly on the top border */
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(193, 154, 107, 0.25);
-    border: 1px solid rgba(193, 154, 107, 0.6);
-    color: #f3d1be;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    padding: 3px 10px;
-    border-radius: 9999px;
-    text-transform: uppercase;
-    pointer-events: none;
-    z-index: 10;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    white-space: nowrap;
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-
-  /* Key 2 (Advisor - Primary CTA) styling - subtle gold tint */
-  .advisor-key {
-    color: #c19a6b; /* text-[#c19a6b] */
-    border-color: rgba(193, 154, 107, 0.3); /* border-[#c19a6b]/30 */
-    box-shadow: inset 0 1px 2px rgba(193, 154, 107, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3); /* shadow-[inset_0_1px_2px_rgba(193,154,107,0.5),0_8px_32px_rgba(0,0,0,0.3)] */
-  }
-
-  /* Hover states triggered via wrapper */
-  .advisor-wrapper:hover .advisor-key {
-    background-color: rgba(193, 154, 107, 0.1);
-    border-color: rgba(193, 154, 107, 0.6);
-    transform: scale(1.05);
-  }
-
-  .advisor-wrapper:hover .free-capsule {
-    transform: translateX(-50%) translateY(-2px) scale(1.05);
-    background-color: rgba(193, 154, 107, 0.35);
-    border-color: rgba(193, 154, 107, 0.8);
-    box-shadow: 0 4px 15px rgba(193, 154, 107, 0.3);
-    color: #ffffff;
-  }
-
-  /* Liquid glass glare hover effect - sharper reflection */
-  .liquid-glare {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent); /* bg-gradient-to-tr from-transparent via-white/10 to-transparent */
-    opacity: 0;
-    transition: opacity 0.7s ease; /* transition-opacity duration-700 */
-    pointer-events: none;
-    border-radius: 16px; /* rounded-2xl */
-  }
-
-  .routing-key:hover .liquid-glare {
-    opacity: 1; /* group-hover:opacity-100 */
-  }
-</style>
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
-        "three/webgpu": "https://unpkg.com/three@0.183.0/build/three.webgpu.js",
-        "three/tsl": "https://unpkg.com/three@0.183.0/build/three.tsl.js",
-        "three/addons/": "https://unpkg.com/three@0.183.0/examples/jsm/"
-      }
-    }
-  </script>
-</head>
-<body>
-  <div id="error-log" style="position:fixed; top:10px; left:10px; z-index:99999; color:red; background:black; font-family:monospace; white-space:pre-wrap; padding:10px; display:none;"></div>
-  <script>
-    window.onerror = function(msg, url, lineNo, columnNo, error) {
-      const log = document.getElementById('error-log');
-      log.style.display = 'block';
-      log.innerText += 'ERROR: ' + msg + '\n';
-      return false;
-    };
-    if() .addEventListener('unhandledrejection', function(event) {
-      const log = document.getElementById('error-log');
-      log.style.display = 'block';
-      log.innerText += 'PROMISE REJECTION: ' + (event.reason && event.reason.message || event.reason) + '\n';
-    });
-  </script>
-
-  <!-- Dipping SVG wave notch frame and Editorial Home Page (Visible immediately on load) -->
-  <div class="screen-frame visible"></div>
-  <svg class="logo-tab-svg visible" viewBox="0 0 1000 80" preserveAspectRatio="none">
-    <path d="M 350,0 L 650,0 L 650,16 C 620,16 600,60 580,60 L 420,60 C 400,60 380,16 350,16 Z" fill="#fff" />
-  </svg>
-  <div class="logo-container visible">
-    <div class="alacado-logo">ΛLΛCΛDO</div>
-  </div>
-
-  <div id="homePage" class="visible">
-    <!-- Full-screen WebGPU Interactive Grass Background -->
-    <canvas id="grass-canvas"></canvas>
-
-    <!-- Dark overlay for text legibility -->
-    
-    <!-- Scrollable content above background -->
-    <div class="home-content-scroll">
-      <div class="hero-container">
-        <h1 class="hero-title">
-          Tell us <span class="italic-serif">what</span> you need.<br>
-          We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
-        </h1>
-        <span class="hero-subtext">Creative Network — ALACADO</span>
-        
-        <!-- Three interactive glassmorphism routing keys -->
-        <div class="hero-buttons-container">
-          <a href="#" class="routing-key client-key">
-            INITIATE A PROJECT
-            <span class="liquid-glare"></span>
-          </a>
-          <div class="advisor-wrapper">
-            <span class="free-capsule">FREE</span>
-            <a href="#" class="routing-key advisor-key">
-              SPEAK WITH AN ADVISOR
-              <span class="liquid-glare"></span>
-            </a>
-          </div>
-          <a href="#" class="routing-key network-key">
-            JOIN THE NETWORK
-            <span class="liquid-glare"></span>
-          </a>
-        </div>
-      </div>
-      <!-- React Root for Command Node Section -->
-      <div id="command-node-root"></div>
-    </div>
-  </div>
-
-
-  <!-- WebGPU Interactive Grass Background -->
-  <script type="module">
 		import * as THREE from 'three/webgpu';
 		import {
 			Fn, uniform, float, vec3, instancedArray, instanceIndex, uv,
@@ -846,7 +331,7 @@
 		const grassPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 		const hitPoint = new THREE.Vector3();
 
-		if() .addEventListener('mousemove', (e) => {
+		window.addEventListener('mousemove', (e) => {
 			mouseNDC.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
 			raycaster.setFromCamera(mouseNDC, camera);
 			if (raycaster.ray.intersectPlane(grassPlane, hitPoint)) {
@@ -855,10 +340,10 @@
 				mouseFocusDist = camera.position.distanceTo(hitPoint);
 			}
 		});
-		if() .addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
+		window.addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
 
 		let resizeTimeout;
-		if() .addEventListener('resize', () => {
+		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(() => {
 				camera.aspect = innerWidth / innerHeight;
@@ -881,9 +366,9 @@
 			settingsGear.classList.toggle('active', settingsOpen);
 		}
 
-		if() .addEventListener('click', toggleSettings);
+		settingsGear.addEventListener('click', toggleSettings);
 
-		if() .addEventListener('keydown', (e) => {
+		window.addEventListener('keydown', (e) => {
 			if (e.key === 's' || e.key === 'S') {
 				// Don't toggle if user is typing in an input
 				if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -1060,7 +545,7 @@
 			skyControls.forEach((c, idx) => {
 				const id = `sp_sky_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					skyColors[c.key].set(input.value);
 					scene.background = buildSkyTexture();
 				});
@@ -1070,7 +555,7 @@
 			colorControls.forEach((c, idx) => {
 				const id = `sp_color_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					c.u.value.set(input.value);
 					if (c.extra) c.extra(input.value);
 				});
@@ -1130,8 +615,8 @@
 				}
 			}
 
-			if() .addEventListener('click', () => setMode('scroll'));
-			if() .addEventListener('click', () => setMode('edit'));
+			modeScrollBtn.addEventListener('click', () => setMode('scroll'));
+			modeEditBtn.addEventListener('click', () => setMode('edit'));
 
 			let expandedStage = -1;
 
@@ -1228,7 +713,7 @@
 				const stageEl = document.getElementById(`cp_stage_${i}`);
 
 
-				if() .addEventListener('click', () => {
+				header.addEventListener('click', () => {
 					// Only respond in edit mode
 					if (editorMode !== 'edit') return;
 
@@ -1268,7 +753,7 @@
 				fields.forEach(f => {
 					const slider = document.getElementById(`cp_${i}_${f.key}`);
 					const valEl = document.getElementById(`cp_${i}_${f.key}_v`);
-					if() .addEventListener('input', () => {
+					slider.addEventListener('input', () => {
 						kf[f.idx] = parseFloat(slider.value);
 						valEl.textContent = kf[f.idx].toFixed(1);
 					});
@@ -1277,7 +762,7 @@
 				// DoF enabled toggle per stage
 				const dofToggleEl = document.getElementById(`cp_${i}_dof`);
 				const dofControlsEl = document.getElementById(`cp_${i}_dof_controls`);
-				if() .addEventListener('click', () => {
+				dofToggleEl.addEventListener('click', () => {
 					kf[9] = kf[9] ? 0 : 1;
 					dofToggleEl.classList.toggle('active', !!kf[9]);
 					dofControlsEl.style.opacity = kf[9] ? '1' : '0.3';
@@ -1287,7 +772,7 @@
 				// Focus distance slider
 				const fdSlider = document.getElementById(`cp_${i}_fd`);
 				const fdVal = document.getElementById(`cp_${i}_fd_v`);
-				if() .addEventListener('input', () => {
+				fdSlider.addEventListener('input', () => {
 					kf[7] = parseFloat(fdSlider.value);
 					fdVal.textContent = kf[7].toFixed(1);
 				});
@@ -1296,7 +781,7 @@
 				const afToggle = document.getElementById(`cp_${i}_af`);
 				const manualFocusEl = document.getElementById(`cp_${i}_manual_focus`);
 				const afSettingsEl = document.getElementById(`cp_${i}_af_settings`);
-				if() .addEventListener('click', () => {
+				afToggle.addEventListener('click', () => {
 					kf[8] = kf[8] ? 0 : 1;
 					afToggle.classList.toggle('active', !!kf[8]);
 					manualFocusEl.style.opacity = kf[8] ? '0.3' : '1';
@@ -1308,7 +793,7 @@
 				// AF Speed slider
 				const afspdSlider = document.getElementById(`cp_${i}_afspd`);
 				const afspdVal = document.getElementById(`cp_${i}_afspd_v`);
-				if() .addEventListener('input', () => {
+				afspdSlider.addEventListener('input', () => {
 					kf[12] = parseFloat(afspdSlider.value);
 					afspdVal.textContent = kf[12].toFixed(1);
 				});
@@ -1316,7 +801,7 @@
 				// AF Min slider
 				const afminSlider = document.getElementById(`cp_${i}_afmin`);
 				const afminVal = document.getElementById(`cp_${i}_afmin_v`);
-				if() .addEventListener('input', () => {
+				afminSlider.addEventListener('input', () => {
 					kf[13] = parseFloat(afminSlider.value);
 					afminVal.textContent = kf[13].toFixed(1);
 				});
@@ -1324,7 +809,7 @@
 				// AF Max slider
 				const afmaxSlider = document.getElementById(`cp_${i}_afmax`);
 				const afmaxVal = document.getElementById(`cp_${i}_afmax_v`);
-				if() .addEventListener('input', () => {
+				afmaxSlider.addEventListener('input', () => {
 					kf[14] = parseFloat(afmaxSlider.value);
 					afmaxVal.textContent = kf[14].toFixed(1);
 				});
@@ -1332,7 +817,7 @@
 				// Focal Length slider
 				const flSlider = document.getElementById(`cp_${i}_fl`);
 				const flVal = document.getElementById(`cp_${i}_fl_v`);
-				if() .addEventListener('input', () => {
+				flSlider.addEventListener('input', () => {
 					kf[10] = parseFloat(flSlider.value);
 					flVal.textContent = kf[10].toFixed(1);
 				});
@@ -1340,7 +825,7 @@
 				// Bokeh Scale slider
 				const bkSlider = document.getElementById(`cp_${i}_bk`);
 				const bkVal = document.getElementById(`cp_${i}_bk_v`);
-				if() .addEventListener('input', () => {
+				bkSlider.addEventListener('input', () => {
 					kf[11] = parseFloat(bkSlider.value);
 					bkVal.textContent = kf[11].toFixed(1);
 				});
@@ -1351,7 +836,7 @@
 					const slider = document.getElementById(sid);
 					const valEl = document.getElementById(`${sid}_v`);
 					if (slider && valEl) {
-						if() .addEventListener('input', () => {
+						slider.addEventListener('input', () => {
 							const v = parseFloat(slider.value);
 							stageParams[i][k] = v;
 							valEl.textContent = v.toFixed(2);
@@ -1377,7 +862,7 @@
 					const cpId = `sp_stage_${i}_cpick_${colorName}`;
 					const cpEl = document.getElementById(cpId);
 					if (cpEl) {
-						if() .addEventListener('input', () => {
+						cpEl.addEventListener('input', () => {
 							const hex = cpEl.value;
 							const r = parseInt(hex.substr(1,2),16)/255;
 							const g = parseInt(hex.substr(3,2),16)/255;
@@ -1425,17 +910,17 @@
 
 			// Copy Path JSON button
 			const copyPathBtn = document.getElementById('copyPathBtn');
-			if() .addEventListener('mouseenter', () => {
+			copyPathBtn.addEventListener('mouseenter', () => {
 				copyPathBtn.style.background = 'rgba(60,140,200,0.2)';
 				copyPathBtn.style.borderColor = 'rgba(80,180,220,0.4)';
 				copyPathBtn.style.color = 'rgba(140,220,240,0.8)';
 			});
-			if() .addEventListener('mouseleave', () => {
+			copyPathBtn.addEventListener('mouseleave', () => {
 				copyPathBtn.style.background = 'rgba(60,140,200,0.08)';
 				copyPathBtn.style.borderColor = 'rgba(60,140,200,0.2)';
 				copyPathBtn.style.color = 'rgba(100,190,220,0.5)';
 			});
-			if() .addEventListener('click', () => {
+			copyPathBtn.addEventListener('click', () => {
 				const json = JSON.stringify(cameraPath.map((kf, i) => ({
 					stage: stageNames[i],
 					scroll: kf[0],
@@ -1477,14 +962,14 @@
 			typoColors.forEach((tc, idx) => {
 				const id = `sp_typo_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					document.documentElement.style.setProperty(tc.cssVar, input.value);
 				});
 			});
 
 			// Global DoF toggle
 			const globalDofToggle = document.getElementById('globalDofToggle');
-			if() .addEventListener('click', () => {
+			globalDofToggle.addEventListener('click', () => {
 				globalDofEnabled = !globalDofEnabled;
 				globalDofToggle.classList.toggle('active', globalDofEnabled);
 				if (!globalDofEnabled) {
@@ -1495,7 +980,7 @@
 
 			// FPS toggle
 			const fpsToggle = document.getElementById('fpsToggle');
-			if() .addEventListener('click', () => {
+			fpsToggle.addEventListener('click', () => {
 				fpsEnabled = !fpsEnabled;
 				fpsToggle.classList.toggle('active', fpsEnabled);
 				if (fpsOverlay) fpsOverlay.style.display = fpsEnabled ? 'block' : 'none';
@@ -1718,27 +1203,35 @@
 
 		const container = document.querySelector('.home-content-scroll');
 		if (container) {
-			if() .addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
+			container.addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
 		}
 
 
 		// Sync cameraPath scroll values to actual DOM section positions
-		function syncCameraPathToDOM() { /* Neutered */ }
+		function syncCameraPathToDOM() { /* Neutered to preserve raw scroll percentages for ALACADO */ }"]`);
+				if (section) {
+					const sectionTop = section.offsetTop;
+					kf[0] = Math.min(1, Math.max(0, sectionTop / scrollable));
+				}
+			});
+			// Ensure footer (last) is always 1.0
+			cameraPath[cameraPath.length - 1][0] = 1.0;
+		}
 
 		// Sync on load and on resize
 		syncCameraPathToDOM();
-		if() .addEventListener('resize', () => {
+		window.addEventListener('resize', () => {
 			setTimeout(syncCameraPathToDOM, 100);
 		});
 		// Re-sync after fonts/images load
-		if() .addEventListener('load', () => {
+		window.addEventListener('load', () => {
 			setTimeout(syncCameraPathToDOM, 200);
 			setTimeout(syncCameraPathToDOM, 1000);
 		});
 
 		let _scrollDirty = false;
-		if() .addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
-		if() .addEventListener('touchmove', () => { _scrollDirty = true; }, { passive: true });
+		window.addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
+		window.addEventListener('touchmove', () => { _scrollDirty = true; }, { passive: true });
 
 		// ─── Reveal on Scroll ──────────────────────────────────────────────
 		const progressBar = document.getElementById('progressBar');
@@ -1768,7 +1261,7 @@
 
 		// ─── Nav Link Click → Scroll to Section ────────────────────────────
 		document.querySelectorAll('[data-nav]').forEach(link => {
-			if() .addEventListener('click', (e) => {
+			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const stageIdx = parseInt(link.dataset.nav);
 				const section = document.querySelector(`.section[data-stage="${stageIdx}"]`);
@@ -1782,13 +1275,13 @@
 		const navHamburger = document.getElementById('navHamburger');
 		const navMobileOverlay = document.getElementById('navMobileOverlay');
 
-		if() .addEventListener('click', () => {
+		navHamburger.addEventListener('click', () => {
 			navHamburger.classList.toggle('open');
 			navMobileOverlay.classList.toggle('open');
 		});
 
 		document.querySelectorAll('[data-nav-mobile]').forEach(link => {
-			if() .addEventListener('click', (e) => {
+			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const stageIdx = parseInt(link.dataset.navMobile);
 				const section = document.querySelector(`.section[data-stage="${stageIdx}"]`);
@@ -2006,6 +1499,4 @@
 		}
 
 		renderer.setAnimationLoop(animate);
-	</script>
-</body>
-</html>
+	
