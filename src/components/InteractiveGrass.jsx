@@ -16,8 +16,8 @@ export default function InteractiveGrass({ bladeCount = 120000 }) {
     const FIELD_SIZE = 30;
     const BACKGROUND_HEX = '#000000';
     const GROUND_HEX = '#050403';
-    const BLADE_BASE_HEX = '#0a0806';
-    const BLADE_TIP_HEX = '#c19a6b';
+    const BLADE_BASE_HEX = '#000000';
+    const BLADE_TIP_HEX = '#4d331a';
 
     // ─── Scene Setup ───────────────────────────────────────────────────
     const scene = new THREE.Scene();
@@ -59,7 +59,7 @@ export default function InteractiveGrass({ bladeCount = 120000 }) {
     const windAmplitude = uniform(0.21);
     const bladeWidth = uniform(4.0);
     const bladeTipWidth = uniform(0.19);
-    const bladeHeight = uniform(1.6);
+    const bladeHeight = uniform(1.2);
     const bladeHeightVariation = uniform(0.5);
     const bladeLean = uniform(1.1);
     const noiseAmplitude = uniform(1.85);
@@ -71,17 +71,17 @@ export default function InteractiveGrass({ bladeCount = 120000 }) {
     const groundFalloff = uniform(2.4);
     
     // Luxury color configurations
-    const bladeBaseColor = uniform(new THREE.Color(0.02, 0.01, 0.01));
-    const bladeTipColor = uniform(new THREE.Color(0.75, 0.60, 0.42));
+    const bladeBaseColor = uniform(new THREE.Color(BLADE_BASE_HEX));
+    const bladeTipColor = uniform(new THREE.Color(BLADE_TIP_HEX));
     const backgroundColor = uniform(new THREE.Color(BACKGROUND_HEX));
     const groundColor = uniform(new THREE.Color(GROUND_HEX));
-    const fogStart = uniform(6.5);
-    const fogEnd = uniform(12.0);
+    const fogStart = uniform(2.0);
+    const fogEnd = uniform(10.0);
     const fogIntensity = uniform(1.0);
     const fogColor = uniform(new THREE.Color(BACKGROUND_HEX));
-    const goldenTipColor = uniform(new THREE.Color(0.75, 0.60, 0.42));
-    const greenTipColor = uniform(new THREE.Color(0.20, 0.15, 0.10));
-    const midColor = uniform(new THREE.Color(0.02, 0.01, 0.01));
+    const goldenTipColor = uniform(new THREE.Color(0.3, 0.2, 0.1));
+    const greenTipColor = uniform(new THREE.Color(0.02, 0.015, 0.01));
+    const midColor = uniform(new THREE.Color(0.005, 0.005, 0.005));
 
     const noise2D = Fn(([x, z]) => mx_noise_float(vec3(x, float(0), z)).mul(0.5).add(0.5));
 
