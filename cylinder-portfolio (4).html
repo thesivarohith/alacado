@@ -431,6 +431,348 @@
   .routing-key:hover .liquid-glare {
     opacity: 1; /* group-hover:opacity-100 */
   }
+/* ── Settings Panel ── */
+
+		.settings-panel {
+			position: fixed;
+			top: 50%;
+			right: 24px;
+			transform: translateY(-50%) translateX(12px) scale(0.95);
+			width: 340px;
+			max-height: 85vh;
+			overflow-y: auto;
+			background: rgba(4, 12, 24, 0.88);
+			backdrop-filter: blur(20px);
+			border: 1px solid rgba(60, 140, 200, 0.15);
+			border-radius: 16px;
+			padding: 24px 22px;
+			z-index: 300;
+			pointer-events: auto;
+			opacity: 0;
+			visibility: hidden;
+			transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+		.settings-panel.open {
+			opacity: 1;
+			transform: translateY(-50%) translateX(0) scale(1);
+			visibility: visible;
+		}
+		.settings-panel::-webkit-scrollbar { width: 4px; }
+		.settings-panel::-webkit-scrollbar-track { background: transparent; }
+		.settings-panel::-webkit-scrollbar-thumb { background: rgba(60, 140, 200, 0.2); border-radius: 2px; }
+
+		.sp-section { margin-bottom: 18px; }
+		.sp-section-title {
+			font-size: 9px;
+			letter-spacing: 3px;
+			text-transform: uppercase;
+			color: rgba(100, 180, 220, 0.4);
+			margin-bottom: 12px;
+			padding-bottom: 6px;
+			border-bottom: 1px solid rgba(60, 140, 200, 0.08);
+		}
+		.sp-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 2px;
+		}
+		.sp-label {
+			font-size: 11px;
+			color: rgba(180, 215, 235, 0.55);
+			font-weight: 400;
+		}
+		.sp-val {
+			font-size: 10px;
+			color: rgba(100, 210, 235, 0.5);
+			min-width: 32px;
+			text-align: right;
+			font-variant-numeric: tabular-nums;
+		}
+		.sp-slider {
+			width: 100%;
+			margin-top: 0;
+			margin-bottom: 12px;
+			-webkit-appearance: none;
+			appearance: none;
+			height: 3px;
+			border-radius: 2px;
+			background: rgba(60, 140, 200, 0.12);
+			outline: none;
+		}
+		.sp-slider::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background: rgba(80, 180, 220, 0.6);
+			cursor: pointer;
+			transition: background 0.2s;
+		}
+		.sp-slider::-webkit-slider-thumb:hover {
+			background: rgba(80, 210, 240, 0.9);
+		}
+		.sp-toggle-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+		.sp-toggle {
+			position: relative;
+			width: 36px;
+			height: 20px;
+			border-radius: 10px;
+			background: rgba(60, 140, 200, 0.15);
+			cursor: pointer;
+			transition: background 0.3s;
+		}
+		.sp-toggle.active { background: rgba(40, 160, 210, 0.5); }
+		.sp-toggle::after {
+			content: '';
+			position: absolute;
+			top: 3px;
+			left: 3px;
+			width: 14px;
+			height: 14px;
+			border-radius: 50%;
+			background: rgba(140, 220, 240, 0.7);
+			transition: transform 0.3s;
+		}
+		.sp-toggle.active::after { transform: translateX(16px); }
+
+		.sp-color-row {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+		.sp-color-input {
+			-webkit-appearance: none;
+			appearance: none;
+			width: 32px;
+			height: 20px;
+			border: 1px solid rgba(60, 140, 200, 0.2);
+			border-radius: 4px;
+			background: none;
+			cursor: pointer;
+			padding: 0;
+		}
+		.sp-color-input::-webkit-color-swatch-wrapper { padding: 0; }
+		.sp-color-input::-webkit-color-swatch { border: none; border-radius: 3px; }
+
+		/* ── Nav (floating) ── */
+		.nav-float {
+			position: fixed;
+			top: 24px;
+			left: 0;
+			right: 0;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			padding: 0 40px;
+			z-index: 100;
+			pointer-events: none;
+			opacity: 0;
+			transition: opacity 0.6s;
+		}
+
+		.nav-float.visible { opacity: 1; }
+
+		.nav-logo {
+			font-family: 'Playfair Display', serif;
+			font-size: 18px;
+			color: var(--color-heading, rgba(220, 245, 255, 0.8));
+			letter-spacing: 1px;
+			pointer-events: auto;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 28px;
+			pointer-events: auto;
+		}
+
+		.nav-links a {
+			font-size: 11px;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			color: var(--color-body, rgba(180, 220, 240, 0.55));
+			text-decoration: none;
+			transition: color 0.3s;
+			font-weight: 500;
+		}
+
+		.nav-links a:hover { color: var(--color-accent, rgba(80, 220, 240, 0.95)); }
+
+		/* Hamburger button */
+		.nav-hamburger {
+			display: none;
+			pointer-events: auto;
+			width: 36px;
+			height: 36px;
+			background: rgba(5, 18, 28, 0.4);
+			backdrop-filter: blur(12px);
+			border: 1px solid rgba(60, 140, 200, 0.15);
+			border-radius: 8px;
+			cursor: pointer;
+			position: relative;
+			flex-shrink: 0;
+			transition: background 0.3s, border-color 0.3s;
+		}
+
+		.nav-hamburger:hover {
+			background: rgba(10, 45, 70, 0.5);
+			border-color: rgba(60, 140, 200, 0.3);
+		}
+
+		.nav-hamburger span {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			width: 16px;
+			height: 1.5px;
+			background: var(--color-body, rgba(180, 220, 240, 0.7));
+			border-radius: 1px;
+			transition: transform 0.3s, opacity 0.3s;
+		}
+
+		.nav-hamburger span:nth-child(1) { top: 10px; }
+		.nav-hamburger span:nth-child(2) { top: 17px; }
+		.nav-hamburger span:nth-child(3) { top: 24px; }
+
+		.nav-hamburger.open span:nth-child(1) {
+			transform: translateX(-50%) translateY(7px) rotate(45deg);
+		}
+		.nav-hamburger.open span:nth-child(2) {
+			opacity: 0;
+			transform: translateX(-50%);
+		}
+		.nav-hamburger.open span:nth-child(3) {
+			transform: translateX(-50%) translateY(-7px) rotate(-45deg);
+		}
+
+		/* Settings gear button */
+		.settings-gear {
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			z-index: 200;
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			background: rgba(5, 18, 28, 0.45);
+			backdrop-filter: blur(12px);
+			border: 1px solid rgba(60, 140, 200, 0.15);
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			transition: background 0.3s, border-color 0.3s, transform 0.3s;
+			pointer-events: auto;
+			opacity: 0.5;
+		}
+		.settings-gear:hover {
+			opacity: 1;
+			background: rgba(10, 45, 70, 0.5);
+			border-color: rgba(60, 140, 200, 0.3);
+			transform: rotate(30deg);
+		}
+		.settings-gear.active {
+			opacity: 1;
+			border-color: rgba(80, 180, 220, 0.4);
+		}
+		.settings-gear svg {
+			width: 16px;
+			height: 16px;
+			fill: none;
+			stroke: rgba(100, 200, 230, 0.6);
+			stroke-width: 1.5;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+		}
+
+		/* Mobile overlay menu */
+		.nav-mobile-overlay {
+			position: fixed;
+			top: 0;
+			right: 0;
+			width: 100%;
+			height: 100vh;
+			background: rgba(0, 5, 12, 0.88);
+			backdrop-filter: blur(24px);
+			z-index: 99;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 32px;
+			opacity: 0;
+			visibility: hidden;
+			transition: opacity 0.35s ease, visibility 0.35s;
+			pointer-events: none;
+		}
+
+		.nav-mobile-overlay.open {
+			opacity: 1;
+			visibility: visible;
+			pointer-events: auto;
+		}
+
+		.nav-mobile-overlay a {
+			font-size: 14px;
+			letter-spacing: 3px;
+			text-transform: uppercase;
+			color: var(--color-body, rgba(180, 220, 240, 0.65));
+			text-decoration: none;
+			transition: color 0.3s, transform 0.3s;
+			font-weight: 500;
+			transform: translateY(10px);
+			opacity: 0;
+		}
+
+		.nav-mobile-overlay.open a {
+			opacity: 1;
+			transform: translateY(0);
+		}
+
+		.nav-mobile-overlay.open a:nth-child(1) { transition-delay: 0.06s; }
+		.nav-mobile-overlay.open a:nth-child(2) { transition-delay: 0.12s; }
+		.nav-mobile-overlay.open a:nth-child(3) { transition-delay: 0.18s; }
+		.nav-mobile-overlay.open a:nth-child(4) { transition-delay: 0.24s; }
+
+		.nav-mobile-overlay a:hover {
+			color: var(--color-accent, rgba(80, 220, 240, 0.95));
+		}
+
+		@media (max-width: 768px) {
+			.nav-links { display: none; }
+			.nav-hamburger { display: block; }
+			.nav-float { padding: 0 24px; }
+		}
+
+		.progress-bar {
+			position: fixed;
+			top: 0; left: 0;
+			height: 2px;
+			background: rgba(80, 220, 240, 0.6);
+			z-index: 200;
+			width: 0;
+			transition: width 0.1s linear;
+		}
+
+		.revealed {
+			opacity: 1 !important;
+			transform: translateY(0) !important;
+			transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+						transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+		}
+
+		.delay-1 { transition-delay: 0.1s !important; }
+		.delay-2 { transition-delay: 0.25s !important; }
+		.delay-3 { transition-delay: 0.4s !important; }
+		.delay-4 { transition-delay: 0.55s !important; }
+	
 </style>
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -448,6 +790,11 @@
   </script>
 </head>
 <body>
+<button class="settings-gear" id="settingsGear" aria-label="Settings">
+		<svg viewBox="0 0 24 24"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1Z"/></svg>
+	</button>
+	<div class="settings-panel" id="settingsPanel"></div>
+<div class="progress-bar" id="progressBar" style="position:fixed;top:0;left:0;height:2px;background:rgba(80,220,240,0.6);z-index:200;width:0;transition:width 0.1s linear;"></div>
   <div id="error-log" style="position:fixed; top:10px; left:10px; z-index:99999; color:red; background:black; font-family:monospace; white-space:pre-wrap; padding:10px; display:none;"></div>
   <script>
     window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -480,7 +827,7 @@
     
     <!-- Scrollable content above background -->
     <div class="home-content-scroll">
-      <div class="hero-container">
+      <div class="hero-container section" data-stage="0">
         <h1 class="hero-title">
           Tell us <span class="italic-serif">what</span> you need.<br>
           We connect <span class="italic-serif">you</span> with the <span class="gradient-text">right people</span>.
@@ -513,7 +860,8 @@
 
 
   <!-- WebGPU Interactive Grass Background -->
-  <script type="module">
+  
+</html><script type="module">
 		import * as THREE from 'three/webgpu';
 		import {
 			Fn, uniform, float, vec3, instancedArray, instanceIndex, uv,
@@ -574,7 +922,7 @@
 		renderer.setSize(innerWidth, innerHeight);
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		renderer.toneMappingExposure = 1.0;
-		/* Using existing grass-canvas instead of appending new one */
+		document.body.appendChild(renderer.domElement);
 		await renderer.init();
 
 		// ─── GPU Buffers ────────────────────────────────────────────────────
@@ -846,7 +1194,7 @@
 		const grassPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
 		const hitPoint = new THREE.Vector3();
 
-		if() .addEventListener('mousemove', (e) => {
+		window.addEventListener('mousemove', (e) => {
 			mouseNDC.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
 			raycaster.setFromCamera(mouseNDC, camera);
 			if (raycaster.ray.intersectPlane(grassPlane, hitPoint)) {
@@ -855,10 +1203,10 @@
 				mouseFocusDist = camera.position.distanceTo(hitPoint);
 			}
 		});
-		if() .addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
+		window.addEventListener('mouseleave', () => mouseWorld.value.set(99999, 0, 99999));
 
 		let resizeTimeout;
-		if() .addEventListener('resize', () => {
+		window.addEventListener('resize', () => {
 			clearTimeout(resizeTimeout);
 			resizeTimeout = setTimeout(() => {
 				camera.aspect = innerWidth / innerHeight;
@@ -881,9 +1229,9 @@
 			settingsGear.classList.toggle('active', settingsOpen);
 		}
 
-		if() .addEventListener('click', toggleSettings);
+		settingsGear.addEventListener('click', toggleSettings);
 
-		if() .addEventListener('keydown', (e) => {
+		window.addEventListener('keydown', (e) => {
 			if (e.key === 's' || e.key === 'S') {
 				// Don't toggle if user is typing in an input
 				if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -1060,7 +1408,7 @@
 			skyControls.forEach((c, idx) => {
 				const id = `sp_sky_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					skyColors[c.key].set(input.value);
 					scene.background = buildSkyTexture();
 				});
@@ -1070,7 +1418,7 @@
 			colorControls.forEach((c, idx) => {
 				const id = `sp_color_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					c.u.value.set(input.value);
 					if (c.extra) c.extra(input.value);
 				});
@@ -1130,8 +1478,8 @@
 				}
 			}
 
-			if() .addEventListener('click', () => setMode('scroll'));
-			if() .addEventListener('click', () => setMode('edit'));
+			modeScrollBtn.addEventListener('click', () => setMode('scroll'));
+			modeEditBtn.addEventListener('click', () => setMode('edit'));
 
 			let expandedStage = -1;
 
@@ -1228,7 +1576,7 @@
 				const stageEl = document.getElementById(`cp_stage_${i}`);
 
 
-				if() .addEventListener('click', () => {
+				header.addEventListener('click', () => {
 					// Only respond in edit mode
 					if (editorMode !== 'edit') return;
 
@@ -1268,7 +1616,7 @@
 				fields.forEach(f => {
 					const slider = document.getElementById(`cp_${i}_${f.key}`);
 					const valEl = document.getElementById(`cp_${i}_${f.key}_v`);
-					if() .addEventListener('input', () => {
+					slider.addEventListener('input', () => {
 						kf[f.idx] = parseFloat(slider.value);
 						valEl.textContent = kf[f.idx].toFixed(1);
 					});
@@ -1277,7 +1625,7 @@
 				// DoF enabled toggle per stage
 				const dofToggleEl = document.getElementById(`cp_${i}_dof`);
 				const dofControlsEl = document.getElementById(`cp_${i}_dof_controls`);
-				if() .addEventListener('click', () => {
+				dofToggleEl.addEventListener('click', () => {
 					kf[9] = kf[9] ? 0 : 1;
 					dofToggleEl.classList.toggle('active', !!kf[9]);
 					dofControlsEl.style.opacity = kf[9] ? '1' : '0.3';
@@ -1287,7 +1635,7 @@
 				// Focus distance slider
 				const fdSlider = document.getElementById(`cp_${i}_fd`);
 				const fdVal = document.getElementById(`cp_${i}_fd_v`);
-				if() .addEventListener('input', () => {
+				fdSlider.addEventListener('input', () => {
 					kf[7] = parseFloat(fdSlider.value);
 					fdVal.textContent = kf[7].toFixed(1);
 				});
@@ -1296,7 +1644,7 @@
 				const afToggle = document.getElementById(`cp_${i}_af`);
 				const manualFocusEl = document.getElementById(`cp_${i}_manual_focus`);
 				const afSettingsEl = document.getElementById(`cp_${i}_af_settings`);
-				if() .addEventListener('click', () => {
+				afToggle.addEventListener('click', () => {
 					kf[8] = kf[8] ? 0 : 1;
 					afToggle.classList.toggle('active', !!kf[8]);
 					manualFocusEl.style.opacity = kf[8] ? '0.3' : '1';
@@ -1308,7 +1656,7 @@
 				// AF Speed slider
 				const afspdSlider = document.getElementById(`cp_${i}_afspd`);
 				const afspdVal = document.getElementById(`cp_${i}_afspd_v`);
-				if() .addEventListener('input', () => {
+				afspdSlider.addEventListener('input', () => {
 					kf[12] = parseFloat(afspdSlider.value);
 					afspdVal.textContent = kf[12].toFixed(1);
 				});
@@ -1316,7 +1664,7 @@
 				// AF Min slider
 				const afminSlider = document.getElementById(`cp_${i}_afmin`);
 				const afminVal = document.getElementById(`cp_${i}_afmin_v`);
-				if() .addEventListener('input', () => {
+				afminSlider.addEventListener('input', () => {
 					kf[13] = parseFloat(afminSlider.value);
 					afminVal.textContent = kf[13].toFixed(1);
 				});
@@ -1324,7 +1672,7 @@
 				// AF Max slider
 				const afmaxSlider = document.getElementById(`cp_${i}_afmax`);
 				const afmaxVal = document.getElementById(`cp_${i}_afmax_v`);
-				if() .addEventListener('input', () => {
+				afmaxSlider.addEventListener('input', () => {
 					kf[14] = parseFloat(afmaxSlider.value);
 					afmaxVal.textContent = kf[14].toFixed(1);
 				});
@@ -1332,7 +1680,7 @@
 				// Focal Length slider
 				const flSlider = document.getElementById(`cp_${i}_fl`);
 				const flVal = document.getElementById(`cp_${i}_fl_v`);
-				if() .addEventListener('input', () => {
+				flSlider.addEventListener('input', () => {
 					kf[10] = parseFloat(flSlider.value);
 					flVal.textContent = kf[10].toFixed(1);
 				});
@@ -1340,7 +1688,7 @@
 				// Bokeh Scale slider
 				const bkSlider = document.getElementById(`cp_${i}_bk`);
 				const bkVal = document.getElementById(`cp_${i}_bk_v`);
-				if() .addEventListener('input', () => {
+				bkSlider.addEventListener('input', () => {
 					kf[11] = parseFloat(bkSlider.value);
 					bkVal.textContent = kf[11].toFixed(1);
 				});
@@ -1351,7 +1699,7 @@
 					const slider = document.getElementById(sid);
 					const valEl = document.getElementById(`${sid}_v`);
 					if (slider && valEl) {
-						if() .addEventListener('input', () => {
+						slider.addEventListener('input', () => {
 							const v = parseFloat(slider.value);
 							stageParams[i][k] = v;
 							valEl.textContent = v.toFixed(2);
@@ -1377,7 +1725,7 @@
 					const cpId = `sp_stage_${i}_cpick_${colorName}`;
 					const cpEl = document.getElementById(cpId);
 					if (cpEl) {
-						if() .addEventListener('input', () => {
+						cpEl.addEventListener('input', () => {
 							const hex = cpEl.value;
 							const r = parseInt(hex.substr(1,2),16)/255;
 							const g = parseInt(hex.substr(3,2),16)/255;
@@ -1425,17 +1773,17 @@
 
 			// Copy Path JSON button
 			const copyPathBtn = document.getElementById('copyPathBtn');
-			if() .addEventListener('mouseenter', () => {
+			copyPathBtn.addEventListener('mouseenter', () => {
 				copyPathBtn.style.background = 'rgba(60,140,200,0.2)';
 				copyPathBtn.style.borderColor = 'rgba(80,180,220,0.4)';
 				copyPathBtn.style.color = 'rgba(140,220,240,0.8)';
 			});
-			if() .addEventListener('mouseleave', () => {
+			copyPathBtn.addEventListener('mouseleave', () => {
 				copyPathBtn.style.background = 'rgba(60,140,200,0.08)';
 				copyPathBtn.style.borderColor = 'rgba(60,140,200,0.2)';
 				copyPathBtn.style.color = 'rgba(100,190,220,0.5)';
 			});
-			if() .addEventListener('click', () => {
+			copyPathBtn.addEventListener('click', () => {
 				const json = JSON.stringify(cameraPath.map((kf, i) => ({
 					stage: stageNames[i],
 					scroll: kf[0],
@@ -1477,14 +1825,14 @@
 			typoColors.forEach((tc, idx) => {
 				const id = `sp_typo_${idx}`;
 				const input = document.getElementById(id);
-				if() .addEventListener('input', () => {
+				input.addEventListener('input', () => {
 					document.documentElement.style.setProperty(tc.cssVar, input.value);
 				});
 			});
 
 			// Global DoF toggle
 			const globalDofToggle = document.getElementById('globalDofToggle');
-			if() .addEventListener('click', () => {
+			globalDofToggle.addEventListener('click', () => {
 				globalDofEnabled = !globalDofEnabled;
 				globalDofToggle.classList.toggle('active', globalDofEnabled);
 				if (!globalDofEnabled) {
@@ -1495,7 +1843,7 @@
 
 			// FPS toggle
 			const fpsToggle = document.getElementById('fpsToggle');
-			if() .addEventListener('click', () => {
+			fpsToggle.addEventListener('click', () => {
 				fpsEnabled = !fpsEnabled;
 				fpsToggle.classList.toggle('active', fpsEnabled);
 				if (fpsOverlay) fpsOverlay.style.display = fpsEnabled ? 'block' : 'none';
@@ -1517,7 +1865,10 @@
 
 		// ─── Scroll-Driven Camera (one keyframe per section) ───────────────
 		// [scrollProgress, posX, posY, posZ, lookX, lookY, lookZ]
-		const stageNames = ['Hero', 'Manifesto', 'Pillars', 'Stats', 'Quote', 'CTA', 'Footer'];
+		
+        const stageNames = ['Hero', 'Command Node', 'The Protocol', 'The Crossroads'];
+        
+
 
 		// Per-stage parameter definitions with defaults
 		// Each key maps to: { uniform, default, min, max, step, label, group }
@@ -1626,22 +1977,14 @@
 
 		// Apply exported per-stage overrides
 		(function applyExportedParams() {
-			const exported = [
-				// Hero (0) — deep ocean blues
-				{ bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78, goldenTipR:0.06, goldenTipG:0.50, goldenTipB:0.72, greenTipR:0.02, greenTipG:0.22, greenTipB:0.38, midR:0.014, midG:0.095, midB:0.18 },
-				// Manifesto (1) — slightly brighter
-				{ bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78, goldenTipR:0.06, goldenTipG:0.50, goldenTipB:0.72, greenTipR:0.02, greenTipG:0.22, greenTipB:0.38, midR:0.014, midG:0.095, midB:0.18 },
-				// Pillars (2) — cool teal-silver palette
-				{ bladeBaseR:0, bladeBaseG:0.05, bladeBaseB:0.12, bladeTipR:0.75, bladeTipG:0.92, bladeTipB:0.97, goldenTipR:0.20, goldenTipG:0.70, goldenTipB:0.88, greenTipR:0.04, greenTipG:0.30, greenTipB:0.50, midR:0.008, midG:0.055, midB:0.12, colorVar:1 },
-				// Stats (3) — rippling mid-depth
-				{ fogStart:0, fogEnd:12.5, bladeHeight:2, bladeHeightVar:1, bladeLean:0, windSpeed:1.3, windAmplitude:0.21, bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78, goldenTipR:0.06, goldenTipG:0.50, goldenTipB:0.72, greenTipR:0.02, greenTipG:0.22, greenTipB:0.38, midR:0.014, midG:0.095, midB:0.18 },
-				// Quote (4) — luminous deep
-				{ bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78, goldenTipR:0.06, goldenTipG:0.50, goldenTipB:0.72, greenTipR:0.02, greenTipG:0.22, greenTipB:0.38, midR:0.014, midG:0.095, midB:0.18 },
-				// CTA (5) — short kelp-like, teal shift
-				{ fogStart:7, bladeTipWidth:0.27, bladeHeight:0.9, bladeHeightVar:0, bladeLean:0, bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78, goldenTipR:0.06, goldenTipG:0.50, goldenTipB:0.72, greenTipR:0.02, greenTipG:0.22, greenTipB:0.38, midR:0.014, midG:0.095, midB:0.18 },
-				// Footer (6) — abyss fade
-				{ fogStart:2, fogEnd:10, bladeHeight:2, bladeHeightVar:0, bladeLean:0, windSpeed:1.3, windAmplitude:0.21, bladeBaseR:0, bladeBaseG:0.028, bladeBaseB:0.07, bladeTipR:0.05, bladeTipG:0.35, bladeTipB:0.50, goldenTipR:0.04, goldenTipG:0.28, goldenTipB:0.42, greenTipR:0.01, greenTipG:0.12, greenTipB:0.22, midR:0, midG:0, midB:0 },
-			];
+			
+            const exported = [
+                { bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78 },
+                { bladeBaseR:0.008, bladeBaseG:0.047, bladeBaseB:0.094, bladeTipR:0.09, bladeTipG:0.62, bladeTipB:0.78 },
+                { bladeBaseR:0, bladeBaseG:0.05, bladeBaseB:0.12, bladeTipR:0.75, bladeTipG:0.92, bladeTipB:0.97 },
+                { fogStart:2, fogEnd:10, bladeHeight:2, bladeHeightVar:0, bladeLean:0, windSpeed:1.3, windAmplitude:0.21, bladeBaseR:0, bladeBaseG:0.028, bladeBaseB:0.07, bladeTipR:0.05, bladeTipG:0.35, bladeTipB:0.50 }
+            ];
+
 			exported.forEach((overrides, i) => {
 				Object.keys(overrides).forEach(k => {
 					if (k in stageParams[i]) stageParams[i][k] = overrides[k];
@@ -1706,39 +2049,49 @@
 		let currentScrollT = 0;
 		let targetScrollT = 0;
 
-		
 		function getScrollProgress() {
-			const container = document.querySelector('.home-content-scroll') || document.documentElement;
-			const scrollTop = container.scrollTop || window.pageYOffset;
-			const docHeight = container.scrollHeight;
-			const winHeight = container.clientHeight || window.innerHeight;
+			const scrollContainer = document.querySelector('.home-content-scroll');
+      if (!scrollContainer) return 0;
+      const scrollTop = scrollContainer.scrollTop;
+      const docHeight = scrollContainer.scrollHeight;
+      const winHeight = scrollContainer.clientHeight;
 			const scrollable = docHeight - winHeight;
 			return scrollable > 0 ? Math.min(1, Math.max(0, scrollTop / scrollable)) : 0;
 		}
 
-		const container = document.querySelector('.home-content-scroll');
-		if (container) {
-			if() .addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
-		}
-
-
 		// Sync cameraPath scroll values to actual DOM section positions
-		function syncCameraPathToDOM() { /* Neutered */ }
+		function syncCameraPathToDOM() {
+			const scrollContainer = document.querySelector('.home-content-scroll');
+      if (!scrollContainer) return;
+      const docHeight = scrollContainer.scrollHeight;
+      const winHeight = scrollContainer.clientHeight;
+			const scrollable = docHeight - winHeight;
+			if (scrollable <= 0) return;
+			cameraPath.forEach((kf, i) => {
+				const section = document.querySelector(`.section[data-stage="${i}"]`);
+				if (section) {
+					const sectionTop = section.offsetTop;
+					kf[0] = Math.min(1, Math.max(0, sectionTop / scrollable));
+				}
+			});
+			// Ensure footer (last) is always 1.0
+			cameraPath[cameraPath.length - 1][0] = 1.0;
+		}
 
 		// Sync on load and on resize
 		syncCameraPathToDOM();
-		if() .addEventListener('resize', () => {
+		window.addEventListener('resize', () => {
 			setTimeout(syncCameraPathToDOM, 100);
 		});
 		// Re-sync after fonts/images load
-		if() .addEventListener('load', () => {
+		window.addEventListener('load', () => {
 			setTimeout(syncCameraPathToDOM, 200);
 			setTimeout(syncCameraPathToDOM, 1000);
 		});
 
 		let _scrollDirty = false;
-		if() .addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
-		if() .addEventListener('touchmove', () => { _scrollDirty = true; }, { passive: true });
+		document.querySelector('.home-content-scroll').addEventListener('scroll', () => { _scrollDirty = true; }, { passive: true });
+		window.addEventListener('touchmove', () => { _scrollDirty = true; }, { passive: true });
 
 		// ─── Reveal on Scroll ──────────────────────────────────────────────
 		const progressBar = document.getElementById('progressBar');
@@ -1768,7 +2121,7 @@
 
 		// ─── Nav Link Click → Scroll to Section ────────────────────────────
 		document.querySelectorAll('[data-nav]').forEach(link => {
-			if() .addEventListener('click', (e) => {
+			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const stageIdx = parseInt(link.dataset.nav);
 				const section = document.querySelector(`.section[data-stage="${stageIdx}"]`);
@@ -1782,13 +2135,13 @@
 		const navHamburger = document.getElementById('navHamburger');
 		const navMobileOverlay = document.getElementById('navMobileOverlay');
 
-		if() .addEventListener('click', () => {
+		navHamburger.addEventListener('click', () => {
 			navHamburger.classList.toggle('open');
 			navMobileOverlay.classList.toggle('open');
 		});
 
 		document.querySelectorAll('[data-nav-mobile]').forEach(link => {
-			if() .addEventListener('click', (e) => {
+			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const stageIdx = parseInt(link.dataset.navMobile);
 				const section = document.querySelector(`.section[data-stage="${stageIdx}"]`);
@@ -2007,5 +2360,6 @@
 
 		renderer.setAnimationLoop(animate);
 	</script>
+
 </body>
 </html>
