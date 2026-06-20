@@ -799,14 +799,18 @@
   <script>
     window.onerror = function(msg, url, lineNo, columnNo, error) {
       const log = document.getElementById('error-log');
-      log.style.display = 'block';
-      log.innerText += 'ERROR: ' + msg + '\n';
+      if (log) {
+        log.style.display = 'block';
+        log.innerText += 'ERROR: ' + msg + ' (at ' + url + ':' + lineNo + ':' + columnNo + ')\n';
+      }
       return false;
     };
     window.addEventListener('unhandledrejection', function(event) {
       const log = document.getElementById('error-log');
-      log.style.display = 'block';
-      log.innerText += 'PROMISE REJECTION: ' + (event.reason && event.reason.message || event.reason) + '\n';
+      if (log) {
+        log.style.display = 'block';
+        log.innerText += 'PROMISE REJECTION: ' + (event.reason && event.reason.message || event.reason) + '\n';
+      }
     });
   </script>
 
@@ -1224,12 +1228,15 @@
 		const settingsGear = document.getElementById('settingsGear');
 
 		function toggleSettings() {
+			if (!settingsPanel || !settingsGear) return;
 			settingsOpen = !settingsOpen;
 			settingsPanel.classList.toggle('open', settingsOpen);
 			settingsGear.classList.toggle('active', settingsOpen);
 		}
 
-		settingsGear.addEventListener('click', toggleSettings);
+		if (settingsGear) {
+			settingsGear.addEventListener('click', toggleSettings);
+		}
 
 		window.addEventListener('keydown', (e) => {
 			if (e.key === 's' || e.key === 'S') {
@@ -2135,18 +2142,20 @@
 		const navHamburger = document.getElementById('navHamburger');
 		const navMobileOverlay = document.getElementById('navMobileOverlay');
 
-		navHamburger.addEventListener('click', () => {
-			navHamburger.classList.toggle('open');
-			navMobileOverlay.classList.toggle('open');
-		});
+		if (navHamburger && navMobileOverlay) {
+			navHamburger.addEventListener('click', () => {
+				navHamburger.classList.toggle('open');
+				navMobileOverlay.classList.toggle('open');
+			});
+		}
 
 		document.querySelectorAll('[data-nav-mobile]').forEach(link => {
 			link.addEventListener('click', (e) => {
 				e.preventDefault();
 				const stageIdx = parseInt(link.dataset.navMobile);
 				const section = document.querySelector(`.section[data-stage="${stageIdx}"]`);
-				navHamburger.classList.remove('open');
-				navMobileOverlay.classList.remove('open');
+				if (navHamburger) navHamburger.classList.remove('open');
+				if (navMobileOverlay) navMobileOverlay.classList.remove('open');
 				if (section) {
 					section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 				}
@@ -2362,7 +2371,7 @@
 	</script>
 
   <!-- React & Babel Integration for Command Node Section -->
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
   <script type="text/babel" data-presets="react">
     const { useState, useEffect } = React;
     const { createRoot } = ReactDOM;
