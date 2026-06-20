@@ -803,7 +803,7 @@
       log.innerText += 'ERROR: ' + msg + '\n';
       return false;
     };
-    if() .addEventListener('unhandledrejection', function(event) {
+    window.addEventListener('unhandledrejection', function(event) {
       const log = document.getElementById('error-log');
       log.style.display = 'block';
       log.innerText += 'PROMISE REJECTION: ' + (event.reason && event.reason.message || event.reason) + '\n';
@@ -860,8 +860,8 @@
 
 
   <!-- WebGPU Interactive Grass Background -->
-  
-</html><script type="module">
+
+  <script type="module">
 		import * as THREE from 'three/webgpu';
 		import {
 			Fn, uniform, float, vec3, instancedArray, instanceIndex, uv,
@@ -2360,6 +2360,147 @@
 
 		renderer.setAnimationLoop(animate);
 	</script>
+
+  <!-- React & Babel Integration for Command Node Section -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+    const { createRoot } = ReactDOM;
+    const { motion, AnimatePresence } = window.Motion;
+
+    const queries = [
+      "> Sourcing: Lead React Architect for Fintech MVP",
+      "> Sourcing: Elite Catering for 500-Guest Gala",
+      "> Sourcing: Brutalist Brand Identity & UI Design"
+    ];
+
+    function CommandNodeSection() {
+      const [currentIndex, setCurrentIndex] = useState(0);
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          setCurrentIndex((prev) => (prev + 1) % queries.length);
+        }, 3000);
+        return () => clearInterval(interval);
+      }, []);
+
+      return (
+        <section className="relative w-full min-h-screen bg-transparent flex flex-col items-center justify-center px-8 py-32 z-20 section" data-stage="1" style={{ pointerEvents: 'auto' }}>
+
+          {/* The Ethos Text Reveal */}
+          <motion.p
+            initial={{ opacity: 0, filter: 'blur(10px)', y: 40 }}
+            whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
+            viewport={{ once: false, amount: 0.3 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="text-2xl md:text-4xl text-gray-400 font-light max-w-4xl text-center leading-relaxed mb-24"
+          >
+            "The market is loud. Talent is hidden. We operate in the quiet space between the problem and the execution. Tell the engine what you need."
+          </motion.p>
+
+          {/* The Command Node Search Bar */}
+          <input
+            type="text"
+            placeholder="Type your objective..."
+            className="w-full max-w-3xl bg-transparent border-b-2 border-white/20 text-white text-3xl md:text-5xl py-4 px-2 focus:outline-none focus:border-[#c19a6b] transition-colors placeholder:text-white/20 font-light text-center"
+          />
+
+          {/* Live Queries Feed */}
+          <div className="h-6 mt-6 overflow-hidden relative w-full flex justify-center">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.5 }}
+                className="text-[#c19a6b]/60 font-mono text-sm tracking-widest uppercase absolute"
+              >
+                {queries[currentIndex]}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+        </section>
+      );
+    }
+
+    const TheMechanismSection = () => {
+      const steps = [
+        { num: '01', title: 'DEFINE', desc: 'You submit your exact parameters, timeline, and scope into the engine.' },
+        { num: '02', title: 'EXTRACT', desc: 'We bypass the noise and isolate the perfect talent from the void.' },
+        { num: '03', title: 'EXECUTE', desc: 'The connection is finalized. The project initiates immediately.' }
+      ];
+
+      return (
+        <section className="w-full min-h-screen bg-transparent text-white flex flex-col items-center justify-center px-8 py-32 z-20 section" data-stage="2">
+          <h2 className="text-[#c19a6b] font-mono tracking-[0.3em] text-sm uppercase mb-16">THE PROTOCOL</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 max-w-6xl w-full">
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.num}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: index * 0.2 }}
+                className="flex flex-col"
+              >
+                <span className="text-6xl md:text-8xl font-light text-white/10 mb-6">{step.num}</span>
+                <h3 className="text-2xl tracking-widest uppercase mb-4 text-white">{step.title}</h3>
+                <p className="text-gray-500 font-light leading-relaxed">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      );
+    };
+
+    const TheCrossroadsSection = () => {
+      return (
+        <footer className="w-full h-[60vh] bg-transparent flex flex-col items-center justify-center px-8 border-t border-white/5 relative z-20 section" data-stage="3">
+          <h2 className="text-3xl md:text-5xl font-light text-white mb-12 text-center">The network is waiting.</h2>
+
+          <div className="hero-buttons-container" style={{ marginTop: 0 }}>
+            <a href="#" className="routing-key client-key">
+              INITIATE A PROJECT
+              <span className="liquid-glare"></span>
+            </a>
+            <div className="advisor-wrapper">
+              <span className="free-capsule">FREE</span>
+              <a href="#" className="routing-key advisor-key">
+                SPEAK WITH AN ADVISOR
+                <span className="liquid-glare"></span>
+              </a>
+            </div>
+            <a href="#" className="routing-key network-key">
+              JOIN THE NETWORK
+              <span className="liquid-glare"></span>
+            </a>
+          </div>
+
+          <p className="absolute bottom-8 text-white/20 text-xs font-mono tracking-widest uppercase">
+            © 2026 ALACADO. PRIVATE NETWORK.
+          </p>
+        </footer>
+      );
+    };
+
+    const App = () => {
+      return (
+        <React.Fragment>
+          <CommandNodeSection />
+          <TheMechanismSection />
+          <TheCrossroadsSection />
+        </React.Fragment>
+      );
+    };
+
+    const rootElement = document.getElementById('command-node-root');
+    if (rootElement) {
+      const root = createRoot(rootElement);
+      root.render(<App />);
+    }
+  </script>
 
 </body>
 </html>
