@@ -231,7 +231,8 @@
   }
 
   /* WebGPU Grass Background Canvas - full screen */
-  #grass-canvas {
+  #grass-canvas,
+  canvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -240,6 +241,87 @@
     z-index: 0;
     pointer-events: none;
     display: block;
+  }
+
+  /* ==========================================================================
+     MOBILE VIEWPORT RULES (max-width: 768px)
+     1) Disable / hide 3D element background entirely to save performance
+     2) Set body / main wrapper background to solid black (#000000)
+     ========================================================================== */
+  @media (max-width: 768px) {
+    /* 1) Hide 3D element background entirely to save performance */
+    #grass-canvas,
+    canvas,
+    .parallax-container,
+    #background-container,
+    #parallax-scene,
+    #scene-2 {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+    }
+
+    /* 2) Set body / main wrapper background to solid black (#000000) */
+    html,
+    body,
+    #homePage,
+    .home-content-scroll,
+    .parallax-container,
+    #background-container {
+      background: #000000 !important;
+      background-color: #000000 !important;
+    }
+
+    /* Frame and notch scaling on mobile */
+    .screen-frame {
+      border-width: 6px !important;
+      border-radius: 16px !important;
+    }
+
+    #homePage {
+      top: 6px !important;
+      left: 6px !important;
+      right: 6px !important;
+      bottom: 6px !important;
+      border-radius: 10px !important;
+    }
+
+    .logo-container {
+      top: 10px !important;
+      width: 180px !important;
+      height: 36px !important;
+    }
+
+    .alacado-logo {
+      font-size: 20px !important;
+      letter-spacing: 0.25em !important;
+    }
+
+    /* Hero section scaling on mobile */
+    .hero-container {
+      padding-left: 1.25rem !important;
+      padding-right: 1.25rem !important;
+      min-height: calc(100vh - 60px) !important;
+      justify-content: center !important;
+    }
+
+    .hero-title {
+      font-size: 2.25rem !important;
+      line-height: 1.2 !important;
+    }
+
+    .hero-buttons-container {
+      gap: 16px !important;
+      margin-top: 32px !important;
+      width: 100% !important;
+    }
+
+    .routing-key {
+      padding: 16px 20px !important;
+      font-size: 12px !important;
+      letter-spacing: 0.1em !important;
+    }
   }
 
 
@@ -773,10 +855,296 @@
 		.delay-3 { transition-delay: 0.4s !important; }
 		.delay-4 { transition-delay: 0.55s !important; }
 	
+/* ==========================================================================
+   SELECTED PROJECTS SECTION — Dark-Themed (from Kodivera)
+   All classes prefixed with sp- and scoped under #selected-projects
+   ========================================================================== */
+
+/* ---------- Section-scoped variables ---------- */
+#selected-projects {
+  --sp-bg: transparent;
+  --sp-ink: rgba(255, 255, 255, 0.95);
+  --sp-muted: rgba(255, 255, 255, 0.4);
+  --sp-rule: rgba(255, 255, 255, 0.12);
+  --sp-accent: #c19a6b;
+  --sp-accent-hover: #f3d1be;
+  --sp-label-color: rgba(255, 255, 255, 0.4);
+  --sp-font-serif: "Cormorant Garamond", Garamond, Georgia, serif;
+  --sp-font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --sp-max-width: 980px;
+}
+
+#selected-projects {
+  padding: 5rem 0 3rem;
+  background: var(--sp-bg);
+}
+
+#selected-projects .sp-container {
+  width: 100%;
+  max-width: var(--sp-max-width);
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+@media (min-width: 769px) {
+  #selected-projects .sp-container {
+    padding: 0 2.5rem;
+  }
+}
+
+#selected-projects .sp-section-label {
+  font-family: var(--sp-font-sans);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 500;
+  color: var(--sp-label-color);
+  margin-bottom: 0.75rem;
+}
+
+#selected-projects .sp-heading {
+  font-family: var(--sp-font-serif);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--sp-ink);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 769px) {
+  #selected-projects .sp-heading {
+    font-size: 2.65rem;
+  }
+}
+
+#selected-projects .sp-work-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+#selected-projects .sp-work-row {
+  border-top: 1px solid var(--sp-rule);
+  padding: 3.5rem 0;
+  background: transparent;
+}
+
+#selected-projects .sp-work-row:last-child {
+  border-bottom: 1px solid var(--sp-rule);
+}
+
+#selected-projects .sp-work-row-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+@media (min-width: 769px) {
+  #selected-projects .sp-work-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+}
+
+#selected-projects .sp-phone-frame {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  aspect-ratio: 9 / 16;
+  align-self: center;
+  border: 12px solid #2a2c2e;
+  border-radius: 36px;
+  box-shadow: inset 0 0 0 4px #000, 0 20px 40px rgba(0, 0, 0, 0.5);
+  background-color: #0a0a0a;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  flex-shrink: 0;
+}
+
+@media (min-width: 769px) {
+  #selected-projects .sp-phone-frame {
+    justify-self: center;
+  }
+}
+
+#selected-projects .sp-phone-frame::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 96px;
+  height: 18px;
+  background-color: #000000;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  z-index: 10;
+}
+
+#selected-projects .sp-phone-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+/* Kodivera-matched Mobile Layout for Selected Projects */
+@media (max-width: 768px) {
+  #selected-projects {
+    padding: 3.5rem 0 2rem;
+  }
+
+  #selected-projects .sp-container {
+    padding: 0 1.25rem;
+  }
+
+  #selected-projects .sp-heading {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  #selected-projects .sp-work-row {
+    padding: 2.5rem 0;
+  }
+
+  #selected-projects .sp-work-row-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.75rem !important;
+  }
+
+  #selected-projects .sp-phone-frame {
+    max-width: 260px;
+    border-width: 8px;
+    border-radius: 22px;
+    box-shadow: inset 0 0 0 2px #000, 0 10px 20px rgba(0, 0, 0, 0.4);
+    margin: 0 auto;
+    order: -1;
+  }
+
+  #selected-projects .sp-phone-frame::before {
+    width: 60px;
+    height: 12px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+
+  #selected-projects .sp-work-info {
+    width: 100%;
+    align-self: flex-start;
+    order: 1;
+  }
+
+  #selected-projects .sp-work-title {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+  }
+
+  #selected-projects .sp-work-details {
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  #selected-projects .sp-work-detail-item {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  #selected-projects .sp-work-btn {
+    display: inline-block;
+    width: fit-content;
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+}
+
+#selected-projects .sp-work-info {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+}
+
+#selected-projects .sp-project-tag {
+  display: inline-block;
+  font-family: var(--sp-font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--sp-muted);
+  margin-bottom: 0.5rem;
+}
+
+#selected-projects .sp-work-title {
+  font-family: var(--sp-font-serif);
+  font-size: 1.85rem;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--sp-ink);
+  margin-bottom: 1rem;
+}
+
+#selected-projects .sp-work-details {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.25rem;
+  padding: 0;
+}
+
+#selected-projects .sp-work-detail-item {
+  font-family: var(--sp-font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+#selected-projects .sp-work-label {
+  font-weight: 600;
+  color: var(--sp-ink);
+  letter-spacing: -0.015em;
+  margin-right: 0.35rem;
+}
+
+#selected-projects .sp-work-btn {
+  display: inline-block;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--sp-font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  text-align: center;
+  width: fit-content;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  color: var(--sp-accent);
+  background-color: rgba(193, 154, 107, 0.08);
+  border: 1px solid rgba(193, 154, 107, 0.3);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 2px rgba(193, 154, 107, 0.15), 0 4px 16px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#selected-projects .sp-work-btn:hover {
+  color: #ffffff;
+  background-color: rgba(193, 154, 107, 0.2);
+  border-color: rgba(193, 154, 107, 0.6);
+  box-shadow: 0 4px 15px rgba(193, 154, 107, 0.25);
+  text-decoration: none;
+}
+
 </style>
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
+  <!-- [REMOVED] React, ReactDOM, Framer Motion CDNs — no longer used -->
 
   <script type="importmap">
     {
@@ -857,8 +1225,122 @@
           </a>
         </div>
       </div>
-      <!-- React Root for Command Node Section -->
-      <div id="command-node-root"></div>
+      <!-- ============ SELECTED PROJECTS (from Kodivera, dark-themed) ============ -->
+      <section id="selected-projects" class="section" data-stage="1" aria-labelledby="sp-work-heading">
+        <div class="sp-container">
+          <p class="sp-section-label">Case Studies</p>
+          <h2 id="sp-work-heading" class="sp-heading">Selected projects.</h2>
+
+          <div class="sp-work-list">
+            <!-- Row 01: ZUVAI QR Menu -->
+            <article class="sp-work-row section" data-stage="1" aria-labelledby="sp-work-01-title">
+              <div class="sp-work-row-grid">
+                <div class="sp-phone-frame">
+                  <img
+                    src="./zuvai.web.app_ (4).png"
+                    alt="ZUVAI restaurant mobile QR menu interface"
+                    width="800"
+                    height="1832"
+                    loading="lazy">
+                </div>
+                <div class="sp-work-info">
+                  <span class="sp-project-tag">DEMO PROJECT</span>
+                  <h3 id="sp-work-01-title" class="sp-work-title">ZUVAI QR Menu</h3>
+                  <ul class="sp-work-details">
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Problem:</strong>
+                      <span>PDF and photo menus are hard to read on a phone and require reprinting when prices change.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">What I built:</strong>
+                      <span>Fast mobile web menu with categorized sections, clear dish descriptions, dietary tags, and instant price updates.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Measured:</strong>
+                      <span>Lighthouse performance 98. Page size 450KB. Load time 0.4s.</span>
+                    </li>
+                  </ul>
+                  <a href="https://zuvai.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">See live menu</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Row 02: WantsAndNeeds E-Commerce -->
+            <article class="sp-work-row section" data-stage="2" aria-labelledby="sp-work-02-title">
+              <div class="sp-work-row-grid">
+                <div class="sp-phone-frame">
+                  <img
+                    src="./wdnd-1.web.app_ (2).png"
+                    alt="WantsAndNeeds custom e-commerce storefront"
+                    width="800"
+                    height="1832"
+                    loading="lazy">
+                </div>
+                <div class="sp-work-info">
+                  <span class="sp-project-tag">DEMO PROJECT</span>
+                  <h3 id="sp-work-02-title" class="sp-work-title">WantsAndNeeds E-Commerce</h3>
+                  <ul class="sp-work-details">
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Problem:</strong>
+                      <span>Retail brands often rely on bloated, expensive e-commerce platforms that slow down the shopping experience.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">What I built:</strong>
+                      <span>A custom e-commerce storefront with a clean product catalog, cart system, and fast checkout flow.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Measured:</strong>
+                      <span>Lighthouse performance 96. Page size 850KB. Load time 0.7s.</span>
+                    </li>
+                  </ul>
+                  <a href="https://wdnd-1.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit store site</a>
+                </div>
+              </div>
+            </article>
+
+            <!-- Row 03: FramesWallet Portfolio -->
+            <article class="sp-work-row section" data-stage="3" aria-labelledby="sp-work-03-title">
+              <div class="sp-work-row-grid">
+                <div class="sp-phone-frame">
+                  <img
+                    src="./frameswallet.vercel.app_.png"
+                    alt="FramesWallet video editing studio portfolio website"
+                    width="800"
+                    height="1832"
+                    loading="lazy">
+                </div>
+                <div class="sp-work-info">
+                  <span class="sp-project-tag">INTERNAL PROJECT</span>
+                  <h3 id="sp-work-03-title" class="sp-work-title">FramesWallet Portfolio</h3>
+                  <ul class="sp-work-details">
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Problem:</strong>
+                      <span>Video editors and creative studios need a professional way to showcase high-quality reels without the clutter of social media feeds.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">What I built:</strong>
+                      <span>A high-performance portfolio site featuring embedded video showcases, service breakdowns, and a direct contact funnel.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Measured:</strong>
+                      <span>Lighthouse performance 99. Page size 1.2MB. Load time 0.6s.</span>
+                    </li>
+                  </ul>
+                  <a href="https://frameswallet.vercel.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit brand site</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+      <!-- ============ END SELECTED PROJECTS ============ -->
+
+      <!-- Site Footer -->
+      <footer class="site-footer section" data-stage="4" style="padding: 4rem 1.25rem 6rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
+        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.15em;">
+          © 2026 ALACADO. PRIVATE NETWORK.
+        </p>
+      </footer>
     </div>
   </div>
 
@@ -919,14 +1401,29 @@
 		camera.position.set(0, 8, 18);
 		camera.lookAt(0, 0, 0);
 
+		// Disable 3D element on mobile viewports to ensure performance, falling back to a solid black background
+		async function init3DGrass() {
+			const isMobileViewport = window.innerWidth <= 768 || window.matchMedia('(max-width: 768px)').matches;
+			if (isMobileViewport) {
+				const existingCanvas = document.getElementById('grass-canvas');
+				if (existingCanvas) existingCanvas.remove();
+				return;
+			}
+
 		const renderer = new THREE.WebGPURenderer({ antialias: true });
-		const isMobile = window.innerWidth < 768;
+		const isMobile = false;
 		const maxDPR = window.innerWidth < 1200 ? 1.5 : Math.min(devicePixelRatio, 2);
 		renderer.setPixelRatio(maxDPR);
 		renderer.setSize(innerWidth, innerHeight);
 		renderer.toneMapping = THREE.ACESFilmicToneMapping;
 		renderer.toneMappingExposure = 1.0;
-		document.body.appendChild(renderer.domElement);
+		renderer.domElement.id = 'grass-canvas';
+		const existingCanvas = document.getElementById('grass-canvas');
+		if (existingCanvas && existingCanvas.parentNode) {
+			existingCanvas.parentNode.replaceChild(renderer.domElement, existingCanvas);
+		} else {
+			document.body.appendChild(renderer.domElement);
+		}
 		await renderer.init();
 
 		// ─── GPU Buffers ────────────────────────────────────────────────────
@@ -1873,7 +2370,7 @@
 		// ─── Scroll-Driven Camera (one keyframe per section) ───────────────
 		// [scrollProgress, posX, posY, posZ, lookX, lookY, lookZ]
 		
-        const stageNames = ['Hero', 'Command Node', 'The Protocol', 'The Crossroads'];
+        const stageNames = ['Hero', 'ZUVAI QR Menu', 'WantsAndNeeds', 'FramesWallet', 'Network'];
         
 
 
@@ -2186,6 +2683,7 @@
 		const _scrollHint = document.querySelector('.scroll-hint');
 
 		function animate() {
+			if (window.innerWidth <= 768) return;
 			const dt = Math.min(clock.getDelta(), 0.05);
 
 			if (_scrollDirty) {
@@ -2230,7 +2728,7 @@
 			progressBar.style.width = (currentScrollT * 100) + '%';
 
 		// Nav visibility
-		navFloat.classList.toggle('visible', currentScrollT > 0.08);
+		if (navFloat) navFloat.classList.toggle('visible', currentScrollT > 0.08);
 
 		// Fade out scroll hint on scroll (cached element)
 		if (_scrollHint) {
@@ -2367,149 +2865,15 @@
 			postProcessing.render();
 		}
 
-		renderer.setAnimationLoop(animate);
+			renderer.setAnimationLoop(animate);
+		}
+
+		init3DGrass().catch(err => {
+			console.error("3D background init error:", err);
+		});
 	</script>
 
-  <!-- React & Babel Integration for Command Node Section -->
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script type="text/babel" data-presets="react">
-    const { useState, useEffect } = React;
-    const { createRoot } = ReactDOM;
-    const { motion, AnimatePresence } = window.Motion;
-
-    const queries = [
-      "> Sourcing: Lead React Architect for Fintech MVP",
-      "> Sourcing: Elite Catering for 500-Guest Gala",
-      "> Sourcing: Brutalist Brand Identity & UI Design"
-    ];
-
-    function CommandNodeSection() {
-      const [currentIndex, setCurrentIndex] = useState(0);
-
-      useEffect(() => {
-        const interval = setInterval(() => {
-          setCurrentIndex((prev) => (prev + 1) % queries.length);
-        }, 3000);
-        return () => clearInterval(interval);
-      }, []);
-
-      return (
-        <section className="relative w-full min-h-screen bg-transparent flex flex-col items-center justify-center px-8 py-32 z-20 section" data-stage="1" style={{ pointerEvents: 'auto' }}>
-
-          {/* The Ethos Text Reveal */}
-          <motion.p
-            initial={{ opacity: 0, filter: 'blur(10px)', y: 40 }}
-            whileInView={{ opacity: 1, filter: 'blur(0px)', y: 0 }}
-            viewport={{ once: false, amount: 0.3 }}
-            transition={{ duration: 1.2, ease: "easeOut" }}
-            className="text-2xl md:text-4xl text-gray-400 font-light max-w-4xl text-center leading-relaxed mb-24"
-          >
-            "The market is loud. Talent is hidden. We operate in the quiet space between the problem and the execution. Tell the engine what you need."
-          </motion.p>
-
-          {/* The Command Node Search Bar */}
-          <input
-            type="text"
-            placeholder="Type your objective..."
-            className="w-full max-w-3xl bg-transparent border-b-2 border-white/20 text-white text-3xl md:text-5xl py-4 px-2 focus:outline-none focus:border-[#c19a6b] transition-colors placeholder:text-white/20 font-light text-center"
-          />
-
-          {/* Live Queries Feed */}
-          <div className="h-6 mt-6 overflow-hidden relative w-full flex justify-center">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentIndex}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.5 }}
-                className="text-[#c19a6b]/60 font-mono text-sm tracking-widest uppercase absolute"
-              >
-                {queries[currentIndex]}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-
-        </section>
-      );
-    }
-
-    const TheMechanismSection = () => {
-      const steps = [
-        { num: '01', title: 'DEFINE', desc: 'You submit your exact parameters, timeline, and scope into the engine.' },
-        { num: '02', title: 'EXTRACT', desc: 'We bypass the noise and isolate the perfect talent from the void.' },
-        { num: '03', title: 'EXECUTE', desc: 'The connection is finalized. The project initiates immediately.' }
-      ];
-
-      return (
-        <section className="w-full min-h-screen bg-transparent text-white flex flex-col items-center justify-center px-8 py-32 z-20 section" data-stage="2">
-          <h2 className="text-[#c19a6b] font-mono tracking-[0.3em] text-sm uppercase mb-16">THE PROTOCOL</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 max-w-6xl w-full">
-            {steps.map((step, index) => (
-              <motion.div
-                key={step.num}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8, delay: index * 0.2 }}
-                className="flex flex-col"
-              >
-                <span className="text-6xl md:text-8xl font-light text-white/10 mb-6">{step.num}</span>
-                <h3 className="text-2xl tracking-widest uppercase mb-4 text-white">{step.title}</h3>
-                <p className="text-gray-500 font-light leading-relaxed">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      );
-    };
-
-    const TheCrossroadsSection = () => {
-      return (
-        <footer className="w-full h-[60vh] bg-transparent flex flex-col items-center justify-center px-8 border-t border-white/5 relative z-20 section" data-stage="3">
-          <h2 className="text-3xl md:text-5xl font-light text-white mb-12 text-center">The network is waiting.</h2>
-
-          <div className="hero-buttons-container" style={{ marginTop: 0 }}>
-            <a href="#" className="routing-key client-key">
-              INITIATE A PROJECT
-              <span className="liquid-glare"></span>
-            </a>
-            <div className="advisor-wrapper">
-              <span className="free-capsule">FREE</span>
-              <a href="#" className="routing-key advisor-key">
-                SPEAK WITH AN ADVISOR
-                <span className="liquid-glare"></span>
-              </a>
-            </div>
-            <a href="#" className="routing-key network-key">
-              JOIN THE NETWORK
-              <span className="liquid-glare"></span>
-            </a>
-          </div>
-
-          <p className="absolute bottom-8 text-white/20 text-xs font-mono tracking-widest uppercase">
-            © 2026 ALACADO. PRIVATE NETWORK.
-          </p>
-        </footer>
-      );
-    };
-
-    const App = () => {
-      return (
-        <React.Fragment>
-          <CommandNodeSection />
-          <TheMechanismSection />
-          <TheCrossroadsSection />
-        </React.Fragment>
-      );
-    };
-
-    const rootElement = document.getElementById('command-node-root');
-    if (rootElement) {
-      const root = createRoot(rootElement);
-      root.render(<App />);
-    }
-  </script>
+  <!-- [REMOVED] React & Babel - no longer needed (CommandNode, Protocol, Network sections deleted) -->
 
 </body>
 </html>
