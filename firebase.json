@@ -1,11 +1,14 @@
 {
   "hosting": {
+    "site": "alacado",
     "public": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**",
-      "src/**"
+      "src/**",
+      "temp.mjs",
+      "swap-grass.js"
     ]
   }
 }
