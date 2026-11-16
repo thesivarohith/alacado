@@ -10,15 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  html,
-  body {
+  html, body {
     background: #ffffff !important;
     background-color: #ffffff !important;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
-    margin: 0;
-    padding: 0;
   }
 
   /* Viewport-locked, full-screen container */
@@ -140,87 +137,104 @@
     clip-path: inset(0 0 0 50%);
   }
 
-  /* --- Sleek Floating Card & Brand Header Styling --- */
+  /* --- Floating Frame & Sleek Rounded Card Architecture (Desktop & Mobile) --- */
+  
+  /* Outer Floating Frame Container (Clean white frame with even padding) */
+  .floating-frame-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    padding: 16px; /* Desktop even padding (matches p-4) */
+    background: #ffffff;
+    background-color: #ffffff;
+    pointer-events: none;
+    z-index: 10;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Sleek Rounded Dark Interface Card */
+  #homePage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px; /* Desktop rounded-3xl */
+    overflow: hidden; /* Contains background shader, canvas, and scroll content cleanly */
+    background: #000915; /* Luxurious dark navy/black */
+    opacity: 0;
+    pointer-events: auto;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+  #homePage.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Clean Top Header Logo (Inside the dark floating card, perfectly legible) */
+  .logo-container {
+    position: absolute;
+    top: 24px;
+    left: 50%;
+    transform: translateX(-50%) scale(0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 30;
+    background: transparent !important;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .logo-container.visible {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* Premium Rose-Gold ALACADO Logo */
+  .logo-link {
+    text-decoration: none;
+    pointer-events: auto;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .alacado-logo {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 24px;
+    letter-spacing: 0.35em;
+    background: linear-gradient(135deg, #ffffff 0%, #fac8aa 40%, #eebea2 70%, #d99e7c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: #eebea2;
+    display: inline-block;
+    padding-left: 0.35em;
+    line-height: 1;
+    text-shadow: 0 0 25px rgba(238, 190, 162, 0.4);
+    pointer-events: auto;
+    transition: transform 0.3s ease, text-shadow 0.3s ease;
+  }
+
+  .logo-link:hover .alacado-logo {
+    transform: scale(1.03);
+    text-shadow: 0 0 35px rgba(250, 200, 170, 0.65);
+  }
+
+  /* Deprecated: screen-frame and dipping SVG notch hidden */
   .screen-frame,
   .logo-tab-svg {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
-  }
-
-  /* Floating Top Header Navigation */
-  .navbar-header {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 86px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 50;
-    pointer-events: none;
-    background: linear-gradient(180deg, rgba(0, 9, 21, 0.8) 0%, rgba(0, 9, 21, 0.25) 60%, transparent 100%);
-    border-top-left-radius: 28px;
-    border-top-right-radius: 28px;
-  }
-
-  .logo-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    pointer-events: auto;
-    background: transparent !important;
-    padding: 8px 16px;
-  }
-
-  .logo-link {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
-  /* Brand Logo: seamlessly blended into the dark header using mix-blend-mode: screen */
-  .nav-logo-img {
-    height: 66px;
-    width: auto;
-    max-height: 100%;
-    object-fit: contain;
-    mix-blend-mode: screen;
-    display: block;
-    user-select: none;
-    pointer-events: auto;
-    filter: contrast(1.1) brightness(1.02);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
-  }
-
-  .logo-link:hover .nav-logo-img {
-    transform: scale(1.05);
-    filter: contrast(1.15) brightness(1.08) drop-shadow(0 0 16px rgba(238, 190, 162, 0.5));
-  }
-
-  /* Editorial Home Page Container - Sleek rounded card floating inside clean white frame */
-  #homePage {
-    position: fixed;
-    top: 16px;
-    left: 16px;
-    right: 16px;
-    bottom: 16px;
-    border-radius: 28px; /* rounded-3xl */
-    overflow: hidden; /* strictly clips canvas and content inside rounded card */
-    z-index: 10;
-    background: #000915; /* luxurious dark navy/black fallback */
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.08);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  #homePage.visible {
-    opacity: 1;
-    pointer-events: auto;
   }
 
   /* WebGPU Grass Background Canvas - full screen */
@@ -238,8 +252,9 @@
 
   /* ==========================================================================
      MOBILE VIEWPORT RULES (max-width: 768px)
-     1) Disable / hide 3D element background entirely to save performance
-     2) Set body / main wrapper background to solid black (#000000)
+     1) Hide 3D canvas background on mobile for performance
+     2) Maintain clean white background on body
+     3) Floating frame with even padding (p-2 / 8px) and rounded-2xl (16px) dark card
      ========================================================================== */
   @media (max-width: 768px) {
     /* 1) Hide 3D element background entirely to save performance */
@@ -255,73 +270,48 @@
       pointer-events: none !important;
     }
 
-    /* 2) Floating frame: Consistent white background on body, dark card inside */
+    /* 2) Maintain consistent white body background */
     html,
     body {
       background: #ffffff !important;
       background-color: #ffffff !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      width: 100vw !important;
-      height: 100vh !important;
-      overflow: hidden !important;
     }
 
-    /* Floating card on mobile: even 10px padding from edges with rounded-2xl */
+    /* 3) Floating frame container on mobile: even padding (matches p-2 / 8px) */
+    .floating-frame-container {
+      padding: 8px !important; /* p-2 even padding on mobile */
+    }
+
+    /* 4) Sleek dark card on mobile: rounded-2xl (16px) with solid black background */
     #homePage {
-      top: 10px !important;
-      left: 10px !important;
-      right: 10px !important;
-      bottom: 10px !important;
-      border-radius: 20px !important; /* rounded-2xl */
-      border: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      overflow: hidden !important;
+      border-radius: 16px !important; /* rounded-2xl on mobile */
       background: #000000 !important;
       background-color: #000000 !important;
-      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3) !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
     }
 
-    .home-content-scroll,
-    .parallax-container,
-    #background-container {
+    .home-content-scroll {
       background: #000000 !important;
       background-color: #000000 !important;
     }
 
-    .screen-frame,
-    .logo-tab-svg {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      border: none !important;
-      pointer-events: none !important;
-    }
-
-    /* Mobile header & logo */
-    .navbar-header {
-      height: 70px !important;
-      background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%) !important;
-      border-top-left-radius: 20px !important;
-      border-top-right-radius: 20px !important;
-    }
-
+    /* Header Logo on mobile inside the dark card */
     .logo-container {
-      padding: 6px 12px !important;
+      top: 16px !important;
     }
 
-    .nav-logo-img {
-      height: 50px !important;
+    .alacado-logo {
+      font-size: 20px !important;
+      letter-spacing: 0.3em !important;
     }
 
     /* Hero section scaling on mobile */
     .hero-container {
-      padding-top: 64px !important;
       padding-left: 1.25rem !important;
       padding-right: 1.25rem !important;
-      min-height: calc(100vh - 40px) !important;
+      min-height: calc(100vh - 60px) !important;
       justify-content: center !important;
+      padding-top: 50px !important;
     }
 
     .hero-title {
@@ -1775,24 +1765,21 @@
     });
   </script>
 
-  <!-- Editorial Home Page: Sleek rounded card floating inside clean white frame -->
-  <div id="homePage" class="visible">
-    <!-- Full-screen WebGPU Interactive Grass Background -->
-    <canvas id="grass-canvas"></canvas>
+  <!-- Floating Frame Container: Clean white frame with even padding (p-2 on mobile, p-4 on desktop) -->
+  <div class="floating-frame-container">
+    <div id="homePage" class="visible">
+      <!-- Full-screen WebGPU Interactive Grass Background -->
+      <canvas id="grass-canvas"></canvas>
 
-    <!-- Top Navigation Header with Brand Logo -->
-    <header class="navbar-header" id="navbarHeader">
-      <div class="logo-container visible">
-        <a href="#homePage" class="logo-link" aria-label="ALACADO Home">
-          <img src="logo.jpeg" alt="ALACADO" class="nav-logo-img h-12 sm:h-14 md:h-16 lg:h-18" />
+      <!-- Clean Header Logo inside the Floating Dark Card -->
+      <header class="logo-container visible">
+        <a href="#homePage" class="logo-link scroll-top-link" aria-label="ALACADO Home">
+          <span class="alacado-logo">ΛLΛCΛDO</span>
         </a>
-      </div>
-    </header>
+      </header>
 
-    <!-- Dark overlay for text legibility -->
-    
-    <!-- Scrollable content above background -->
-    <div class="home-content-scroll">
+      <!-- Scrollable content above background -->
+      <div class="home-content-scroll">
       <div class="hero-container section" data-stage="0">
         <h1 class="hero-title">
           Tell us <span class="italic-serif">what</span> you need.<br>
@@ -2035,6 +2022,7 @@
       </footer>
     </div>
   </div>
+</div>
 
 
   <!-- WebGPU Interactive Grass Background -->
