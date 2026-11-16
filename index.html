@@ -1143,6 +1143,557 @@
   text-decoration: none;
 }
 
+/* ==========================================================================
+   CONTACT FORM SECTION (#contact)
+   ========================================================================== */
+.contact-section {
+  padding: 6rem 1.25rem 4rem;
+  width: 100%;
+  position: relative;
+  z-index: 20;
+}
+
+.contact-container {
+  width: 100%;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+.contact-header {
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.contact-heading {
+  font-family: "Cormorant Garamond", Garamond, Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0.5rem 0 0.8rem;
+}
+
+.contact-subline {
+  font-family: "DM Sans", sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  max-width: 580px;
+  line-height: 1.6;
+}
+
+.alacado-contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  background: rgba(10, 13, 18, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 2.5rem;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.contact-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .contact-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .alacado-contact-form {
+    padding: 1.5rem;
+  }
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.contact-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.contact-input {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.contact-input:focus {
+  outline: none;
+  border-color: #1cd8d2;
+  background: rgba(28, 216, 210, 0.04);
+  box-shadow: 0 0 16px rgba(28, 216, 210, 0.2);
+}
+
+.contact-input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.contact-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.5)' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+  cursor: pointer;
+}
+
+.contact-select option {
+  background: #0d1117;
+  color: #fff;
+}
+
+.contact-textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.contact-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.8rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: #021820;
+  background: linear-gradient(135deg, #1cd8d2, #18a8c8);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(28, 216, 210, 0.35);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.contact-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 28px rgba(28, 216, 210, 0.55);
+}
+
+.contact-wa-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.84rem;
+  color: #25d366;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact-wa-link:hover {
+  color: #38e178;
+  text-decoration: underline;
+}
+
+.contact-success-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem;
+  background: rgba(28, 216, 210, 0.08);
+  border: 1px solid rgba(28, 216, 210, 0.3);
+  border-radius: 10px;
+  color: #1cd8d2;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  margin-top: 0.5rem;
+}
+
+/* ==========================================================================
+   FREELANCER MODAL COMPONENT (#networkModal)
+   ========================================================================== */
+.network-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.network-modal-backdrop.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.network-modal-card {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  background: #090c12;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: scale(0.94) translateY(12px);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.network-modal-backdrop.open .network-modal-card {
+  transform: scale(1) translateY(0);
+}
+
+.network-modal-close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.network-modal-close:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.modal-badge {
+  display: inline-block;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #1cd8d2;
+  margin-bottom: 0.4rem;
+}
+
+.modal-title {
+  font-family: "Cormorant Garamond", Garamond, Georgia, serif;
+  font-size: 2rem;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0 0 0.4rem;
+  line-height: 1.2;
+}
+
+.modal-subtitle {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.network-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.modal-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.modal-label {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.modal-input {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #1cd8d2;
+  background: rgba(28, 216, 210, 0.04);
+  box-shadow: 0 0 14px rgba(28, 216, 210, 0.2);
+}
+
+.modal-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.9rem 1.5rem;
+  margin-top: 0.5rem;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #021820;
+  background: linear-gradient(135deg, #1cd8d2, #18a8c8);
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(28, 216, 210, 0.35);
+  transition: all 0.3s ease;
+}
+
+.modal-submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(28, 216, 210, 0.55);
+}
+
+.modal-success-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  background: rgba(28, 216, 210, 0.08);
+  border: 1px solid rgba(28, 216, 210, 0.3);
+  border-radius: 10px;
+  color: #1cd8d2;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+}
+
+/* ==========================================================================
+   FRAMESWALLET-STYLE FOOTER (.fw-footer)
+   ========================================================================== */
+.fw-footer {
+  width: 100%;
+  position: relative;
+  z-index: 20;
+  padding: 4rem 1.25rem 2.5rem;
+}
+
+.fw-footer-card {
+  width: 100%;
+  max-width: 1040px;
+  margin: 0 auto;
+  background: #080a0e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 36px 36px 24px 24px;
+  padding: 4.5rem 3.5rem 2.5rem;
+  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.fw-footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+  margin-bottom: 4rem;
+  flex-wrap: wrap;
+}
+
+.fw-footer-brand {
+  max-width: 440px;
+}
+
+.fw-footer-title {
+  font-family: "Cormorant Garamond", Garamond, Georgia, serif;
+  font-size: clamp(2.8rem, 6vw, 4.4rem);
+  font-weight: 500;
+  font-style: italic;
+  color: #ffffff;
+  line-height: 1.05;
+  margin: 0 0 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.fw-footer-desc {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #1cd8d2;
+  max-width: 380px;
+}
+
+.fw-footer-cols {
+  display: flex;
+  gap: 4.5rem;
+}
+
+.fw-col-heading {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 1.25rem;
+}
+
+.fw-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.fw-link {
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.fw-link:hover {
+  color: #1cd8d2;
+}
+
+.fw-footer-bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 2rem;
+}
+
+.fw-watermark-wrapper {
+  overflow: hidden;
+  line-height: 0.8;
+}
+
+.fw-watermark {
+  font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(3.5rem, 13vw, 10.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 0.85;
+  color: rgba(255, 255, 255, 0.05);
+  text-transform: uppercase;
+  user-select: none;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  display: block;
+  cursor: default;
+}
+
+/* Desktop: glow when hovered over */
+@media (min-width: 769px) {
+  .fw-watermark:hover {
+    color: rgba(255, 255, 255, 0.35);
+    text-shadow: 0 0 30px rgba(28, 216, 210, 0.75), 0 0 60px rgba(28, 216, 210, 0.4), 0 0 90px rgba(28, 216, 210, 0.2);
+  }
+}
+
+/* Mobile: continuous blink animation */
+@media (max-width: 768px) {
+  .fw-footer-card {
+    padding: 2.5rem 1.5rem 1.75rem;
+    border-radius: 28px 28px 20px 20px;
+  }
+  .fw-footer-top {
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+  }
+  .fw-footer-cols {
+    width: 100%;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+  .fw-watermark {
+    animation: alacadoWatermarkBlink 2.4s infinite ease-in-out;
+  }
+}
+
+@keyframes alacadoWatermarkBlink {
+  0%, 100% {
+    opacity: 0.08;
+    color: rgba(255, 255, 255, 0.05);
+    text-shadow: none;
+  }
+  50% {
+    opacity: 0.95;
+    color: rgba(255, 255, 255, 0.35);
+    text-shadow: 0 0 25px rgba(28, 216, 210, 0.85), 0 0 50px rgba(28, 216, 210, 0.45);
+  }
+}
+
+.fw-scroll-top-btn {
+  width: 52px;
+  height: 52px;
+  min-width: 52px;
+  border-radius: 50%;
+  background: #00ff66;
+  color: #000000;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: 0 0 20px rgba(0, 255, 102, 0.4);
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.fw-scroll-top-btn:hover {
+  transform: scale(1.08) translateY(-2px);
+  background: #25ff79;
+  box-shadow: 0 0 30px rgba(0, 255, 102, 0.7);
+}
+
+#selected-projects .sp-work-btn:hover {
+  color: #ffffff;
+  background-color: rgba(193, 154, 107, 0.2);
+  border-color: rgba(193, 154, 107, 0.6);
+  box-shadow: 0 4px 15px rgba(193, 154, 107, 0.25);
+  text-decoration: none;
+}
+
 </style>
   <!-- [REMOVED] React, ReactDOM, Framer Motion CDNs — no longer used -->
 
@@ -1208,18 +1759,18 @@
         
         <!-- Three interactive glassmorphism routing keys -->
         <div class="hero-buttons-container">
-          <a href="#" class="routing-key client-key">
+          <a href="#contact" class="routing-key client-key" id="btnInitiateProject">
             INITIATE A PROJECT
             <span class="liquid-glare"></span>
           </a>
           <div class="advisor-wrapper">
             <span class="free-capsule">FREE</span>
-            <a href="#" class="routing-key advisor-key">
+            <a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="routing-key advisor-key">
               SPEAK WITH AN ADVISOR
               <span class="liquid-glare"></span>
             </a>
           </div>
-          <a href="#" class="routing-key network-key">
+          <a href="#join-network" class="routing-key network-key" id="btnJoinNetwork">
             JOIN THE NETWORK
             <span class="liquid-glare"></span>
           </a>
@@ -1335,11 +1886,109 @@
       </section>
       <!-- ============ END SELECTED PROJECTS ============ -->
 
-      <!-- Site Footer -->
-      <footer class="site-footer section" data-stage="4" style="padding: 4rem 1.25rem 6rem; text-align: center; border-top: 1px solid rgba(255,255,255,0.08);">
-        <p style="font-family: 'DM Sans', sans-serif; font-size: 0.75rem; color: rgba(255,255,255,0.3); text-transform: uppercase; letter-spacing: 0.15em;">
-          © 2026 ALACADO. PRIVATE NETWORK.
-        </p>
+      <!-- ============ CONTACT FORM (id="contact") ============ -->
+      <section id="contact" class="section contact-section" data-stage="2" aria-labelledby="contact-heading">
+        <div class="contact-container">
+          <div class="contact-header">
+            <p class="sp-section-label">Initiate a Project</p>
+            <h2 id="contact-heading" class="contact-heading">Tell us what you need.</h2>
+            <p class="contact-subline">Submit your scope, parameters, and timeline. We match you with vetted elite talent immediately.</p>
+          </div>
+
+          <form class="alacado-contact-form" id="mainContactForm">
+            <div class="contact-form-grid">
+              <div class="contact-field">
+                <label for="c-name" class="contact-label">Your Name</label>
+                <input type="text" id="c-name" name="name" required placeholder="Alex Morgan" class="contact-input" autocomplete="name">
+              </div>
+              <div class="contact-field">
+                <label for="c-email" class="contact-label">Email Address</label>
+                <input type="email" id="c-email" name="email" required placeholder="alex@company.com" class="contact-input" autocomplete="email">
+              </div>
+            </div>
+            <div class="contact-field">
+              <label for="c-service" class="contact-label">Project Type</label>
+              <select id="c-service" name="service" class="contact-input contact-select">
+                <option value="web-development">Web Application / Next.js / Three.js</option>
+                <option value="design-system">UI/UX & Brand Design</option>
+                <option value="ecommerce">E-Commerce & Digital Storefront</option>
+                <option value="custom">Full-Stack Custom Platform</option>
+              </select>
+            </div>
+            <div class="contact-field">
+              <label for="c-message" class="contact-label">Project Scope & Requirements</label>
+              <textarea id="c-message" name="message" rows="4" required placeholder="Describe what you want to build, key features, and your timeline..." class="contact-input contact-textarea"></textarea>
+            </div>
+            <div class="contact-actions">
+              <button type="submit" class="contact-submit-btn">
+                <span>SEND PROJECT BRIEF</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+              <a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="contact-wa-link">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.222-.555-1.956-.806-3.21-2.809-3.308-2.939-.098-.13-.794-1.054-.794-2.008s.498-1.42.675-1.614c.178-.194.39-.243.52-.243.13 0 .26.002.373.007.12.005.281-.046.439.333.163.39.557 1.357.606 1.455.049.098.082.212.016.342-.065.13-.098.212-.195.326-.098.114-.206.255-.294.342-.098.098-.2.205-.087.4.114.195.505.833 1.082 1.348.744.664 1.371.87 1.566.967.195.098.309.082.424-.049.114-.13.488-.569.619-.765.13-.195.26-.163.44-.098.179.065 1.139.537 1.334.635.195.098.326.146.374.228.049.081.049.471-.095.876z"/></svg>
+                <span>Chat on WhatsApp directly</span>
+              </a>
+            </div>
+            <div id="contactSuccessMsg" class="contact-success-msg" style="display:none;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1cd8d2" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+              <span>Thank you! Your inquiry has been received. Our team will contact you shortly.</span>
+            </div>
+          </form>
+        </div>
+      </section>
+      <!-- ============ END CONTACT FORM ============ -->
+
+      <!-- Site Footer (Frameswallet style) -->
+      <footer class="site-footer section fw-footer" data-stage="3">
+        <div class="fw-footer-card">
+          <div class="fw-footer-top">
+            <div class="fw-footer-brand">
+              <h2 class="fw-footer-title">Let's craft.</h2>
+              <p class="fw-footer-desc">
+                Transforming ideas into high-impact digital experiences with technical precision and creative excellence.
+              </p>
+            </div>
+
+            <div class="fw-footer-cols">
+              <div class="fw-col">
+                <h4 class="fw-col-heading">MENU</h4>
+                <ul class="fw-link-list">
+                  <li><a href="#homePage" class="fw-link scroll-top-link">Home</a></li>
+                  <li><a href="#selected-projects" class="fw-link">Projects</a></li>
+                  <li><a href="#contact" class="fw-link">Initiate Project</a></li>
+                  <li><a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="fw-link">Speak with Advisor</a></li>
+                  <li><a href="#join-network" class="fw-link fw-open-modal">Join Network</a></li>
+                </ul>
+              </div>
+
+              <div class="fw-col">
+                <h4 class="fw-col-heading">SOCIAL</h4>
+                <ul class="fw-link-list">
+                  <li><a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="fw-link">WhatsApp</a></li>
+                  <li><a href="mailto:contact@alacado.com" class="fw-link">Email</a></li>
+                  <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="fw-link">LinkedIn</a></li>
+                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="fw-link">Twitter</a></li>
+                  <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="fw-link">Instagram</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="fw-footer-bottom">
+            <div class="fw-watermark-wrapper">
+              <span class="fw-watermark">ALACADO</span>
+            </div>
+            <button class="fw-scroll-top-btn" id="footerScrollTopBtn" aria-label="Scroll back to top">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="7" y1="17" x2="17" y2="7"></line>
+                <polyline points="7 7 17 7 17 17"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
       </footer>
     </div>
   </div>
@@ -2872,6 +3521,196 @@
 			console.error("3D background init error:", err);
 		});
 	</script>
+
+  <!-- Freelancer Application Modal -->
+  <div id="networkModal" class="network-modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="network-modal-card">
+      <button class="network-modal-close" id="modalCloseBtn" aria-label="Close modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+      <div class="network-modal-header">
+        <span class="modal-badge">CREATIVE TALENT POOL</span>
+        <h3 id="modalTitle" class="modal-title">Join the Network</h3>
+        <p class="modal-subtitle">Direct access to high-caliber web and digital projects with verified clients.</p>
+      </div>
+      <form id="freelancerForm" class="network-modal-form">
+        <div class="modal-form-group">
+          <label for="fl-name" class="modal-label">Full Name</label>
+          <input type="text" id="fl-name" name="name" required placeholder="Alex Mercer" class="modal-input" autocomplete="name">
+        </div>
+        <div class="modal-form-group">
+          <label for="fl-email" class="modal-label">Email Address</label>
+          <input type="email" id="fl-email" name="email" required placeholder="alex@domain.com" class="modal-input" autocomplete="email">
+        </div>
+        <div class="modal-form-group">
+          <label for="fl-portfolio" class="modal-label">Portfolio Link</label>
+          <input type="url" id="fl-portfolio" name="portfolio" required placeholder="https://yourportfolio.com" class="modal-input">
+        </div>
+        <div class="modal-form-group">
+          <label for="fl-skills" class="modal-label">Core Skills</label>
+          <input type="text" id="fl-skills" name="skills" required placeholder="e.g. Three.js, React, UI/UX, WebGL, Shader Art" class="modal-input">
+        </div>
+        <button type="submit" class="modal-submit-btn">
+          <span>Submit Application</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+        <div id="modalSuccessMsg" class="modal-success-msg" style="display:none;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1cd8d2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>Application submitted! We'll review your portfolio and reach out.</span>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function initInteractiveFeatures() {
+      // Smooth scroll helper for .home-content-scroll container
+      function smoothScrollToElement(targetEl) {
+        if (!targetEl) return;
+        const scrollContainer = document.querySelector('.home-content-scroll');
+        if (scrollContainer) {
+          const containerRect = scrollContainer.getBoundingClientRect();
+          const targetRect = targetEl.getBoundingClientRect();
+          const targetTop = targetRect.top - containerRect.top + scrollContainer.scrollTop;
+          scrollContainer.scrollTo({ top: targetTop, behavior: 'smooth' });
+        } else {
+          targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      function scrollToPageTop() {
+        const scrollContainer = document.querySelector('.home-content-scroll');
+        if (scrollContainer) {
+          scrollContainer.scrollTo({ top: 0, behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      }
+
+      // 1. INITIATE A PROJECT Button → Smooth scroll to #contact
+      document.querySelectorAll('a[href="#contact"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const contactSection = document.getElementById('contact');
+          smoothScrollToElement(contactSection);
+        });
+      });
+
+      // 2. Smooth scroll to #selected-projects
+      document.querySelectorAll('a[href="#selected-projects"]').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          const projectsSection = document.getElementById('selected-projects');
+          smoothScrollToElement(projectsSection);
+        });
+      });
+
+      // 3. Scroll to top button in footer
+      const scrollTopBtn = document.getElementById('footerScrollTopBtn');
+      if (scrollTopBtn) {
+        scrollTopBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          scrollToPageTop();
+        });
+      }
+      document.querySelectorAll('.scroll-top-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          scrollToPageTop();
+        });
+      });
+
+      // 4. JOIN THE NETWORK Button & Freelancer Modal
+      const modal = document.getElementById('networkModal');
+      const modalClose = document.getElementById('modalCloseBtn');
+      const btnJoin = document.getElementById('btnJoinNetwork');
+      const openModalLinks = document.querySelectorAll('.fw-open-modal, a[href="#join-network"]');
+
+      function openFreelancerModal() {
+        if (modal) {
+          modal.classList.add('open');
+          modal.setAttribute('aria-hidden', 'false');
+        }
+      }
+
+      function closeFreelancerModal() {
+        if (modal) {
+          modal.classList.remove('open');
+          modal.setAttribute('aria-hidden', 'true');
+        }
+      }
+
+      if (btnJoin) {
+        btnJoin.addEventListener('click', function(e) {
+          e.preventDefault();
+          openFreelancerModal();
+        });
+      }
+
+      openModalLinks.forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          openFreelancerModal();
+        });
+      });
+
+      if (modalClose) {
+        modalClose.addEventListener('click', function(e) {
+          e.preventDefault();
+          closeFreelancerModal();
+        });
+      }
+
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            closeFreelancerModal();
+          }
+        });
+      }
+
+      window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
+          closeFreelancerModal();
+        }
+      });
+
+      // 5. Freelancer Form Submission
+      const flForm = document.getElementById('freelancerForm');
+      const flSuccess = document.getElementById('modalSuccessMsg');
+      if (flForm) {
+        flForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (flSuccess) {
+            flSuccess.style.display = 'flex';
+          }
+          flForm.reset();
+        });
+      }
+
+      // 6. Contact Form Submission
+      const cForm = document.getElementById('mainContactForm');
+      const cSuccess = document.getElementById('contactSuccessMsg');
+      if (cForm) {
+        cForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          if (cSuccess) {
+            cSuccess.style.display = 'flex';
+          }
+          cForm.reset();
+        });
+      }
+    })();
+  </script>
 
   <!-- [REMOVED] React & Babel - no longer needed (CommandNode, Protocol, Network sections deleted) -->
 
