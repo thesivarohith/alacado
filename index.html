@@ -10,11 +10,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html,
   body {
-    background: #000000;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     overflow: hidden;
     width: 100vw;
     height: 100vh;
+    margin: 0;
+    padding: 0;
   }
 
   /* Viewport-locked, full-screen container */
@@ -136,91 +140,80 @@
     clip-path: inset(0 0 0 50%);
   }
 
-  /* --- Premium Rose-Gold UI Overlay & Homepage Styling --- */
-  
-  /* Screen Border Frame - Uniform 16px border */
-  .screen-frame {
-    position: fixed;
+  /* --- Sleek Floating Card & Brand Header Styling --- */
+  .screen-frame,
+  .logo-tab-svg {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* Floating Top Header Navigation */
+  .navbar-header {
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    border: 16px solid #fff;
-    border-radius: 32px;
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0;
-    transform: scale(1.15); /* Starts zoomed out from the outside */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .screen-frame.visible {
-    opacity: 1;
-    transform: scale(1); /* Zooms in and snaps into place */
-  }
-
-  /* Dipping SVG Wave Notch */
-  .logo-tab-svg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 80px;
-    z-index: 101;
-    pointer-events: none;
-    opacity: 0;
-    transform: translateY(-40px) scaleY(0.7); /* Starts flattened and tucked up */
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-tab-svg.visible {
-    opacity: 1;
-    transform: translateY(0) scaleY(1); /* Sweeps down and expands */
-  }
-
-  /* ALACADO Logo Container (Centered inside the dipping notch) */
-  .logo-container {
-    position: fixed;
-    top: 16px;
-    left: 50%;
-    transform: translateX(-50%) scale(0.8); /* Starts slightly smaller */
-    width: 240px; /* widened for larger logo */
-    height: 44px;
+    height: 86px;
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 102;
-    opacity: 0;
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .logo-container.visible {
-    opacity: 1;
-    transform: translateX(-50%) scale(1); /* Zooms in to center */
+    z-index: 50;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(0, 9, 21, 0.8) 0%, rgba(0, 9, 21, 0.25) 60%, transparent 100%);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
   }
 
-  /* Premium Rose-Gold ALACADO Logo - Bigger and Brighter */
-  .alacado-logo {
-    font-family: 'Cinzel', serif;
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: 0.35em;
-    background: linear-gradient(90deg, #3d200f 0%, #8c5a3c 50%, #3d200f 100%); /* High-contrast bronze-copper */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    display: inline-block;
-    padding-left: 0.35em; /* balance letter-spacing offset */
-    line-height: 1;
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: auto;
+    background: transparent !important;
+    padding: 8px 16px;
   }
 
-  /* Editorial Home Page Container - Offsets overlap behind frame to resolve corner bleed-through */
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Brand Logo: seamlessly blended into the dark header using mix-blend-mode: screen */
+  .nav-logo-img {
+    height: 66px;
+    width: auto;
+    max-height: 100%;
+    object-fit: contain;
+    mix-blend-mode: screen;
+    display: block;
+    user-select: none;
+    pointer-events: auto;
+    filter: contrast(1.1) brightness(1.02);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+  }
+
+  .logo-link:hover .nav-logo-img {
+    transform: scale(1.05);
+    filter: contrast(1.15) brightness(1.08) drop-shadow(0 0 16px rgba(238, 190, 162, 0.5));
+  }
+
+  /* Editorial Home Page Container - Sleek rounded card floating inside clean white frame */
   #homePage {
     position: fixed;
-    top: 14px;
-    left: 14px;
-    right: 14px;
-    bottom: 14px;
-    border-radius: 20px; /* matches inner curve mathematically */
-    overflow: hidden; /* hidden to contain the background shader canvas */
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    border-radius: 28px; /* rounded-3xl */
+    overflow: hidden; /* strictly clips canvas and content inside rounded card */
     z-index: 10;
     background: #000915; /* luxurious dark navy/black fallback */
+    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(0, 0, 0, 0.08);
     opacity: 0;
     pointer-events: none;
     transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
@@ -262,10 +255,34 @@
       pointer-events: none !important;
     }
 
-    /* 2) Set body / main wrapper background to solid black (#000000) */
+    /* 2) Floating frame: Consistent white background on body, dark card inside */
     html,
-    body,
-    #homePage,
+    body {
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      overflow: hidden !important;
+    }
+
+    /* Floating card on mobile: even 10px padding from edges with rounded-2xl */
+    #homePage {
+      top: 10px !important;
+      left: 10px !important;
+      right: 10px !important;
+      bottom: 10px !important;
+      border-radius: 20px !important; /* rounded-2xl */
+      border: none !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      overflow: hidden !important;
+      background: #000000 !important;
+      background-color: #000000 !important;
+      box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3) !important;
+    }
+
     .home-content-scroll,
     .parallax-container,
     #background-container {
@@ -273,63 +290,37 @@
       background-color: #000000 !important;
     }
 
-    /* 1. Remove white outer frame and make viewport flush to edges with solid black */
-    .screen-frame {
-      display: none !important;
-      visibility: hidden !important;
-      opacity: 0 !important;
-      border: none !important;
-      pointer-events: none !important;
-    }
-
-    #homePage {
-      top: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      bottom: 0 !important;
-      border-radius: 0 !important;
-      border: none !important;
-      margin: 0 !important;
-      padding: 0 !important;
-    }
-
-    /* 2. Remove white header notch shape and make logo container transparent */
+    .screen-frame,
     .logo-tab-svg {
       display: none !important;
       visibility: hidden !important;
       opacity: 0 !important;
+      border: none !important;
       pointer-events: none !important;
     }
 
-    .logo-container {
-      top: 18px !important;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      width: auto !important;
-      max-width: 100% !important;
-      height: auto !important;
-      background: transparent !important;
-      background-color: transparent !important;
-      box-shadow: none !important;
-      border: none !important;
+    /* Mobile header & logo */
+    .navbar-header {
+      height: 70px !important;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.25) 60%, transparent 100%) !important;
+      border-top-left-radius: 20px !important;
+      border-top-right-radius: 20px !important;
     }
 
-    .alacado-logo {
-      font-size: 20px !important;
-      letter-spacing: 0.3em !important;
-      background: linear-gradient(135deg, #ffffff 0%, #fac8aa 45%, #eebea2 75%, #d99e7c 100%) !important;
-      -webkit-background-clip: text !important;
-      -webkit-text-fill-color: transparent !important;
-      color: #eebea2 !important;
-      text-shadow: 0 0 20px rgba(238, 190, 162, 0.4) !important;
-      background-color: transparent !important;
+    .logo-container {
+      padding: 6px 12px !important;
+    }
+
+    .nav-logo-img {
+      height: 50px !important;
     }
 
     /* Hero section scaling on mobile */
     .hero-container {
+      padding-top: 64px !important;
       padding-left: 1.25rem !important;
       padding-right: 1.25rem !important;
-      min-height: calc(100vh - 60px) !important;
+      min-height: calc(100vh - 40px) !important;
       justify-content: center !important;
     }
 
@@ -1784,18 +1775,19 @@
     });
   </script>
 
-  <!-- Dipping SVG wave notch frame and Editorial Home Page (Visible immediately on load) -->
-  <div class="screen-frame visible"></div>
-  <svg class="logo-tab-svg visible" viewBox="0 0 1000 80" preserveAspectRatio="none">
-    <path d="M 350,0 L 650,0 L 650,16 C 620,16 600,60 580,60 L 420,60 C 400,60 380,16 350,16 Z" fill="#fff" />
-  </svg>
-  <div class="logo-container visible">
-    <div class="alacado-logo">ΛLΛCΛDO</div>
-  </div>
-
+  <!-- Editorial Home Page: Sleek rounded card floating inside clean white frame -->
   <div id="homePage" class="visible">
     <!-- Full-screen WebGPU Interactive Grass Background -->
     <canvas id="grass-canvas"></canvas>
+
+    <!-- Top Navigation Header with Brand Logo -->
+    <header class="navbar-header" id="navbarHeader">
+      <div class="logo-container visible">
+        <a href="#homePage" class="logo-link" aria-label="ALACADO Home">
+          <img src="logo.jpeg" alt="ALACADO" class="nav-logo-img h-12 sm:h-14 md:h-16 lg:h-18" />
+        </a>
+      </div>
+    </header>
 
     <!-- Dark overlay for text legibility -->
     
