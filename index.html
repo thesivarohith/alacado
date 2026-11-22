@@ -204,6 +204,26 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 12px;
+  }
+
+  .header-logo-icon {
+    height: 32px; /* h-8 desktop */
+    width: auto;
+    object-fit: contain;
+    display: inline-block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  @media (max-width: 768px) {
+    .header-logo-icon {
+      height: 28px !important; /* h-7 mobile */
+    }
+  }
+
+  .logo-link:hover .header-logo-icon {
+    transform: scale(1.05);
+    filter: drop-shadow(0 0 10px rgba(238, 190, 162, 0.45));
   }
 
   .alacado-logo {
@@ -356,34 +376,38 @@
     font-size: 56px;
     font-weight: 300;
     line-height: 1.25;
-    color: rgba(255, 255, 255, 0.95);
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85), 0 4px 24px rgba(0, 0, 0, 0.9);
     letter-spacing: -0.015em;
   }
   .hero-title span.italic-serif {
     font-style: italic;
     font-family: 'Cormorant Garamond', serif;
     font-weight: 400;
-    color: #f3d1be;
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85);
   }
   .hero-title span.gradient-text {
     font-family: 'Cinzel', serif;
-    font-weight: 500;
-    background: linear-gradient(90deg, #c58e72 0%, #f3d1be 50%, #c58e72 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-weight: 600;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    background: none !important;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85) !important;
     letter-spacing: 0.02em;
   }
   .hero-subtext {
     font-family: 'DM Sans', sans-serif;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.4);
+    color: #ffffff;
+    text-shadow: 0 2px 16px rgba(0, 0, 0, 0.85);
     letter-spacing: 0.15em;
     text-transform: uppercase;
     margin-top: 30px;
     display: block;
   }
 
-  /* --- Symmetrical True Liquid Glass Routing Keys --- */
+  /* --- Symmetrical Dark Frosted-Glass Routing Keys (High Contrast) --- */
   
   .hero-buttons-container {
     display: flex;
@@ -403,43 +427,45 @@
     }
   }
 
-  /* Base routing key styling - "True Liquid Glass" */
+  /* Base routing key styling - Dark Frosted-Glass (bg-black/70 backdrop-blur-md border border-white/25) */
   .routing-key {
     display: block;
     text-decoration: none;
     padding: 20px 32px; /* px-8 py-5 */
     border-radius: 16px; /* rounded-2xl */
-    background-color: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(24px); /* backdrop-blur-xl */
-    -webkit-backdrop-filter: blur(24px);
-    border: 1px solid rgba(255, 255, 255, 0.2); /* border-white/20 */
-    box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3); /* shadow-[inset_0_1px_2px_rgba(255,255,255,0.5),0_8px_32px_rgba(0,0,0,0.3)] */
+    background-color: rgba(0, 0, 0, 0.70); /* bg-black/70 */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25); /* border border-white/25 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.2);
     text-transform: uppercase;
     letter-spacing: 0.15em; /* tracking-widest */
     font-size: 14px; /* text-sm */
     font-weight: 500; /* font-medium */
-    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* transition-all duration-500 */
-    position: relative; /* relative */
-    overflow: hidden; /* overflow-hidden */
-    width: 100%; /* w-full */
-    text-align: center; /* text-center */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
     cursor: pointer;
     font-family: 'DM Sans', sans-serif;
-    color: #ffffff; /* text-white */
-    pointer-events: auto; /* re-enable clicks on buttons */
+    color: #ffffff !important; /* crisp pure white text */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    pointer-events: auto;
   }
 
   @media (min-width: 1024px) {
     .routing-key {
-      width: auto; /* lg:w-auto */
+      width: auto;
     }
   }
 
   /* Key 1 (Client) and Key 3 (Network) hover styling */
   .client-key:hover, .network-key:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
-    border-color: rgba(255, 255, 255, 0.4); /* border-white/40 */
-    box-shadow: inset 0 1px 3px rgba(255, 255, 255, 0.8), 0 8px 32px rgba(0, 0, 0, 0.4); /* shadow-[inset_0_1px_3px_rgba(255,255,255,0.8),0_8px_32px_rgba(0,0,0,0.4)] */
+    background-color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.4);
+    color: #ffffff !important;
   }
 
   /* Advisor key wrapper for capsule alignment */
@@ -449,7 +475,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    pointer-events: auto; /* re-enable clicks on advisor wrapper */
+    pointer-events: auto;
   }
 
   @media (min-width: 1024px) {
@@ -458,15 +484,16 @@
     }
   }
 
-  /* Cute premium capsule mentioning FREE */
+  /* Cute premium capsule mentioning FREE - Crisp White */
   .free-capsule {
     position: absolute;
-    top: -12px; /* sits perfectly on the top border */
+    top: -12px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(193, 154, 107, 0.25);
-    border: 1px solid rgba(193, 154, 107, 0.6);
-    color: #f3d1be;
+    background: rgba(0, 0, 0, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ffffff !important; /* crisp pure white text */
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
     font-family: 'DM Sans', sans-serif;
     font-size: 9px;
     font-weight: 700;
@@ -476,33 +503,38 @@
     text-transform: uppercase;
     pointer-events: none;
     z-index: 10;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     white-space: nowrap;
     transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
   }
 
-  /* Key 2 (Advisor - Primary CTA) styling - subtle gold tint */
+  /* Key 2 (Advisor - Primary CTA) styling - Dark Frosted-Glass with crisp white text */
   .advisor-key {
-    color: #c19a6b; /* text-[#c19a6b] */
-    border-color: rgba(193, 154, 107, 0.3); /* border-[#c19a6b]/30 */
-    box-shadow: inset 0 1px 2px rgba(193, 154, 107, 0.5), 0 8px 32px rgba(0, 0, 0, 0.3); /* shadow-[inset_0_1px_2px_rgba(193,154,107,0.5),0_8px_32px_rgba(0,0,0,0.3)] */
+    background-color: rgba(0, 0, 0, 0.70);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: #ffffff !important; /* crisp pure white text */
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.2);
   }
 
   /* Hover states triggered via wrapper */
   .advisor-wrapper:hover .advisor-key {
-    background-color: rgba(193, 154, 107, 0.1);
-    border-color: rgba(193, 154, 107, 0.6);
+    background-color: rgba(0, 0, 0, 0.85);
+    border-color: rgba(255, 255, 255, 0.5);
     transform: scale(1.05);
+    color: #ffffff !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), inset 0 1px 3px rgba(255, 255, 255, 0.4);
   }
 
   .advisor-wrapper:hover .free-capsule {
     transform: translateX(-50%) translateY(-2px) scale(1.05);
-    background-color: rgba(193, 154, 107, 0.35);
-    border-color: rgba(193, 154, 107, 0.8);
-    box-shadow: 0 4px 15px rgba(193, 154, 107, 0.3);
-    color: #ffffff;
+    background-color: rgba(0, 0, 0, 0.95);
+    border-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    color: #ffffff !important;
   }
 
   /* Liquid glass glare hover effect - sharper reflection */
@@ -1773,7 +1805,8 @@
 
       <!-- Clean Header Logo inside the Floating Dark Card -->
       <header class="logo-container visible">
-        <a href="#homePage" class="logo-link scroll-top-link" aria-label="ALACADO Home">
+        <a href="#homePage" class="logo-link scroll-top-link flex items-center justify-center gap-2.5 md:gap-3" aria-label="ALACADO Home">
+          <img src="/lor.png" alt="Alacado Logo" class="header-logo-icon h-7 md:h-8 w-auto object-contain" onerror="if(this.src!=='lor.png')this.src='lor.png';" />
           <span class="alacado-logo">ΛLΛCΛDO</span>
         </a>
       </header>
@@ -1789,18 +1822,18 @@
         
         <!-- Three interactive glassmorphism routing keys -->
         <div class="hero-buttons-container">
-          <a href="#contact" class="routing-key client-key" id="btnInitiateProject">
+          <a href="#contact" class="routing-key client-key bg-black/70 backdrop-blur-md border border-white/25 text-white" id="btnInitiateProject">
             INITIATE A PROJECT
             <span class="liquid-glare"></span>
           </a>
           <div class="advisor-wrapper">
-            <span class="free-capsule">FREE</span>
-            <a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="routing-key advisor-key">
+            <span class="free-capsule text-white">FREE</span>
+            <a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="routing-key advisor-key bg-black/70 backdrop-blur-md border border-white/25 text-white">
               SPEAK WITH AN ADVISOR
               <span class="liquid-glare"></span>
             </a>
           </div>
-          <a href="#join-network" class="routing-key network-key" id="btnJoinNetwork">
+          <a href="#join-network" class="routing-key network-key bg-black/70 backdrop-blur-md border border-white/25 text-white" id="btnJoinNetwork">
             JOIN THE NETWORK
             <span class="liquid-glare"></span>
           </a>
