@@ -165,7 +165,7 @@
     position: relative;
     width: 100%;
     height: 100%;
-    border-radius: 24px; /* Desktop rounded-3xl */
+    border-radius: 28px; /* Desktop rounded-3xl / curved boundary frame */
     overflow: hidden; /* Contains background shader, canvas, and scroll content cleanly */
     background: #000915; /* Luxurious dark navy/black */
     opacity: 0;
@@ -178,7 +178,7 @@
     pointer-events: auto;
   }
 
-  /* Clean Top Header Logo (Inside the dark floating card, perfectly legible) */
+  /* Clean Top Header Logo (Visible on first page, retreats upwards on scrolling to page 2) */
   .logo-container {
     position: absolute;
     top: 24px;
@@ -191,11 +191,16 @@
     background: transparent !important;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 2.4s cubic-bezier(0.16, 1, 0.3, 1), transform 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .logo-container.visible {
     opacity: 1;
     transform: translateX(-50%) scale(1);
+  }
+  .logo-container.scrolled-away {
+    opacity: 0 !important;
+    transform: translateX(-50%) translateY(-60px) scale(0.9) !important;
+    pointer-events: none !important;
   }
 
   /* Premium Rose-Gold ALACADO Logo */
@@ -304,9 +309,9 @@
       padding: 8px !important; /* p-2 even padding on mobile */
     }
 
-    /* 4) Sleek dark card on mobile: rounded-2xl (16px) with solid black background */
+    /* 4) Sleek dark card on mobile: rounded curved boundary with solid black background */
     #homePage {
-      border-radius: 16px !important; /* rounded-2xl on mobile */
+      border-radius: 20px !important; /* curved boundary frame on mobile */
       background: #000000 !important;
       background-color: #000000 !important;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
@@ -381,13 +386,27 @@
   }
   .hero-title {
     font-family: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
-    font-size: clamp(3.2rem, 7vw, 5.8rem);
+    font-size: clamp(2.2rem, 4.2vw, 3.85rem);
     font-weight: 400;
-    line-height: 1.08;
+    line-height: 1.14;
     color: #ffffff;
-    text-shadow: 0 2px 24px rgba(0, 0, 0, 0.9);
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
     letter-spacing: -0.015em;
     margin: 0;
+    max-width: 980px;
+  }
+  .hero-title .hero-line {
+    display: block;
+    white-space: nowrap;
+  }
+  @media (max-width: 640px) {
+    .hero-title {
+      font-size: clamp(1.85rem, 6.8vw, 2.35rem) !important;
+      line-height: 1.2 !important;
+    }
+    .hero-title .hero-line {
+      white-space: normal;
+    }
   }
   .hero-title span.italic-serif {
     font-style: italic;
@@ -1933,8 +1952,8 @@
       <div class="home-content-scroll">
       <div class="hero-container section" data-stage="0">
         <h1 class="hero-title">
-          Tell us <span class="italic-serif">what</span> you need.<br>
-          We connect <span class="italic-serif">you</span> with the <span class="accent-text">right people</span>.
+          <span class="hero-line">Tell us <span class="italic-serif">what</span> you need.</span>
+          <span class="hero-line">We connect <span class="italic-serif">you</span> with the <span class="accent-text">right people</span>.</span>
         </h1>
         <p class="hero-subtext">Independent design and engineering studio network</p>
         
@@ -3923,6 +3942,19 @@
 
   <script>
     (function initInteractiveFeatures() {
+      // Header logo: only visible on page 1; retreats upwards when scrolling to page 2
+      const scrollContainer = document.querySelector('.home-content-scroll');
+      const headerLogo = document.querySelector('.logo-container');
+      if (scrollContainer && headerLogo) {
+        scrollContainer.addEventListener('scroll', function() {
+          if (scrollContainer.scrollTop > 50) {
+            headerLogo.classList.add('scrolled-away');
+          } else {
+            headerLogo.classList.remove('scrolled-away');
+          }
+        }, { passive: true });
+      }
+
       // Smooth scroll helper for .home-content-scroll container
       function smoothScrollToElement(targetEl) {
         if (!targetEl) return;
