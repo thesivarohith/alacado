@@ -1023,6 +1023,7 @@
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   z-index: 10;
+  pointer-events: none;
 }
 
 #selected-projects .sp-phone-frame img {
@@ -1031,6 +1032,149 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
+  transition: opacity 0.3s ease;
+}
+
+/* Facade Interactive Preview Components */
+#selected-projects .sp-phone-iframe-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  background: #000000;
+  overflow: hidden;
+}
+
+#selected-projects .sp-phone-iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: block;
+  background: #000000;
+}
+
+#selected-projects .sp-preview-pill {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(10, 14, 20, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #ffffff;
+  font-family: var(--sp-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+#selected-projects .sp-preview-pill:hover {
+  background: rgba(238, 190, 162, 0.25);
+  border-color: rgba(238, 190, 162, 0.6);
+  color: #ffffff;
+  transform: translateX(-50%) scale(1.04);
+}
+
+#selected-projects .sp-phone-frame.is-previewing .sp-preview-pill {
+  background: rgba(185, 28, 28, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 16px rgba(185, 28, 28, 0.45);
+}
+
+#selected-projects .sp-phone-frame.is-previewing .sp-preview-pill:hover {
+  background: rgba(220, 38, 38, 1);
+  border-color: #ffffff;
+}
+
+#selected-projects .sp-work-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 0.5rem;
+}
+
+#selected-projects .sp-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--sp-font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+#selected-projects .sp-preview-btn:hover {
+  background-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+#selected-projects .sp-preview-btn.is-active {
+  background-color: rgba(185, 28, 28, 0.28);
+  border-color: rgba(239, 68, 68, 0.6);
+  color: #fca5a5;
+}
+
+#selected-projects .sp-preview-btn.is-active:hover {
+  background-color: rgba(185, 28, 28, 0.45);
+  border-color: rgba(239, 68, 68, 0.8);
+  color: #ffffff;
+}
+
+#selected-projects .sp-iframe-loader {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: #090c12;
+  color: rgba(255, 255, 255, 0.8);
+  font-family: var(--sp-font-sans);
+  font-size: 11px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  z-index: 6;
+}
+
+#selected-projects .sp-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #eebea2;
+  border-radius: 50%;
+  animation: spSpin 0.75s linear infinite;
+}
+
+@keyframes spSpin {
+  to { transform: rotate(360deg); }
 }
 
 /* Kodivera-matched Mobile Layout for Selected Projects */
@@ -1806,7 +1950,7 @@
       <!-- Clean Header Logo inside the Floating Dark Card -->
       <header class="logo-container visible">
         <a href="#homePage" class="logo-link scroll-top-link flex items-center justify-center gap-2.5 md:gap-3" aria-label="ALACADO Home">
-          <img src="/lor.png" alt="Alacado Logo" class="header-logo-icon h-7 md:h-8 w-auto object-contain" onerror="if(this.src!=='lor.png')this.src='lor.png';" />
+          <img src="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332593/lor_ryskmk.png" alt="Alacado Logo" class="header-logo-icon h-7 md:h-8 w-auto object-contain" />
           <span class="alacado-logo">ΛLΛCΛDO</span>
         </a>
       </header>
@@ -1849,13 +1993,24 @@
             <!-- Row 01: ZUVAI QR Menu -->
             <article class="sp-work-row section" data-stage="1" aria-labelledby="sp-work-01-title">
               <div class="sp-work-row-grid">
-                <div class="sp-phone-frame">
+                <div class="sp-phone-frame" id="sp-frame-01" data-live-url="https://zuvai.web.app/">
                   <img
                     src="./zuvai.web.app_ (4).png"
                     alt="ZUVAI restaurant mobile QR menu interface"
                     width="800"
                     height="1832"
                     loading="lazy">
+                  <div class="sp-phone-iframe-container" style="display: none;"></div>
+                  <button type="button" class="sp-preview-pill" data-frame-id="sp-frame-01" aria-label="Toggle live preview for ZUVAI QR Menu">
+                    <svg class="pill-play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg class="pill-close-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span class="pill-text">Live Preview</span>
+                  </button>
                 </div>
                 <div class="sp-work-info">
                   <span class="sp-project-tag">DEMO PROJECT</span>
@@ -1874,7 +2029,15 @@
                       <span>Lighthouse performance 98. Page size 450KB. Load time 0.4s.</span>
                     </li>
                   </ul>
-                  <a href="https://zuvai.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">See live menu</a>
+                  <div class="sp-work-actions">
+                    <a href="https://zuvai.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">See live menu</a>
+                    <button type="button" class="sp-preview-btn" data-frame-id="sp-frame-01">
+                      <svg class="btn-preview-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span class="btn-preview-label">Live Preview</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>
@@ -1882,13 +2045,24 @@
             <!-- Row 02: WantsAndNeeds E-Commerce -->
             <article class="sp-work-row section" data-stage="2" aria-labelledby="sp-work-02-title">
               <div class="sp-work-row-grid">
-                <div class="sp-phone-frame">
+                <div class="sp-phone-frame" id="sp-frame-02" data-live-url="https://wdnd-1.web.app/">
                   <img
                     src="./wdnd-1.web.app_ (2).png"
                     alt="WantsAndNeeds custom e-commerce storefront"
                     width="800"
                     height="1832"
                     loading="lazy">
+                  <div class="sp-phone-iframe-container" style="display: none;"></div>
+                  <button type="button" class="sp-preview-pill" data-frame-id="sp-frame-02" aria-label="Toggle live preview for WantsAndNeeds">
+                    <svg class="pill-play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg class="pill-close-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span class="pill-text">Live Preview</span>
+                  </button>
                 </div>
                 <div class="sp-work-info">
                   <span class="sp-project-tag">DEMO PROJECT</span>
@@ -1907,7 +2081,15 @@
                       <span>Lighthouse performance 96. Page size 850KB. Load time 0.7s.</span>
                     </li>
                   </ul>
-                  <a href="https://wdnd-1.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit store site</a>
+                  <div class="sp-work-actions">
+                    <a href="https://wdnd-1.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit store site</a>
+                    <button type="button" class="sp-preview-btn" data-frame-id="sp-frame-02">
+                      <svg class="btn-preview-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span class="btn-preview-label">Live Preview</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>
@@ -1915,13 +2097,24 @@
             <!-- Row 03: FramesWallet Portfolio -->
             <article class="sp-work-row section" data-stage="3" aria-labelledby="sp-work-03-title">
               <div class="sp-work-row-grid">
-                <div class="sp-phone-frame">
+                <div class="sp-phone-frame" id="sp-frame-03" data-live-url="https://frameswallet.vercel.app/">
                   <img
                     src="./frameswallet.vercel.app_.png"
                     alt="FramesWallet video editing studio portfolio website"
                     width="800"
                     height="1832"
                     loading="lazy">
+                  <div class="sp-phone-iframe-container" style="display: none;"></div>
+                  <button type="button" class="sp-preview-pill" data-frame-id="sp-frame-03" aria-label="Toggle live preview for FramesWallet">
+                    <svg class="pill-play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg class="pill-close-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span class="pill-text">Live Preview</span>
+                  </button>
                 </div>
                 <div class="sp-work-info">
                   <span class="sp-project-tag">INTERNAL PROJECT</span>
@@ -1940,7 +2133,119 @@
                       <span>Lighthouse performance 99. Page size 1.2MB. Load time 0.6s.</span>
                     </li>
                   </ul>
-                  <a href="https://frameswallet.vercel.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit brand site</a>
+                  <div class="sp-work-actions">
+                    <a href="https://frameswallet.vercel.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit brand site</a>
+                    <button type="button" class="sp-preview-btn" data-frame-id="sp-frame-03">
+                      <svg class="btn-preview-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span class="btn-preview-label">Live Preview</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Row 04: Digital Wedding Invitation -->
+            <article class="sp-work-row section" data-stage="1" aria-labelledby="sp-work-04-title">
+              <div class="sp-work-row-grid">
+                <div class="sp-phone-frame" id="sp-frame-04" data-live-url="https://carde.web.app/">
+                  <img
+                    src="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332577/screenshot-2026-11-22-125659_hhunvt.png"
+                    alt="Digital Wedding Invitation mobile experience"
+                    width="800"
+                    height="1832"
+                    loading="lazy">
+                  <div class="sp-phone-iframe-container" style="display: none;"></div>
+                  <button type="button" class="sp-preview-pill" data-frame-id="sp-frame-04" aria-label="Toggle live preview for Wedding Invitation">
+                    <svg class="pill-play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg class="pill-close-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span class="pill-text">Live Preview</span>
+                  </button>
+                </div>
+                <div class="sp-work-info">
+                  <span class="sp-project-tag">FEATURED PROJECT</span>
+                  <h3 id="sp-work-04-title" class="sp-work-title">Digital Wedding Invitation</h3>
+                  <ul class="sp-work-details">
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Overview:</strong>
+                      <span>An interactive, mobile-first digital wedding invitation experience with smooth animations, event details, and instant guest access.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Highlights:</strong>
+                      <span>Fluid touch interactions, dynamic timeline, integrated map directions, and instant RSVP guest confirmation.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Measured:</strong>
+                      <span>Lighthouse performance 99. Zero layout shift. Fast sub-second mobile load time.</span>
+                    </li>
+                  </ul>
+                  <div class="sp-work-actions">
+                    <a href="https://carde.web.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit live site</a>
+                    <button type="button" class="sp-preview-btn" data-frame-id="sp-frame-04">
+                      <svg class="btn-preview-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span class="btn-preview-label">Live Preview</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- Row 05: Ajay Arts Vault -->
+            <article class="sp-work-row section" data-stage="1" aria-labelledby="sp-work-05-title">
+              <div class="sp-work-row-grid">
+                <div class="sp-phone-frame" id="sp-frame-05" data-live-url="https://acoustic-velvet-art-vault.base44.app/">
+                  <img
+                    src="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332576/screenshot-2026-11-22-125719_ag9vd0.png"
+                    alt="Ajay Arts Vault curated art gallery showcase"
+                    width="800"
+                    height="1832"
+                    loading="lazy">
+                  <div class="sp-phone-iframe-container" style="display: none;"></div>
+                  <button type="button" class="sp-preview-pill" data-frame-id="sp-frame-05" aria-label="Toggle live preview for Ajay Arts Vault">
+                    <svg class="pill-play-icon" width="10" height="10" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <svg class="pill-close-icon" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none;">
+                      <line x1="18" y1="6" x2="6" y2="18"></line>
+                      <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    <span class="pill-text">Live Preview</span>
+                  </button>
+                </div>
+                <div class="sp-work-info">
+                  <span class="sp-project-tag">FEATURED PROJECT</span>
+                  <h3 id="sp-work-05-title" class="sp-work-title">Ajay Arts Vault</h3>
+                  <ul class="sp-work-details">
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Overview:</strong>
+                      <span>A curated digital art gallery and showcase platform built to highlight artwork with a refined, distraction-free browsing experience.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Highlights:</strong>
+                      <span>High-resolution artwork presentation, seamless gallery navigation, dark aesthetic, and responsive portfolio scaling.</span>
+                    </li>
+                    <li class="sp-work-detail-item">
+                      <strong class="sp-work-label">Measured:</strong>
+                      <span>Lighthouse performance 97. Optimized media delivery. Smooth 60fps animations.</span>
+                    </li>
+                  </ul>
+                  <div class="sp-work-actions">
+                    <a href="https://acoustic-velvet-art-vault.base44.app/" target="_blank" rel="noopener noreferrer" class="sp-work-btn">Visit gallery site</a>
+                    <button type="button" class="sp-preview-btn" data-frame-id="sp-frame-05">
+                      <svg class="btn-preview-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                      </svg>
+                      <span class="btn-preview-label">Live Preview</span>
+                    </button>
+                  </div>
                 </div>
               </div>
             </article>
@@ -3777,6 +4082,125 @@
           cForm.reset();
         });
       }
+
+      // 7. Interactive Phone Preview Facade Pattern (Performance Safe: Max 1 active iframe)
+      let currentActiveFrame = null;
+
+      function deactivatePreview(frame) {
+        if (!frame) return;
+        const iframeContainer = frame.querySelector('.sp-phone-iframe-container');
+        const img = frame.querySelector('img');
+        const frameId = frame.id;
+
+        if (iframeContainer) {
+          iframeContainer.innerHTML = '';
+          iframeContainer.style.display = 'none';
+        }
+        if (img) img.style.opacity = '1';
+        frame.classList.remove('is-previewing');
+
+        // Update pill inside phone frame
+        const pill = frame.querySelector('.sp-preview-pill');
+        if (pill) {
+          const playIcon = pill.querySelector('.pill-play-icon');
+          const closeIcon = pill.querySelector('.pill-close-icon');
+          const text = pill.querySelector('.pill-text');
+          if (playIcon) playIcon.style.display = 'inline-block';
+          if (closeIcon) closeIcon.style.display = 'none';
+          if (text) text.textContent = 'Live Preview';
+        }
+
+        // Update CTA preview buttons
+        document.querySelectorAll(`.sp-preview-btn[data-frame-id="${frameId}"]`).forEach(function(btn) {
+          btn.classList.remove('is-active');
+          const label = btn.querySelector('.btn-preview-label');
+          if (label) label.textContent = 'Live Preview';
+        });
+
+        if (currentActiveFrame === frame) {
+          currentActiveFrame = null;
+        }
+      }
+
+      function activatePreview(frame) {
+        if (!frame) return;
+        if (currentActiveFrame === frame) {
+          deactivatePreview(frame);
+          return;
+        }
+        if (currentActiveFrame) {
+          deactivatePreview(currentActiveFrame);
+        }
+
+        const liveUrl = frame.getAttribute('data-live-url');
+        if (!liveUrl) return;
+
+        const iframeContainer = frame.querySelector('.sp-phone-iframe-container');
+        const img = frame.querySelector('img');
+        const frameId = frame.id;
+
+        if (iframeContainer) {
+          iframeContainer.innerHTML = `
+            <div class="sp-iframe-loader">
+              <div class="sp-spinner"></div>
+              <span>Loading live preview...</span>
+            </div>
+            <iframe src="${liveUrl}" class="sp-phone-iframe" title="Interactive preview of ${liveUrl}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" loading="lazy"></iframe>
+          `;
+          iframeContainer.style.display = 'block';
+
+          const iframe = iframeContainer.querySelector('iframe');
+          if (iframe) {
+            iframe.addEventListener('load', function() {
+              const loader = iframeContainer.querySelector('.sp-iframe-loader');
+              if (loader) loader.style.display = 'none';
+            });
+          }
+        }
+
+        if (img) img.style.opacity = '0';
+        frame.classList.add('is-previewing');
+        currentActiveFrame = frame;
+
+        // Update pill inside phone frame
+        const pill = frame.querySelector('.sp-preview-pill');
+        if (pill) {
+          const playIcon = pill.querySelector('.pill-play-icon');
+          const closeIcon = pill.querySelector('.pill-close-icon');
+          const text = pill.querySelector('.pill-text');
+          if (playIcon) playIcon.style.display = 'none';
+          if (closeIcon) closeIcon.style.display = 'inline-block';
+          if (text) text.textContent = 'Close Preview';
+        }
+
+        // Update CTA preview buttons
+        document.querySelectorAll(`.sp-preview-btn[data-frame-id="${frameId}"]`).forEach(function(btn) {
+          btn.classList.add('is-active');
+          const label = btn.querySelector('.btn-preview-label');
+          if (label) label.textContent = 'Close Preview';
+        });
+      }
+
+      // Attach event listeners to all phone frame preview pills and CTA buttons
+      document.querySelectorAll('.sp-preview-pill').forEach(function(pill) {
+        pill.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const frameId = pill.getAttribute('data-frame-id');
+          const frame = document.getElementById(frameId);
+          if (frame) activatePreview(frame);
+        });
+      });
+
+      document.querySelectorAll('.sp-preview-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const frameId = btn.getAttribute('data-frame-id');
+          const frame = document.getElementById(frameId);
+          if (frame) activatePreview(frame);
+        });
+      });
     })();
   </script>
 
