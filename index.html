@@ -1671,6 +1671,13 @@
   box-shadow: 0 6px 24px rgba(238, 190, 162, 0.55);
 }
 
+.modal-submit-btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .modal-success-msg {
   display: flex;
   align-items: center;
@@ -1680,6 +1687,19 @@
   border: 1px solid rgba(238, 190, 162, 0.3);
   border-radius: 10px;
   color: #eebea2;
+  font-family: "DM Sans", sans-serif;
+  font-size: 0.85rem;
+}
+
+.modal-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 10px;
+  color: #fca5a5;
   font-family: "DM Sans", sans-serif;
   font-size: 0.85rem;
 }
@@ -3910,6 +3930,8 @@
         <p class="modal-subtitle">Direct access to high-caliber web and digital projects with verified clients.</p>
       </div>
       <form id="freelancerForm" class="network-modal-form">
+        <!-- Web3Forms Honeypot anti-spam protection -->
+        <input type="checkbox" name="botcheck" class="hidden" style="display: none;" tabindex="-1" autocomplete="off">
         <div class="modal-form-group">
           <label for="fl-name" class="modal-label">Full Name</label>
           <input type="text" id="fl-name" name="name" required placeholder="Alex Mercer" class="modal-input" autocomplete="name">
@@ -3926,9 +3948,9 @@
           <label for="fl-skills" class="modal-label">Core Skills</label>
           <input type="text" id="fl-skills" name="skills" required placeholder="e.g. Three.js, React, UI/UX, WebGL, Shader Art" class="modal-input">
         </div>
-        <button type="submit" class="modal-submit-btn">
-          <span>Submit Application</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <button type="submit" class="modal-submit-btn" id="modalSubmitBtn">
+          <span class="submit-btn-text">Submit Application</span>
+          <svg class="submit-btn-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -3938,7 +3960,15 @@
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
           </svg>
-          <span>Application submitted! We'll review your portfolio and reach out.</span>
+          <span id="modalSuccessText">Application received. We'll be in touch soon.</span>
+        </div>
+        <div id="modalErrorMsg" class="modal-error-msg" style="display:none;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span id="modalErrorText">Submission failed. Please try again.</span>
         </div>
       </form>
     </div>
@@ -4012,6 +4042,10 @@
         if (modal) {
           modal.classList.add('open');
           modal.setAttribute('aria-hidden', 'false');
+          const flSuccessMsg = document.getElementById('modalSuccessMsg');
+          const flErrorMsg = document.getElementById('modalErrorMsg');
+          if (flSuccessMsg) flSuccessMsg.style.display = 'none';
+          if (flErrorMsg) flErrorMsg.style.display = 'none';
         }
       }
 
@@ -4057,16 +4091,90 @@
         }
       });
 
-      // 5. Freelancer Form Submission
+      // 5. Freelancer Form Submission via Web3Forms API
       const flForm = document.getElementById('freelancerForm');
+      const flSubmitBtn = document.getElementById('modalSubmitBtn');
       const flSuccess = document.getElementById('modalSuccessMsg');
+      const flError = document.getElementById('modalErrorMsg');
+      const flErrorText = document.getElementById('modalErrorText');
+
       if (flForm) {
-        flForm.addEventListener('submit', function(e) {
+        flForm.addEventListener('submit', async function(e) {
           e.preventDefault();
-          if (flSuccess) {
-            flSuccess.style.display = 'flex';
+
+          // Honeypot check
+          const botcheck = flForm.querySelector('input[name="botcheck"]');
+          if (botcheck && botcheck.checked) {
+            return;
           }
-          flForm.reset();
+
+          // UI State: Hide previous messages
+          if (flSuccess) flSuccess.style.display = 'none';
+          if (flError) flError.style.display = 'none';
+
+          // UI State: Disable submit button & change text to "Sending..."
+          const btnTextEl = flSubmitBtn ? flSubmitBtn.querySelector('.submit-btn-text') : null;
+          const btnIconEl = flSubmitBtn ? flSubmitBtn.querySelector('.submit-btn-icon') : null;
+          const originalText = btnTextEl ? btnTextEl.textContent : 'Submit Application';
+
+          if (flSubmitBtn) {
+            flSubmitBtn.disabled = true;
+            if (btnTextEl) btnTextEl.textContent = 'Sending...';
+            if (btnIconEl) btnIconEl.style.display = 'none';
+          }
+
+          const payload = {
+            access_key: "ae44721b-2bd1-464b-9e8e-4ddd91244813",
+            subject: "New Alacado Network Application",
+            from_name: "Alacado Website",
+            name: flForm.name ? flForm.name.value.trim() : '',
+            email: flForm.email ? flForm.email.value.trim() : '',
+            portfolio: flForm.portfolio ? flForm.portfolio.value.trim() : '',
+            skills: flForm.skills ? flForm.skills.value.trim() : ''
+          };
+
+          try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+              flForm.reset();
+              if (flSuccess) {
+                flSuccess.style.display = 'flex';
+              }
+            } else {
+              if (flError) {
+                if (flErrorText && result.message) {
+                  flErrorText.textContent = result.message;
+                } else if (flErrorText) {
+                  flErrorText.textContent = "Submission failed. Please check details and try again.";
+                }
+                flError.style.display = 'flex';
+              }
+            }
+          } catch (err) {
+            console.error("Web3Forms submission error:", err);
+            if (flError) {
+              if (flErrorText) {
+                flErrorText.textContent = "Network error. Please check your connection and try again.";
+              }
+              flError.style.display = 'flex';
+            }
+          } finally {
+            if (flSubmitBtn) {
+              flSubmitBtn.disabled = false;
+              if (btnTextEl) btnTextEl.textContent = originalText;
+              if (btnIconEl) btnIconEl.style.display = 'inline-block';
+            }
+          }
         });
       }
 
