@@ -1718,13 +1718,16 @@
   width: 100%;
   max-width: 1040px;
   margin: 0 auto;
-  background: #080a0e;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(8, 10, 14, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 36px 36px 24px 24px;
   padding: 4.5rem 3.5rem 2.5rem;
-  box-shadow: 0 -20px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
   position: relative;
   overflow: hidden;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .fw-footer-top {
@@ -1811,6 +1814,7 @@
   display: flex;
   align-items: flex-end;
   background: transparent !important;
+  cursor: pointer;
 }
 
 .fw-watermark {
@@ -1822,20 +1826,23 @@
   color: rgba(238, 190, 162, 0.14);
   text-transform: uppercase;
   user-select: none;
-  transition: all 0.4s ease;
+  transition: color 0.4s ease, text-shadow 0.4s ease;
   display: inline-block;
-  cursor: default;
+  cursor: pointer;
   background: transparent !important;
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
 }
 
-/* Desktop: glow when hovered over (letters only) */
+/* Desktop: blink animation when cursor is anywhere on the footer or watermark */
 @media (min-width: 769px) {
+  .fw-footer:hover .fw-watermark,
+  .fw-footer-card:hover .fw-watermark,
+  .fw-footer-bottom:hover .fw-watermark,
+  .fw-watermark-wrapper:hover .fw-watermark,
   .fw-watermark:hover {
-    color: #eebea2;
-    text-shadow: 0 0 12px rgba(238, 190, 162, 0.85), 0 0 24px rgba(238, 190, 162, 0.5), 0 0 40px rgba(217, 158, 124, 0.35);
+    animation: alacadoWatermarkBlink 1.4s infinite ease-in-out;
   }
 }
 
@@ -1862,12 +1869,12 @@
 
 @keyframes alacadoWatermarkBlink {
   0%, 100% {
-    color: rgba(238, 190, 162, 0.12);
+    color: rgba(238, 190, 162, 0.14);
     text-shadow: none;
   }
   50% {
-    color: rgba(238, 190, 162, 0.95);
-    text-shadow: 0 0 10px rgba(238, 190, 162, 0.9), 0 0 22px rgba(238, 190, 162, 0.6), 0 0 35px rgba(217, 158, 124, 0.35);
+    color: #eebea2;
+    text-shadow: 0 0 14px rgba(238, 190, 162, 0.95), 0 0 28px rgba(238, 190, 162, 0.65), 0 0 45px rgba(217, 158, 124, 0.4);
   }
 }
 
@@ -3721,7 +3728,6 @@
 		const lookTarget = new THREE.Vector3();
 
 		// Cache DOM elements queried every frame
-		const _siteFooter = document.querySelector('.site-footer');
 		const _scrollHint = document.querySelector('.scroll-hint');
 
 		function animate() {
@@ -3756,14 +3762,9 @@
 			lookTarget.set(cam.lx, cam.ly, cam.lz);
 			camera.lookAt(lookTarget);
 
-			// Push canvas up when footer is visible (cached element)
-			if (_siteFooter) {
-				const footerTop = _siteFooter.getBoundingClientRect().top;
-				if (footerTop < window.innerHeight) {
-					renderer.domElement.style.transform = `translateY(-${window.innerHeight - footerTop}px)`;
-				} else {
-					renderer.domElement.style.transform = '';
-				}
+			// Keep background canvas fixed and stable behind all sections including footer
+			if (renderer.domElement.style.transform) {
+				renderer.domElement.style.transform = '';
 			}
 
 			// Progress bar
