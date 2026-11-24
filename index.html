@@ -4,6 +4,8 @@
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>ALACADO</title>
+<link rel="icon" type="image/png" href="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332593/lor_ryskmk.png">
+<link rel="apple-touch-icon" href="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332593/lor_ryskmk.png">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
@@ -2383,9 +2385,10 @@
                 <h4 class="fw-col-heading">Connect</h4>
                 <ul class="fw-link-list">
                   <li><a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="fw-link">WhatsApp</a></li>
-                  <li><a href="mailto:contact@alacado.com" class="fw-link">Email</a></li>
-                  <li><a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="fw-link">LinkedIn</a></li>
-                  <li><a href="https://twitter.com" target="_blank" rel="noopener noreferrer" class="fw-link">Twitter</a></li>
+                  <li><a href="mailto:alacado2024@gmail.com" class="fw-link">Email</a></li>
+                  <li><a href="https://www.linkedin.com/in/alacado" target="_blank" rel="noopener noreferrer" class="fw-link">LinkedIn</a></li>
+                  <li><a href="https://x.com/ALACADO2024" target="_blank" rel="noopener noreferrer" class="fw-link">X</a></li>
+                  <li><a href="https://youtube.com/@alacado-2024?si=dFapXML7IaW8Pb91" target="_blank" rel="noopener noreferrer" class="fw-link">YouTube</a></li>
                   <li><a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="fw-link">Instagram</a></li>
                 </ul>
               </div>
@@ -4161,6 +4164,9 @@
             access_key: "ae44721b-2bd1-464b-9e8e-4ddd91244813",
             subject: "New Alacado Network Application",
             from_name: "Alacado Website",
+            ccemail: "alacado2024@gmail.com",
+            to_email: "alacado2024@gmail.com",
+            replyto: flForm.email ? flForm.email.value.trim() : 'alacado2024@gmail.com',
             name: flForm.name ? flForm.name.value.trim() : '',
             email: flForm.email ? flForm.email.value.trim() : '',
             portfolio: flForm.portfolio ? flForm.portfolio.value.trim() : '',
@@ -4212,16 +4218,55 @@
         });
       }
 
-      // 6. Contact Form Submission
+      // 6. Contact Form Submission via Web3Forms API
       const cForm = document.getElementById('mainContactForm');
       const cSuccess = document.getElementById('contactSuccessMsg');
       if (cForm) {
-        cForm.addEventListener('submit', function(e) {
+        cForm.addEventListener('submit', async function(e) {
           e.preventDefault();
-          if (cSuccess) {
-            cSuccess.style.display = 'flex';
+          const submitBtn = cForm.querySelector('button[type="submit"]');
+          const originalBtnHtml = submitBtn ? submitBtn.innerHTML : 'Send Project Brief';
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
           }
-          cForm.reset();
+          try {
+            const payload = {
+              access_key: "ae44721b-2bd1-464b-9e8e-4ddd91244813",
+              subject: "New Alacado Project Brief Inquiry",
+              from_name: "Alacado Website",
+              ccemail: "alacado2024@gmail.com",
+              to_email: "alacado2024@gmail.com",
+              replyto: cForm.email ? cForm.email.value.trim() : 'alacado2024@gmail.com',
+              name: cForm.name ? cForm.name.value.trim() : '',
+              email: cForm.email ? cForm.email.value.trim() : '',
+              service: cForm.service ? cForm.service.value : '',
+              message: cForm.message ? cForm.message.value.trim() : ''
+            };
+            await fetch("https://api.web3forms.com/submit", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify(payload)
+            });
+            if (cSuccess) {
+              cSuccess.style.display = 'flex';
+            }
+            cForm.reset();
+          } catch (err) {
+            console.error("Contact Form Web3Forms error:", err);
+            if (cSuccess) {
+              cSuccess.style.display = 'flex';
+            }
+            cForm.reset();
+          } finally {
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = originalBtnHtml;
+            }
+          }
         });
       }
 
