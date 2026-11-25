@@ -87,12 +87,18 @@
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body {
-    background: #000000 !important;
-    background-color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
     font-family: 'Monica', 'DM Sans', sans-serif;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
   }
 
   /* Viewport-locked, full-screen container */
@@ -218,34 +224,37 @@
   
   /* Outer Floating Frame Container (Clean pure CSS white frame with even padding) */
   .floating-frame-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    padding: 16px; /* Desktop even padding (matches p-4) */
-    background: #ffffff;
-    background-color: #ffffff;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    padding: 16px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
     pointer-events: none;
     z-index: 10;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
   }
 
   /* Sleek Rounded Dark Interface Card */
   #homePage {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 28px; /* Desktop rounded-3xl / curved boundary frame */
-    overflow: hidden; /* Contains background shader, canvas, and scroll content cleanly */
-    background: #000915; /* Luxurious dark navy/black */
+    position: absolute !important;
+    top: 16px !important;
+    left: 16px !important;
+    right: 16px !important;
+    bottom: 16px !important;
+    width: calc(100% - 32px) !important;
+    height: calc(100% - 32px) !important;
+    border-radius: 28px !important; /* Desktop rounded-3xl / curved boundary frame */
+    overflow: hidden !important; /* Contains background shader, canvas, and scroll content cleanly */
+    background: #000915 !important; /* Luxurious dark navy/black */
     opacity: 0;
     pointer-events: auto;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25) !important;
     transition: opacity 1.5s cubic-bezier(0.25, 1, 0.5, 1);
   }
   #homePage.visible {
@@ -385,11 +394,17 @@
       padding: 0 !important;
       background: #000000 !important;
       background-color: #000000 !important;
-      overflow-x: hidden !important;
+      overflow: hidden !important;
     }
 
     /* Sleek pure black surface on mobile */
     #homePage {
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      bottom: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
       border-radius: 0 !important;
       background: #000000 !important;
       background-color: #000000 !important;
@@ -5337,10 +5352,13 @@ details.faq-item summary {
 
       const furImg = new Image();
       let imgLoaded = false;
-      furImg.src = './hero-fur.webp';
       furImg.onload = () => {
         imgLoaded = true;
       };
+      furImg.src = './hero-fur.webp';
+      if (furImg.complete && furImg.naturalWidth > 0) {
+        imgLoaded = true;
+      }
 
       let targetScrollT = 0;
       let currentScrollT = 0;
@@ -5368,7 +5386,7 @@ details.faq-item summary {
       }, { passive: true });
 
       function render(now) {
-        if (isWebGPURunning) return; // Yield to WebGPU when hardware active
+        if (isWebGPURunning) return; // Yield only when WebGPU is confirmed active and running
 
         if (window.innerWidth <= 768) {
           // Pure black on mobile as requested
@@ -5398,35 +5416,32 @@ details.faq-item summary {
 
         // Living ambient wind sway & organic breathing (fur is never frozen)
         const tSec = now * 0.001;
-        const breathing = 1.04 + Math.sin(tSec * 0.8) * 0.018;
-        const scrollZoom = 1.0 + currentScrollT * 0.12; // Dynamic camera zoom as user scrolls
-        const totalScale = breathing * scrollZoom;
-
-        const swayX = Math.cos(tSec * 0.5) * 8 + curPointerX * 16;
-        const swayY = Math.sin(tSec * 0.6) * 6 + curPointerY * 12 - currentScrollT * 60; // Parallax scroll drift
-
-        // Draw deep luxury dark void
-        ctx.fillStyle = '#000810';
-        ctx.fillRect(0, 0, w, h);
+        const breathing = 1.0 + Math.sin(tSec * 0.8) * 0.015;
 
         if (imgLoaded && furImg.naturalWidth > 0) {
-          const imgAspect = furImg.naturalWidth / furImg.naturalHeight;
-          const canvasAspect = w / h;
-          let baseW, baseH;
-          if (canvasAspect > imgAspect) {
-            baseW = w;
-            baseH = w / imgAspect;
-          } else {
-            baseH = h;
-            baseW = h * imgAspect;
-          }
+          // 1.25x scale covers the entire canvas with generous room for parallax without exposing edges
+          const scaleBase = Math.max(w / furImg.naturalWidth, h / furImg.naturalHeight) * 1.25;
+          const finalW = furImg.naturalWidth * scaleBase * breathing;
+          const finalH = furImg.naturalHeight * scaleBase * breathing;
 
-          const finalW = baseW * totalScale;
-          const finalH = baseH * totalScale;
-          const dx = (w - finalW) / 2 + swayX;
-          const dy = (h - finalH) / 2 + swayY;
+          const baseX = (w - finalW) / 2;
+          const baseY = (h - finalH) / 2;
 
-          ctx.drawImage(furImg, dx, dy, finalW, finalH);
+          // Parallax and sway offsets
+          const maxSwayX = (finalW - w) * 0.35;
+          const maxSwayY = (finalH - h) * 0.35;
+          const swayX = Math.max(-maxSwayX, Math.min(maxSwayX, curPointerX * 20 + Math.cos(tSec * 0.5) * 8));
+          const swayY = Math.max(-maxSwayY, Math.min(maxSwayY, curPointerY * 15 + Math.sin(tSec * 0.6) * 6 - currentScrollT * 40));
+
+          // Clamped drawing coordinates: image is GUARANTEED to cover 100% of the canvas at all scroll positions
+          const clampedX = Math.min(0, Math.max(w - finalW, baseX + swayX));
+          const clampedY = Math.min(0, Math.max(h - finalH, baseY + swayY));
+
+          ctx.clearRect(0, 0, w, h);
+          ctx.drawImage(furImg, clampedX, clampedY, finalW, finalH);
+        } else {
+          ctx.fillStyle = '#000810';
+          ctx.fillRect(0, 0, w, h);
         }
 
         requestAnimationFrame(render);
@@ -5434,12 +5449,16 @@ details.faq-item summary {
 
       requestAnimationFrame(render);
 
-      // Only initialize full 3D WebGPU on desktop screens with hardware WebGPU support
+      // Listen for successful WebGPU activation from grass-3d.js
+      window.addEventListener('alacado-webgpu-active', () => {
+        isWebGPURunning = true;
+      });
+
+      // Load WebGPU script safely only on hardware-supported desktop browsers
       if (window.innerWidth > 768 && !!navigator.gpu) {
         const s = document.createElement('script');
         s.type = 'module';
         s.src = './grass-3d.js';
-        s.onload = () => { isWebGPURunning = true; };
         document.body.appendChild(s);
       }
     })();
@@ -7021,7 +7040,6 @@ const createRenderer = canvas => {
       initHowItWorks3();
       initFAQ2();
       initReflectiveCard();
-
     })();
   </script>
 

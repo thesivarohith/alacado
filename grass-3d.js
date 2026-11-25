@@ -100,6 +100,8 @@
 				renderer.setSize(innerWidth, innerHeight);
 				renderer.toneMapping = THREE.ACESFilmicToneMapping;
 				renderer.toneMappingExposure = 1.0;
+				await renderer.init();
+
 				renderer.domElement.id = 'grass-canvas';
 				const existingCanvas = document.getElementById('grass-canvas');
 				if (existingCanvas && existingCanvas.parentNode) {
@@ -107,10 +109,8 @@
 				} else {
 					document.body.appendChild(renderer.domElement);
 				}
-				await renderer.init();
 			} catch (e) {
-				console.warn("WebGPU init failed, rendering fallback fur texture:", e);
-				renderFallbackFurTexture();
+				console.warn("WebGPU init failed, keeping interactive 2D canvas running:", e);
 				return;
 			}
 
@@ -1552,6 +1552,7 @@
 		}
 
 			renderer.setAnimationLoop(animate);
+			window.dispatchEvent(new CustomEvent('alacado-webgpu-active'));
 		}
 
 		init3DGrass().catch(err => {
