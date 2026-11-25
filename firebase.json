@@ -8,15 +8,25 @@
       "**/node_modules/**",
       "src/**",
       "temp.mjs",
-      "swap-grass.js"
+      "swap-grass.js",
+      "screenshots/**"
     ],
     "headers": [
       {
-        "source": "**",
+        "source": "**/*.@(jpg|jpeg|gif|png|webp|svg|ico|otf|ttf|woff|woff2|js|css)",
         "headers": [
           {
             "key": "Cache-Control",
-            "value": "no-cache, no-store, must-revalidate"
+            "value": "public, max-age=31536000, immutable"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(html|json)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache"
           }
         ]
       }

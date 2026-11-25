@@ -1,3 +1,5 @@
 node_modules/
 scratch/
 firebase
+screenshots/
+.firebase/
