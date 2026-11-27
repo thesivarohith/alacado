@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>404 — Page Not Available | ALACADO</title>
+  <meta name="description" content="Sorry, this page isn't available. Return to ALACADO home page for websites, online stores and digital menus."/>
+  <link rel="canonical" href="https://alacado.in/404.html"/>
+  <meta name="robots" content="noindex, follow"/>
+  <link rel="icon" type="image/png" href="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332593/lor_ryskmk.png">
+  <link rel="apple-touch-icon" href="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332593/lor_ryskmk.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+
+  <style>
+    @font-face {
+      font-family: 'Monica';
+      src: url('./fonts/monica.otf') format('opentype'),
+           url('./fonts/monica.ttf') format('truetype'),
+           url('/fonts/monica.otf') format('opentype'),
+           url('/fonts/monica.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --sp-accent: #E5B89B;
+      --sp-accent-hover: #f0cbb3;
+      --sp-ink: rgba(255, 255, 255, 0.95);
+      --sp-muted: #d6cec5;
+      --sp-font-serif: 'Cinzel', serif;
+      --sp-font-sans: 'Monica', 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      margin: 0 !important;
+      padding: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      overflow: hidden !important;
+      position: fixed !important;
+      inset: 0 !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      font-family: var(--sp-font-sans);
+      color: #ffffff;
+    }
+
+    /* Floating outer frame matching Alacado's signature architecture */
+    .floating-frame-container {
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      padding: 16px !important;
+      box-sizing: border-box !important;
+      background: #ffffff !important;
+      background-color: #ffffff !important;
+      overflow: hidden !important;
+      z-index: 10;
+    }
+
+    #errorCard {
+      position: absolute !important;
+      top: 16px !important;
+      left: 16px !important;
+      right: 16px !important;
+      bottom: 16px !important;
+      width: calc(100% - 32px) !important;
+      height: calc(100% - 32px) !important;
+      border-radius: 28px !important;
+      overflow-y: auto !important;
+      overflow-x: hidden !important;
+      background: #000915 !important;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+    }
+
+    /* Background decorative ambient glow */
+    .ambient-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(229, 184, 155, 0.08) 0%, rgba(3, 20, 53, 0.25) 45%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Mockup Window Container inspired by reference */
+    .browser-mockup {
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      max-width: 980px;
+      background: rgba(10, 14, 22, 0.88);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(229, 184, 155, 0.1);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: floatUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes floatUp {
+      from { opacity: 0; transform: translateY(24px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Browser Header Bar */
+    .browser-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.25rem;
+      background: rgba(4, 7, 12, 0.95);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      gap: 1rem;
+    }
+
+    .browser-dots {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dot {
+      width: 11px;
+      height: 11px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot-red { background: #ff5f56; }
+    .dot-yellow { background: #ffbd2e; }
+    .dot-green { background: #27c93f; }
+
+    .browser-address-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 0.35rem 1.2rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.65);
+      font-family: monospace;
+      letter-spacing: 0.02em;
+    }
+
+    .browser-address-bar svg {
+      color: #10B981;
+      flex-shrink: 0;
+    }
+
+    .browser-nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .b-nav-link {
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.6);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .b-nav-link:hover { color: #E5B89B; }
+
+    .b-cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      background: #E5B89B;
+      color: #0b0f19;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .b-cta-btn:hover {
+      background: #f0cbb3;
+      transform: translateY(-1px);
+    }
+
+    /* Content Body Inside Browser Mockup */
+    .browser-body {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      align-items: center;
+      gap: 2.5rem;
+      padding: 3.5rem 3.5rem 4rem;
+    }
+
+    .error-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .error-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #f87171;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #ef4444;
+      box-shadow: 0 0 10px #ef4444;
+      animation: pulseGlow 1.8s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+
+    .error-title {
+      font-family: var(--sp-font-serif);
+      font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      color: #ffffff;
+      margin-bottom: 1rem;
+      letter-spacing: 0.02em;
+    }
+
+    .accent-text {
+      color: #E5B89B;
+      font-style: italic;
+    }
+
+    .error-desc {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 2.2rem;
+      max-width: 480px;
+    }
+
+    .error-actions {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .btn-return-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.95rem 1.8rem;
+      background: #E5B89B;
+      color: #0b0f19;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-decoration: none;
+      box-shadow: 0 8px 24px rgba(229, 184, 155, 0.25);
+      transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .btn-return-home:hover {
+      background: #f0cbb3;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(229, 184, 155, 0.35);
+    }
+
+    .btn-secondary-advisor {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.92rem 1.6rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.88);
+      font-size: 0.95rem;
+      font-weight: 500;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+    }
+    .btn-secondary-advisor:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(229, 184, 155, 0.5);
+      color: #ffffff;
+    }
+
+    .error-sublinks {
+      font-size: 0.88rem;
+      color: rgba(255, 255, 255, 0.45);
+      line-height: 1.5;
+    }
+    .error-sublinks a {
+      color: #E5B89B;
+      text-decoration: none;
+      border-bottom: 1px dotted rgba(229, 184, 155, 0.4);
+      transition: border-color 0.2s;
+    }
+    .error-sublinks a:hover {
+      border-bottom-style: solid;
+      border-color: #E5B89B;
+    }
+
+    /* Graphic / Illustration Side */
+    .error-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .illustration-card {
+      position: relative;
+      width: 100%;
+      max-width: 320px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle, rgba(229, 184, 155, 0.06) 0%, rgba(255, 255, 255, 0.02) 60%, transparent 80%);
+      border-radius: 50%;
+      border: 1px dashed rgba(229, 184, 155, 0.2);
+      animation: rotateSlow 40s linear infinite;
+    }
+
+    @keyframes rotateSlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .plug-graphic {
+      width: 160px;
+      height: 160px;
+      filter: drop-shadow(0 15px 35px rgba(229, 184, 155, 0.3));
+      animation: plugFloat 3.5s ease-in-out infinite;
+    }
+
+    @keyframes plugFloat {
+      0%, 100% { transform: translateY(0px) rotate(-6deg); }
+      50% { transform: translateY(-12px) rotate(4deg); }
+    }
+
+    .floating-code-404 {
+      position: absolute;
+      font-family: var(--sp-font-serif);
+      font-size: 7.5rem;
+      font-weight: 800;
+      color: rgba(229, 184, 155, 0.07);
+      user-select: none;
+      pointer-events: none;
+      z-index: 0;
+      letter-spacing: 0.1em;
+    }
+
+    /* Mobile Responsive Rules */
+    @media (max-width: 768px) {
+      .floating-frame-container {
+        padding: 0 !important;
+        background: #000000 !important;
+      }
+      #errorCard {
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        border-radius: 0 !important;
+        padding: 1.25rem 1rem;
+        background: #000000 !important;
+      }
+      .browser-mockup {
+        border-radius: 16px;
+      }
+      .browser-body {
+        grid-template-columns: 1fr;
+        padding: 2.2rem 1.5rem;
+        gap: 2rem;
+        text-align: center;
+      }
+      .error-content {
+        align-items: center;
+      }
+      .browser-nav-links {
+        display: none;
+      }
+      .error-actions {
+        justify-content: center;
+        width: 100%;
+      }
+      .btn-return-home, .btn-secondary-advisor {
+        width: 100%;
+        justify-content: center;
+      }
+      .illustration-card {
+        max-width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-frame-container">
+    <main id="errorCard" role="main">
+      <div class="ambient-glow" aria-hidden="true"></div>
+
+      <!-- Browser Window Mockup matching reference -->
+      <div class="browser-mockup">
+        <!-- Mockup Navigation Header -->
+        <header class="browser-header">
+          <div class="browser-dots" aria-hidden="true">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+
+          <div class="browser-address-bar">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>alacado.in/404</span>
+          </div>
+
+          <div class="browser-nav-links">
+            <a href="/#selected-projects" class="b-nav-link">Builds</a>
+            <a href="/#pricing" class="b-nav-link">Pricing</a>
+            <a href="/#contact" class="b-cta-btn">
+              <span>Initiate Project</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </header>
+
+        <!-- Main Body Content -->
+        <div class="browser-body">
+          <div class="error-content">
+            <div class="error-badge">
+              <span class="badge-pulse"></span>
+              <span>404 — Disconnected</span>
+            </div>
+
+            <h1 class="error-title">
+              Sorry!, this page <br/><span class="accent-text">isn't available</span>
+            </h1>
+
+            <p class="error-desc">
+              The page you were looking for couldn't be found or might have been relocated to a new address.
+            </p>
+
+            <div class="error-actions">
+              <a href="/" class="btn-return-home" id="btnReturnHome">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                  <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                <span>Return to Home Page</span>
+              </a>
+
+              <a href="https://wa.me/916383931694" target="_blank" rel="noopener noreferrer" class="btn-secondary-advisor">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.312.045-.694.074-2.222-.555-1.956-.806-3.21-2.809-3.308-2.939-.098-.13-.794-1.054-.794-2.008s.498-1.42.675-1.614c.178-.194.39-.243.52-.243.13 0 .26.002.373.007.12.005.281-.046.439.333.163.39.557 1.357.606 1.455.049.098.082.212.016.342-.065.13-.098.212-.195.326-.098.114-.206.255-.294.342-.098.098-.2.205-.087.4.114.195.505.833 1.082 1.348.744.664 1.371.87 1.566.967.195.098.309.082.424-.049.114-.13.488-.569.619-.765.13-.195.26-.163.44-.098.179.065 1.139.537 1.334.635.195.098.326.146.374.228.049.081.049.471-.095.876z"/>
+                </svg>
+                <span>Speak with Advisor</span>
+              </a>
+            </div>
+
+            <p class="error-sublinks">
+              Looking for something specific? Explore our <a href="/#selected-projects">Selected Builds</a>, <a href="/#what-we-build">What We Build</a>, or <a href="/#pricing">Pricing</a>.
+            </p>
+          </div>
+
+          <div class="error-visual" aria-hidden="true">
+            <span class="floating-code-404">404</span>
+            <div class="illustration-card">
+              <!-- Stylized Unplugged Power Cable Graphic -->
+              <svg class="plug-graphic" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Cord -->
+                <path d="M20 140 C 40 130, 60 110, 80 85" stroke="#E5B89B" stroke-width="8" stroke-linecap="round"/>
+                <!-- Plug Base -->
+                <rect x="75" y="65" width="45" height="35" rx="8" transform="rotate(-35 75 65)" fill="#1e293b" stroke="#E5B89B" stroke-width="3"/>
+                <!-- Prongs -->
+                <rect x="105" y="45" width="10" height="22" rx="3" transform="rotate(-35 105 45)" fill="#E5B89B"/>
+                <rect x="120" y="55" width="10" height="22" rx="3" transform="rotate(-35 120 55)" fill="#E5B89B"/>
+                <!-- Glow energy sparks -->
+                <circle cx="125" cy="40" r="3" fill="#E5B89B"/>
+                <circle cx="142" cy="52" r="2.5" fill="#f0cbb3"/>
+                <circle cx="110" cy="30" r="2" fill="#E5B89B"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

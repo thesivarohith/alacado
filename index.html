@@ -4202,7 +4202,7 @@ details.faq-item summary {
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 32px 32px 24px 24px;
-  padding: 3.2rem 3.5rem 2rem;
+  padding: 2.5rem 3rem 1.8rem;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
   position: relative;
   overflow: hidden;
@@ -4214,22 +4214,23 @@ details.faq-item summary {
   justify-content: space-between;
   align-items: flex-start;
   gap: 2.5rem;
-  margin-bottom: 2.2rem;
-  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  flex-wrap: nowrap;
 }
 
 .fw-footer-brand {
-  max-width: 440px;
+  flex: 1 1 340px;
+  max-width: 400px;
 }
 
 .fw-footer-title {
   font-family: 'Cinzel', serif;
-  font-size: clamp(2.4rem, 5vw, 3.8rem);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
   font-weight: 700;
   font-style: normal;
   color: #ffffff;
   line-height: 1.15;
-  margin: 0 0 1.25rem;
+  margin: 0 0 0.85rem;
   letter-spacing: 0.03em;
 }
 
@@ -4238,12 +4239,35 @@ details.faq-item summary {
   font-size: 0.95rem;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.65);
-  max-width: 400px;
+  max-width: 380px;
+  margin-bottom: 0.85rem;
+}
+
+.fw-brand-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(229, 184, 155, 0.08);
+  border: 1px solid rgba(229, 184, 155, 0.18);
+  font-size: 0.8rem;
+  color: #E5B89B;
+  font-family: 'Monica', 'DM Sans', sans-serif;
+}
+
+.fw-meta-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #10B981;
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
 }
 
 .fw-footer-cols {
   display: flex;
-  gap: 3.5rem;
+  gap: 2.2rem;
+  flex: 0 0 auto;
 }
 
 .fw-col-heading {
@@ -4267,9 +4291,9 @@ details.faq-item summary {
 
 .fw-link-list-dual {
   display: grid;
-  grid-template-columns: repeat(2, minmax(110px, auto));
-  column-gap: 2.5rem;
-  row-gap: 0.6rem;
+  grid-template-columns: repeat(2, minmax(95px, auto));
+  column-gap: 1.6rem;
+  row-gap: 0.55rem;
 }
 
 .fw-link {
@@ -4331,19 +4355,32 @@ details.faq-item summary {
   }
 }
 
+/* Tablet: gracefully wrap when columns need space */
+@media (max-width: 960px) {
+  .fw-footer-top {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .fw-footer-cols {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 2.5rem;
+  }
+}
+
 /* Mobile: continuous blink animation (letters only) */
 @media (max-width: 768px) {
   .fw-footer {
     padding: 2rem 0.75rem 1.75rem;
   }
   .fw-footer-card {
-    padding: 2.2rem 1.25rem 1.5rem;
+    padding: 2rem 1.25rem 1.5rem;
     border-radius: 20px;
   }
   .fw-footer-top {
     flex-direction: column;
     gap: 1.75rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.8rem;
   }
   .fw-footer-cols {
     width: 100%;
@@ -4353,7 +4390,7 @@ details.faq-item summary {
   .fw-link-list-dual {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 1.25rem;
-    row-gap: 0.6rem;
+    row-gap: 0.55rem;
   }
   .fw-watermark {
     font-size: clamp(2.2rem, 9vw, 4.5rem);
@@ -4713,7 +4750,8 @@ details.faq-item summary {
               <div class="sp-work-row-grid">
                 <div class="sp-phone-frame" id="sp-frame-04" data-live-url="https://carde.web.app/">
                   <img
-                    src="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332577/screenshot-2026-11-22-125659_hhunvt.png"
+                    src="./wedding.webp"
+                    onerror="this.onerror=null;this.src='https://res.cloudinary.com/darbjeyc2/image/upload/v1795332577/screenshot-2026-11-22-125659_hhunvt.png';"
                     alt="Digital Wedding Invitation mobile experience"
                     width="800"
                     height="1832"
@@ -4765,7 +4803,8 @@ details.faq-item summary {
               <div class="sp-work-row-grid">
                 <div class="sp-phone-frame" id="sp-frame-05" data-live-url="https://acoustic-velvet-art-vault.base44.app/">
                   <img
-                    src="https://res.cloudinary.com/darbjeyc2/image/upload/v1795332576/screenshot-2026-11-22-125719_ag9vd0.png"
+                    src="./arts.webp"
+                    onerror="this.onerror=null;this.src='https://res.cloudinary.com/darbjeyc2/image/upload/v1795332576/screenshot-2026-11-22-125719_ag9vd0.png';"
                     alt="Ajay Arts Vault curated art gallery showcase"
                     width="800"
                     height="1832"
@@ -5289,6 +5328,10 @@ details.faq-item summary {
               <p class="fw-footer-desc">
                 ALACADO is a student-run design and engineering studio in Coimbatore, India. We build websites, online stores and digital menus.
               </p>
+              <div class="fw-brand-meta">
+                <span class="fw-meta-dot"></span>
+                <span class="fw-meta-text">Available for new client commissions</span>
+              </div>
             </div>
 
             <div class="fw-footer-cols">
